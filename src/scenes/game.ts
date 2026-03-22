@@ -14,8 +14,8 @@ import {
 import { SAVE_KEY, SCENE, TAG } from '../constants'
 import type { CardInstance, CombatState } from '../types'
 
-const CARD_WIDTH = 126
-const CARD_HEIGHT = 196
+const CARD_WIDTH = 156
+const CARD_HEIGHT = 244
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.GAME, (incomingState?: CombatState) => {
@@ -360,12 +360,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderHand = () => {
     const cards = state.hand
     const totalWidth =
-      cards.length * CARD_WIDTH + Math.max(cards.length - 1, 0) * 18
-    const startX = Math.max(36, width() / 2 - totalWidth / 2)
+      cards.length * CARD_WIDTH + Math.max(cards.length - 1, 0) * 16
+    const startX = Math.max(18, width() / 2 - totalWidth / 2)
     const y = height() - CARD_HEIGHT - 84
 
     cards.forEach((card, index) => {
-      renderCard(card, startX + index * (CARD_WIDTH + 18), y)
+      renderCard(card, startX + index * (CARD_WIDTH + 16), y)
     })
   }
 
@@ -425,12 +425,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     add([
       text(definition.label, {
         align: 'center',
-        size: 26,
+        size: 30,
         width: CARD_WIDTH - 18,
       }),
       color(15, 20, 28),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 28),
+      pos(x + CARD_WIDTH / 2, y + 34),
       anchor('center'),
       z(11),
       TAG.UI,
@@ -439,12 +439,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     add([
       text(toRoleLabel(definition.type), {
         align: 'center',
-        size: 15,
+        size: 18,
         width: CARD_WIDTH - 18,
       }),
       color(32, 44, 62),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 58),
+      pos(x + CARD_WIDTH / 2, y + 78),
       anchor('center'),
       z(11),
       TAG.UI,
@@ -452,12 +452,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(definition.description, {
-        size: 14,
+        size: 18,
         width: CARD_WIDTH - 24,
       }),
       color(27, 35, 48),
       fixed(),
-      pos(x + 12, y + 84),
+      pos(x + 14, y + 118),
       z(11),
       TAG.UI,
     ])
@@ -465,12 +465,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     add([
       text(`${toLabel(definition.cost)} energy`, {
         align: 'center',
-        size: 16,
+        size: 18,
         width: CARD_WIDTH - 18,
       }),
       color(24, 28, 36),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 170),
+      pos(x + CARD_WIDTH / 2, y + 212),
       anchor('center'),
       z(11),
       TAG.UI,
