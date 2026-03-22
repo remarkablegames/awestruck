@@ -169,6 +169,21 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'modifier',
   },
 
+  rage: {
+    accent: [255, 122, 122],
+    cost: 0,
+    description: 'Gain 1 energy. Lose 3 health.',
+    effect: {
+      energy: 1,
+      selfDamage: 3,
+      selfDamageIgnoresBlock: true,
+    },
+    id: 'rage',
+    label: 'RAGE',
+    tags: [],
+    type: 'payload',
+  },
+
   risky: {
     accent: [255, 156, 142],
     cost: 1,
@@ -311,6 +326,6 @@ export const STARTER_DECK = [
 ] as const
 
 export const REWARD_POOLS = [
-  ['charge', 'sear', 'pierce', 'safe', 'surge', 'ward'],
+  ['charge', 'rage', 'sear', 'pierce', 'safe', 'surge', 'ward'],
   ['bastion', 'heavy', 'leech', 'risky', 'embered'],
 ] as const

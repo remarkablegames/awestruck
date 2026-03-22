@@ -259,7 +259,7 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
   }
 
   if (effect.selfDamage) {
-    dealDamageToPlayer(state, effect.selfDamage)
+    dealDamageToPlayer(state, effect.selfDamage, effect.selfDamageIgnoresBlock)
   }
 
   if (state.enemy.health <= 0) {
@@ -352,6 +352,7 @@ function cloneEffect(effect: CardEffect): CardEffect {
     energy: effect.energy,
     heal: effect.heal,
     ignoreBlock: effect.ignoreBlock,
+    selfDamageIgnoresBlock: effect.selfDamageIgnoresBlock,
     selfDamage: effect.selfDamage,
   }
 }
@@ -497,7 +498,16 @@ function dealDamageToEnemy(
   state.enemy.health = Math.max(0, state.enemy.health - overflow)
 }
 
-function dealDamageToPlayer(state: CombatState, amount: number): void {
+function dealDamageToPlayer(
+  state: CombatState,
+  amount: number,
+  ignoreBlock = false,
+): void {
+  if (ignoreBlock) {
+    state.player.health = Math.max(0, state.player.health - amount)
+    return
+  }
+
   const blocked = Math.min(state.player.block, amount)
   const overflow = amount - blocked
 
@@ -561,6 +571,10 @@ function formatEffect(effect: CardEffect): string {
     parts.push(`take ${toLabel(effect.selfDamage)} damage`)
   }
 
+  if (effect.selfDamageIgnoresBlock) {
+    parts.push('ignore your block')
+  }
+
   if (parts.length === 0) {
     return 'no effect'
   }
@@ -605,6 +619,7 @@ function isSameEffect(left: CardEffect, right: CardEffect): boolean {
     left.energy === right.energy &&
     left.heal === right.heal &&
     left.ignoreBlock === right.ignoreBlock &&
+    left.selfDamageIgnoresBlock === right.selfDamageIgnoresBlock &&
     left.selfDamage === right.selfDamage
   )
 }
@@ -621,6 +636,7 @@ function mapEffect(
     energy: effect.energy ? mapper(effect.energy) : undefined,
     heal: effect.heal ? mapper(effect.heal) : undefined,
     ignoreBlock: effect.ignoreBlock,
+    selfDamageIgnoresBlock: effect.selfDamageIgnoresBlock,
     selfDamage: effect.selfDamage,
   }
 }
@@ -635,6 +651,11 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
     heal: (base.heal ?? 0) + (extra.heal ?? 0) || undefined,
     ignoreBlock:
       base.ignoreBlock === true || extra.ignoreBlock === true
+        ? true
+        : undefined,
+    selfDamageIgnoresBlock:
+      base.selfDamageIgnoresBlock === true ||
+      extra.selfDamageIgnoresBlock === true
         ? true
         : undefined,
     selfDamage: (base.selfDamage ?? 0) + (extra.selfDamage ?? 0) || undefined,

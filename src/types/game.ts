@@ -6,6 +6,7 @@ export interface CardEffect {
   energy?: number
   heal?: number
   ignoreBlock?: boolean
+  selfDamageIgnoresBlock?: boolean
   selfDamage?: number
 }
 
