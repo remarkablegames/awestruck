@@ -6,6 +6,15 @@ export interface CardEffect {
   heal?: number
 }
 
+export type CardTag = 'flame' | 'growth' | 'guard' | 'thorn'
+
+export type ModifierKind = 'double' | 'echo' | 'quick' | 'wide'
+
+export interface ModifierDefinition {
+  compatibleTags: CardTag[]
+  kind: ModifierKind
+}
+
 export interface CardDefinition {
   accent: [number, number, number]
   cost: number
@@ -13,7 +22,9 @@ export interface CardDefinition {
   effect: CardEffect
   id: string
   label: string
-  type: 'fragment' | 'utility'
+  modifier?: ModifierDefinition
+  tags: CardTag[]
+  type: 'modifier' | 'payload' | 'utility'
 }
 
 export interface CardInstance {
@@ -47,30 +58,28 @@ export interface PlayerState {
   maxHealth: number
 }
 
-export interface WordDefinition {
-  description: string
-  effect: CardEffect
-  id: string
-  label: string
-  sequence: string[]
-}
-
-export type WordResolution =
+export type ChainPreview =
   | {
+      cost: number
+      previewText: string
       status: 'building'
-      word?: undefined
     }
   | {
+      cost: number
+      previewText: string
       status: 'empty'
-      word?: undefined
     }
   | {
+      cost: number
+      previewText: string
       status: 'invalid'
-      word?: undefined
     }
   | {
+      cost: number
+      effect: CardEffect
+      payload: CardDefinition
+      previewText: string
       status: 'ready'
-      word: WordDefinition
     }
 
 export interface CombatState {

@@ -36,7 +36,7 @@ scene(SCENE.TITLE, () => {
 
   add([
     text(
-      'Spell words from fragments. Confirm one word per turn. Survive three Archivists.',
+      'Chain whole-word cards together. Modifiers shape the next payload. Survive three Archivists.',
       {
         align: 'center',
         size: 22,
@@ -51,14 +51,17 @@ scene(SCENE.TITLE, () => {
   ])
 
   add([
-    text('Starter words: EMBER, THORN, SPARK, BLOOM', {
-      align: 'center',
-      size: 18,
-      width: panelWidth - 140,
-    }),
+    text(
+      'Starter words: DOUBLE, QUICK, WIDE, ECHO, BURN, THORN, SHIELD, BLOOM',
+      {
+        align: 'center',
+        size: 15,
+        width: panelWidth - 140,
+      },
+    ),
     color(164, 190, 236),
     fixed(),
-    pos(centerX, centerY + 28),
+    pos(centerX, centerY + 24),
     anchor('center'),
     TAG.UI,
   ])
@@ -69,7 +72,7 @@ scene(SCENE.TITLE, () => {
     }),
     color(146, 203, 145),
     fixed(),
-    pos(centerX, centerY + 92),
+    pos(centerX, centerY + 88),
     anchor('center'),
     TAG.UI,
   ])
@@ -80,7 +83,7 @@ scene(SCENE.TITLE, () => {
     color(74, 104, 168),
     outline(4, rgb(196, 216, 255)),
     fixed(),
-    pos(centerX, centerY + 164),
+    pos(centerX, centerY + 154),
     anchor('center'),
     TAG.UI,
   ])
@@ -103,14 +106,14 @@ scene(SCENE.TITLE, () => {
     }),
     color(248, 250, 255),
     fixed(),
-    pos(centerX, centerY + 164),
+    pos(centerX, centerY + 154),
     anchor('center'),
     TAG.UI,
   ])
 
   add([
     text(
-      'Click the cards to build a word. Utility cards resolve immediately. Esc returns here during combat.',
+      'Build modifier chains left to right. Payloads work alone, utility cards resolve instantly, and invalid chains are blocked before confirm.',
       {
         align: 'center',
         size: 16,
@@ -119,7 +122,7 @@ scene(SCENE.TITLE, () => {
     ),
     color(171, 182, 210),
     fixed(),
-    pos(centerX, centerY + 232),
+    pos(centerX, centerY + 284),
     anchor('center'),
     TAG.UI,
   ])

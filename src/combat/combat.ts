@@ -1,14 +1,14 @@
 import { CARD_DEFINITIONS, REWARD_POOLS, STARTER_DECK } from '../data/cards'
-import { WORD_DEFINITIONS } from '../data/words'
 import type {
   CardDefinition,
   CardEffect,
   CardInstance,
+  CardTag,
+  ChainPreview,
   CombatState,
   EnemyIntent,
   EnemyState,
-  WordDefinition,
-  WordResolution,
+  ModifierKind,
 } from '../types'
 
 const HAND_SIZE = 5
@@ -21,37 +21,91 @@ export function getCardDefinition(cardId: string): CardDefinition {
   return CARD_DEFINITIONS[cardId]
 }
 
-export function getWordResolution(builder: CardInstance[]): WordResolution {
+export function getChainPreview(builder: CardInstance[]): ChainPreview {
+  const cost = getChainCost(builder)
+
   if (builder.length === 0) {
     return {
+      cost,
+      previewText:
+        'Commit modifiers, then end the chain with a payload. Payloads also work alone.',
       status: 'empty',
     }
   }
 
-  const sequence = builder.map((card) => card.cardId)
-  const exactMatch = WORD_DEFINITIONS.find((word) =>
-    isSameSequence(word.sequence, sequence),
-  )
+  const definitions = builder.map((card) => getCardDefinition(card.cardId))
+  const utilityCard = definitions.find((card) => card.type === 'utility')
 
-  if (exactMatch) {
+  if (utilityCard) {
     return {
-      status: 'ready',
-      word: exactMatch,
+      cost,
+      previewText: `${utilityCard.label} is a utility card and cannot enter the chain.`,
+      status: 'invalid',
     }
   }
 
-  const hasPrefix = WORD_DEFINITIONS.some((word) =>
-    isPrefix(word.sequence, sequence),
-  )
+  const payloadCards = definitions.filter((card) => card.type === 'payload')
 
-  if (hasPrefix) {
+  if (payloadCards.length === 0) {
     return {
+      cost,
+      previewText: 'The chain needs a payload word to resolve.',
       status: 'building',
     }
   }
 
+  if (payloadCards.length > 1) {
+    return {
+      cost,
+      previewText: 'A chain can end with only one payload word.',
+      status: 'invalid',
+    }
+  }
+
+  const payloadIndex = definitions.findIndex((card) => card.type === 'payload')
+
+  if (payloadIndex !== definitions.length - 1) {
+    return {
+      cost,
+      previewText: 'Modifiers must come before the final payload word.',
+      status: 'invalid',
+    }
+  }
+
+  const payload = definitions[payloadIndex]
+  const modifiers = definitions.slice(0, payloadIndex)
+  let effect = cloneEffect(payload.effect)
+
+  for (const modifier of modifiers) {
+    if (modifier.type !== 'modifier' || !modifier.modifier) {
+      return {
+        cost,
+        previewText: `${modifier.label} cannot be used as a modifier.`,
+        status: 'invalid',
+      }
+    }
+
+    const isCompatible = modifier.modifier.compatibleTags.some((tag) =>
+      payload.tags.includes(tag),
+    )
+
+    if (!isCompatible) {
+      return {
+        cost,
+        previewText: `${modifier.label} cannot modify ${payload.label}.`,
+        status: 'invalid',
+      }
+    }
+
+    effect = applyModifier(effect, modifier.modifier.kind, payload.tags)
+  }
+
   return {
-    status: 'invalid',
+    cost,
+    effect,
+    payload,
+    previewText: `${payload.label} -> ${formatEffect(effect)}`,
+    status: 'ready',
   }
 }
 
@@ -69,13 +123,13 @@ export function createInitialState(bestFloor: number): CombatState {
   })
 }
 
-export function commitFragment(state: CombatState, instanceId: string): void {
+export function commitChainCard(state: CombatState, instanceId: string): void {
   if (state.status !== 'playerTurn') {
     return
   }
 
   if (state.confirmedWordThisTurn) {
-    state.message = 'You can only confirm one word per turn.'
+    state.message = 'You can only confirm one chain per turn.'
     return
   }
 
@@ -90,33 +144,27 @@ export function commitFragment(state: CombatState, instanceId: string): void {
   const card = state.hand[handIndex]
   const definition = getCardDefinition(card.cardId)
 
-  if (definition.type !== 'fragment') {
+  if (definition.type === 'utility') {
     return
   }
 
   if (state.player.energy < definition.cost) {
-    state.message = 'Not enough energy to commit that fragment.'
+    state.message = 'Not enough energy to commit that card.'
     return
   }
 
   const prospectiveBuilder = [...state.builder, card]
-  const resolution = getWordResolution(prospectiveBuilder)
+  const preview = getChainPreview(prospectiveBuilder)
 
-  if (resolution.status === 'invalid') {
-    state.message = `${definition.label} does not connect to a known word from here.`
+  if (preview.status === 'invalid') {
+    state.message = preview.previewText
     return
   }
 
   state.player.energy -= definition.cost
   state.hand.splice(handIndex, 1)
   state.builder.push(card)
-
-  if (resolution.status === 'ready') {
-    state.message = `${resolution.word.label} is ready. Confirm to resolve it.`
-    return
-  }
-
-  state.message = 'The word is still building.'
+  state.message = preview.previewText
 }
 
 export function playUtilityCard(state: CombatState, instanceId: string): void {
@@ -163,7 +211,7 @@ export function cancelBuilder(state: CombatState): void {
   state.hand.push(...state.builder)
   state.builder = []
   state.message =
-    'The unfinished word returns to your hand. Energy is still spent.'
+    'The unfinished chain returns to your hand. Energy is still spent.'
 }
 
 export function confirmBuilder(state: CombatState): void {
@@ -172,24 +220,24 @@ export function confirmBuilder(state: CombatState): void {
   }
 
   if (state.confirmedWordThisTurn) {
-    state.message = 'You have already confirmed a word this turn.'
+    state.message = 'You have already confirmed a chain this turn.'
     return
   }
 
-  const resolution = getWordResolution(state.builder)
+  const preview = getChainPreview(state.builder)
 
-  if (resolution.status !== 'ready') {
-    state.message = 'There is no valid word to confirm.'
+  if (preview.status !== 'ready') {
+    state.message = 'There is no valid chain to confirm.'
     return
   }
 
-  const combatEnded = applyWordEffect(state, resolution.word)
+  const combatEnded = applyCardEffect(state, preview.effect)
   state.discardPile.push(...state.builder)
   state.builder = []
   state.confirmedWordThisTurn = true
 
   if (!combatEnded) {
-    state.message = `${resolution.word.label} resolves.`
+    state.message = preview.previewText
   }
 }
 
@@ -199,7 +247,8 @@ export function endTurn(state: CombatState): void {
   }
 
   if (state.builder.length > 0) {
-    state.message = 'Confirm or cancel the current word before ending the turn.'
+    state.message =
+      'Confirm or cancel the current chain before ending the turn.'
     return
   }
 
@@ -238,50 +287,6 @@ export function getDeckCountLabel(state: CombatState): string {
   return `${toLabel(state.deckList.length)} cards`
 }
 
-function createFloorState({
-  bestFloor,
-  deckList,
-  floor,
-  nextInstanceId,
-}: {
-  bestFloor: number
-  deckList: CardInstance[]
-  floor: number
-  nextInstanceId: number
-}): CombatState {
-  const state: CombatState = {
-    bestFloor: Math.max(bestFloor, floor),
-    builder: [],
-    confirmedWordThisTurn: false,
-    deckList,
-    discardPile: [],
-    drawPile: shuffle([...deckList]),
-    enemy: createEnemyState(floor),
-    floor,
-    hand: [],
-    message: `Floor ${toLabel(floor)} begins. Shape a word before the Archivist strikes.`,
-    nextInstanceId,
-    player: {
-      block: 0,
-      energy: MAX_ENERGY,
-      health: PLAYER_MAX_HEALTH,
-      maxEnergy: MAX_ENERGY,
-      maxHealth: PLAYER_MAX_HEALTH,
-    },
-    rewardOptions: [],
-    status: 'playerTurn',
-    turn: 1,
-  }
-
-  drawCards(state, HAND_SIZE)
-
-  return state
-}
-
-function applyWordEffect(state: CombatState, word: WordDefinition): boolean {
-  return applyCardEffect(state, word.effect)
-}
-
 function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
   if (effect.damage) {
     dealDamageToEnemy(state, effect.damage)
@@ -312,6 +317,51 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
   }
 
   return false
+}
+
+function applyModifier(
+  effect: CardEffect,
+  modifierKind: ModifierKind,
+  payloadTags: CardTag[],
+): CardEffect {
+  switch (modifierKind) {
+    case 'double':
+      return mapEffect(effect, (value) => value * 2)
+    case 'echo':
+      return mergeEffects(
+        effect,
+        mapEffect(effect, (value) => Math.ceil(value / 2)),
+      )
+    case 'quick':
+      return mergeEffects(effect, {
+        block: payloadTags.includes('growth') ? 3 : undefined,
+        damage: hasOffense(effect) ? 2 : undefined,
+        draw: 1,
+      })
+    case 'wide':
+      return mergeEffects(effect, {
+        block: 4,
+        burn: payloadTags.includes('guard') ? undefined : 2,
+        heal: payloadTags.includes('growth') ? 1 : undefined,
+      })
+  }
+}
+
+function cloneEffect(effect: CardEffect): CardEffect {
+  return {
+    block: effect.block,
+    burn: effect.burn,
+    damage: effect.damage,
+    draw: effect.draw,
+    heal: effect.heal,
+  }
+}
+
+function createCardInstance(cardId: string, index: number): CardInstance {
+  return {
+    cardId,
+    instanceId: `card-${toLabel(index)}`,
+  }
 }
 
 function createEnemyState(floor: number): EnemyState {
@@ -392,11 +442,44 @@ function createEnemyState(floor: number): EnemyState {
   }
 }
 
-function createCardInstance(cardId: string, index: number): CardInstance {
-  return {
-    cardId,
-    instanceId: `card-${toLabel(index)}`,
+function createFloorState({
+  bestFloor,
+  deckList,
+  floor,
+  nextInstanceId,
+}: {
+  bestFloor: number
+  deckList: CardInstance[]
+  floor: number
+  nextInstanceId: number
+}): CombatState {
+  const state: CombatState = {
+    bestFloor: Math.max(bestFloor, floor),
+    builder: [],
+    confirmedWordThisTurn: false,
+    deckList,
+    discardPile: [],
+    drawPile: shuffle([...deckList]),
+    enemy: createEnemyState(floor),
+    floor,
+    hand: [],
+    message: `Floor ${toLabel(floor)} begins. Build a modifier chain or play a payload alone.`,
+    nextInstanceId,
+    player: {
+      block: 0,
+      energy: MAX_ENERGY,
+      health: PLAYER_MAX_HEALTH,
+      maxEnergy: MAX_ENERGY,
+      maxHealth: PLAYER_MAX_HEALTH,
+    },
+    rewardOptions: [],
+    status: 'playerTurn',
+    turn: 1,
   }
+
+  drawCards(state, HAND_SIZE)
+
+  return state
 }
 
 function dealDamageToEnemy(state: CombatState, amount: number): void {
@@ -436,6 +519,43 @@ function drawCards(state: CombatState, count: number): void {
   }
 }
 
+function formatEffect(effect: CardEffect): string {
+  const parts: string[] = []
+
+  if (effect.damage) {
+    parts.push(`deal ${toLabel(effect.damage)} damage`)
+  }
+
+  if (effect.burn) {
+    parts.push(`apply ${toLabel(effect.burn)} burn`)
+  }
+
+  if (effect.block) {
+    parts.push(`gain ${toLabel(effect.block)} block`)
+  }
+
+  if (effect.heal) {
+    parts.push(`heal ${toLabel(effect.heal)}`)
+  }
+
+  if (effect.draw) {
+    parts.push(`draw ${toLabel(effect.draw)}`)
+  }
+
+  if (parts.length === 0) {
+    return 'no effect'
+  }
+
+  return parts.join(', ')
+}
+
+function getChainCost(builder: CardInstance[]): number {
+  return builder.reduce(
+    (total, card) => total + getCardDefinition(card.cardId).cost,
+    0,
+  )
+}
+
 function handleEnemyDefeat(state: CombatState): void {
   if (state.floor >= MAX_FLOOR) {
     state.status = 'won'
@@ -445,20 +565,35 @@ function handleEnemyDefeat(state: CombatState): void {
 
   state.status = 'reward'
   state.rewardOptions = [...REWARD_POOLS[state.floor - 1]]
-  state.message = 'Choose one new word to strengthen the deck.'
+  state.message =
+    'Choose one new word to strengthen the next modifier or payload chain.'
 }
 
-function isPrefix(fullSequence: string[], partialSequence: string[]): boolean {
-  return partialSequence.every(
-    (cardId, index) => fullSequence[index] === cardId,
-  )
+function hasOffense(effect: CardEffect): boolean {
+  return Boolean(effect.damage ?? effect.burn)
 }
 
-function isSameSequence(left: string[], right: string[]): boolean {
-  return (
-    left.length === right.length &&
-    left.every((value, index) => value === right[index])
-  )
+function mapEffect(
+  effect: CardEffect,
+  mapper: (value: number) => number,
+): CardEffect {
+  return {
+    block: effect.block ? mapper(effect.block) : undefined,
+    burn: effect.burn ? mapper(effect.burn) : undefined,
+    damage: effect.damage ? mapper(effect.damage) : undefined,
+    draw: effect.draw ? mapper(effect.draw) : undefined,
+    heal: effect.heal ? mapper(effect.heal) : undefined,
+  }
+}
+
+function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
+  return {
+    block: (base.block ?? 0) + (extra.block ?? 0) || undefined,
+    burn: (base.burn ?? 0) + (extra.burn ?? 0) || undefined,
+    damage: (base.damage ?? 0) + (extra.damage ?? 0) || undefined,
+    draw: (base.draw ?? 0) + (extra.draw ?? 0) || undefined,
+    heal: (base.heal ?? 0) + (extra.heal ?? 0) || undefined,
+  }
 }
 
 function replaceState(target: CombatState, source: CombatState): void {
@@ -504,7 +639,7 @@ function runEnemyTurn(state: CombatState): void {
 
   if (state.player.health <= 0) {
     state.status = 'lost'
-    state.message = 'The Archivist breaks your chain. Start a new run.'
+    state.message = 'The Archivist broke your chain. Start a new run.'
     return
   }
 
@@ -516,7 +651,7 @@ function runEnemyTurn(state: CombatState): void {
   state.player.energy = state.player.maxEnergy
   state.turn += 1
   drawCards(state, HAND_SIZE)
-  state.message = `${state.enemy.label} acted. Build the next word.`
+  state.message = `${state.enemy.label} acted. Assemble the next chain.`
 }
 
 function shuffle<Value>(items: Value[]): Value[] {

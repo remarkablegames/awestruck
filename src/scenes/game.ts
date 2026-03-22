@@ -1,21 +1,21 @@
 import {
   cancelBuilder,
   chooseReward,
-  commitFragment,
+  commitChainCard,
   confirmBuilder,
   createInitialState,
   endTurn,
   getCardDefinition,
+  getChainPreview,
   getDeckCountLabel,
   getRewardDefinitions,
-  getWordResolution,
   playUtilityCard,
 } from '../combat'
 import { SAVE_KEY, SCENE, TAG } from '../constants'
 import type { CardInstance, CombatState } from '../types'
 
 const CARD_WIDTH = 126
-const CARD_HEIGHT = 178
+const CARD_HEIGHT = 196
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.GAME, (incomingState?: CombatState) => {
@@ -259,16 +259,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderBuilderPanel = () => {
     const panelX = 40
     const panelY = 180
-    const resolution = getWordResolution(state.builder)
+    const preview = getChainPreview(state.builder)
+    const previewWidth = width() - 660
     const builderLabel = state.builder
       .map((card) => getCardDefinition(card.cardId).label)
       .join(' + ')
-    const previewText =
-      resolution.status === 'ready'
-        ? `${resolution.word.label}: ${resolution.word.description}`
-        : resolution.status === 'building'
-          ? 'Building... keep chaining fragments.'
-          : 'Build a word by committing fragments from your hand.'
+    const previewText = preview.previewText
 
     add([
       rect(width() - 80, 152, { radius: 20 }),
@@ -280,7 +276,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
-      text('Word Builder', {
+      text('Chain Builder', {
         size: 24,
       }),
       color(235, 241, 255),
@@ -290,9 +286,9 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
-      text(builderLabel || 'No fragments committed', {
+      text(builderLabel || 'No words committed', {
         size: 22,
-        width: width() - 360,
+        width: previewWidth,
       }),
       color(248, 229, 170),
       fixed(),
@@ -303,7 +299,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     add([
       text(previewText, {
         size: 18,
-        width: width() - 360,
+        width: previewWidth,
       }),
       color(181, 198, 236),
       fixed(),
@@ -313,7 +309,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   }
 
   const renderActionButtons = () => {
-    const resolution = getWordResolution(state.builder)
+    const preview = getChainPreview(state.builder)
 
     addButton({
       action: () => {
@@ -321,12 +317,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
           confirmBuilder(state)
         })
       },
-      disabled: state.status !== 'playerTurn' || resolution.status !== 'ready',
+      disabled: state.status !== 'playerTurn' || preview.status !== 'ready',
       fillColor: [111, 168, 101],
       height: 54,
-      label: 'Confirm Word',
-      width: 188,
-      x: width() - 316,
+      label: 'Confirm Chain',
+      width: 210,
+      x: width() - 360,
       y: 250,
     })
 
@@ -340,8 +336,8 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       fillColor: [176, 119, 93],
       height: 54,
       label: 'Cancel',
-      width: 132,
-      x: width() - 170,
+      width: 150,
+      x: width() - 180,
       y: 250,
     })
 
@@ -378,7 +374,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const disabled =
       state.status !== 'playerTurn' ||
       state.player.energy < definition.cost ||
-      (definition.type === 'fragment' && state.confirmedWordThisTurn)
+      (definition.type !== 'utility' && state.confirmedWordThisTurn)
 
     const panel = add([
       rect(CARD_WIDTH, CARD_HEIGHT, { radius: 18 }),
@@ -413,9 +409,9 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       })
 
       panel.onClick(() => {
-        if (definition.type === 'fragment') {
+        if (definition.type !== 'utility') {
           runAction(() => {
-            commitFragment(state, card.instanceId)
+            commitChainCard(state, card.instanceId)
           })
           return
         }
@@ -429,26 +425,26 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     add([
       text(definition.label, {
         align: 'center',
-        size: 28,
+        size: 26,
         width: CARD_WIDTH - 18,
       }),
       color(15, 20, 28),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 32),
+      pos(x + CARD_WIDTH / 2, y + 28),
       anchor('center'),
       z(11),
       TAG.UI,
     ])
 
     add([
-      text(definition.type === 'fragment' ? 'Fragment' : 'Utility', {
+      text(toRoleLabel(definition.type), {
         align: 'center',
-        size: 16,
+        size: 15,
         width: CARD_WIDTH - 18,
       }),
       color(32, 44, 62),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 66),
+      pos(x + CARD_WIDTH / 2, y + 58),
       anchor('center'),
       z(11),
       TAG.UI,
@@ -456,14 +452,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(definition.description, {
-        align: 'center',
-        size: 16,
-        width: CARD_WIDTH - 20,
+        size: 14,
+        width: CARD_WIDTH - 24,
       }),
       color(27, 35, 48),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 112),
-      anchor('center'),
+      pos(x + 12, y + 84),
       z(11),
       TAG.UI,
     ])
@@ -476,7 +470,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       }),
       color(24, 28, 36),
       fixed(),
-      pos(x + CARD_WIDTH / 2, y + 152),
+      pos(x + CARD_WIDTH / 2, y + 170),
       anchor('center'),
       z(11),
       TAG.UI,
@@ -494,6 +488,17 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       pos(40, height() - 42),
       TAG.UI,
     ])
+  }
+
+  const toRoleLabel = (type: 'modifier' | 'payload' | 'utility') => {
+    switch (type) {
+      case 'modifier':
+        return 'Modifier'
+      case 'payload':
+        return 'Payload'
+      case 'utility':
+        return 'Utility'
+    }
   }
 
   const renderOverlayPanel = (title: string, subtitle: string) => {
