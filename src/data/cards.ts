@@ -86,20 +86,6 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'modifier',
   },
 
-  root: {
-    accent: [165, 139, 99],
-    cost: 1,
-    description: 'Gain 5 block and heal 2.',
-    effect: {
-      block: 5,
-      heal: 2,
-    },
-    id: 'root',
-    label: 'ROOT',
-    tags: ['growth'],
-    type: 'payload',
-  },
-
   shield: {
     accent: [112, 150, 255],
     cost: 1,
@@ -169,10 +155,10 @@ export const STARTER_DECK = [
   'burn',
   'shield',
   'focus',
-  'root',
+  'wilt',
 ] as const
 
 export const REWARD_POOLS = [
-  ['root', 'double', 'shield'],
+  ['wilt', 'double', 'shield'],
   ['wilt', 'echo', 'focus'],
 ] as const
