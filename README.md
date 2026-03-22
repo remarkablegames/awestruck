@@ -7,7 +7,7 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/awestruck)](https://github.com/remarkablegames/awestruck/releases)
 [![build](https://github.com/remarkablegames/awestruck/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/awestruck/actions/workflows/build.yml)
 
-<kbd>awestruck</kbd> is a template for making [KAPLAY](https://kaplayjs.com/) games.
+✨ Awestruck
 
 Play the game on:
 
@@ -34,16 +34,6 @@ Install the dependencies:
 
 ```sh
 npm install
-```
-
-Rename the project:
-
-```sh
-git grep -l awestruck | xargs sed -i '' -e 's/awestruck/my-game/g'
-```
-
-```sh
-git grep -l 'Awestruck' | xargs sed -i '' -e 's/Awestruck/My Game/g'
 ```
 
 Update the files:
