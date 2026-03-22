@@ -16,7 +16,7 @@ import type { CardInstance, CombatState } from '../types'
 
 const CARD_WIDTH = 156
 const CARD_HEIGHT = 244
-const ACTION_AREA_TOP_RATIO = 0.38
+const ACTION_AREA_TOP_RATIO = 0.46
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.GAME, (incomingState?: CombatState) => {
@@ -262,7 +262,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderBuilderPanel = () => {
     const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
     const panelX = 40
-    const panelY = actionAreaTop + 22
+    const panelY = actionAreaTop + 16
     const panelHeight = 136
     const preview = getChainPreview(state.builder)
     const previewWidth = width() - 660
@@ -315,6 +315,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   const renderActionButtons = () => {
     const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
+    const actionButtonTop = 86
     const preview = getChainPreview(state.builder)
 
     addButton({
@@ -329,7 +330,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Confirm Chain',
       width: 210,
       x: width() - 360,
-      y: actionAreaTop + 74,
+      y: actionAreaTop + actionButtonTop,
     })
 
     addButton({
@@ -344,7 +345,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Cancel',
       width: 150,
       x: width() - 170,
-      y: actionAreaTop + 74,
+      y: actionAreaTop + actionButtonTop,
     })
 
     addButton({
@@ -358,8 +359,8 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 58,
       label: 'End Turn',
       width: 180,
-      x: width() - 208,
-      y: actionAreaTop + 202,
+      x: width() - 185,
+      y: actionAreaTop - 34,
     })
   }
 
