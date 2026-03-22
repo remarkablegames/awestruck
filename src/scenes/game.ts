@@ -185,10 +185,10 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   const renderEnemyPanel = () => {
     const panelX = width() - 300
-    const panelY = 54
+    const panelY = 24
 
     add([
-      rect(250, 188, { radius: 22 }),
+      rect(250, 168, { radius: 22 }),
       color(38, 29, 44),
       outline(4, rgb(195, 141, 138)),
       fixed(),
@@ -223,12 +223,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       text(
         `Block ${toLabel(state.enemy.block)}  Burn ${toLabel(state.enemy.burn)}`,
         {
-          size: 18,
+          size: 16,
         },
       ),
       color(255, 183, 120),
       fixed(),
-      pos(panelX + 24, panelY + 96),
+      pos(panelX + 24, panelY + 94),
       TAG.UI,
     ])
 
@@ -236,29 +236,29 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(`Intent: ${intent.label}`, {
-        size: 20,
+        size: 18,
       }),
       color(174, 208, 255),
       fixed(),
-      pos(panelX + 24, panelY + 132),
+      pos(panelX + 24, panelY + 118),
       TAG.UI,
     ])
 
     add([
       text(intent.description, {
-        size: 18,
+        size: 16,
         width: 204,
       }),
       color(214, 224, 250),
       fixed(),
-      pos(panelX + 24, panelY + 158),
+      pos(panelX + 24, panelY + 142),
       TAG.UI,
     ])
   }
 
   const renderBuilderPanel = () => {
     const panelX = 40
-    const panelY = 180
+    const panelY = 204
     const preview = getChainPreview(state.builder)
     const previewWidth = width() - 660
     const builderLabel = state.builder
@@ -267,7 +267,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const previewText = preview.previewText
 
     add([
-      rect(width() - 80, 152, { radius: 20 }),
+      rect(width() - 80, 120, { radius: 20 }),
       color(23, 31, 48),
       outline(4, rgb(88, 112, 162)),
       fixed(),
@@ -298,12 +298,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(previewText, {
-        size: 18,
+        size: 16,
         width: previewWidth,
       }),
       color(181, 198, 236),
       fixed(),
-      pos(panelX + 24, panelY + 92),
+      pos(panelX + 24, panelY + 86),
       TAG.UI,
     ])
   }
@@ -323,7 +323,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Confirm Chain',
       width: 210,
       x: width() - 360,
-      y: 250,
+      y: 256,
     })
 
     addButton({
@@ -338,7 +338,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Cancel',
       width: 150,
       x: width() - 170,
-      y: 250,
+      y: 256,
     })
 
     addButton({
