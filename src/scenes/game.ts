@@ -193,7 +193,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const panelY = 24
 
     add([
-      rect(250, 168, { radius: 22 }),
+      rect(250, 192, { radius: 22 }),
       color(38, 29, 44),
       outline(4, rgb(195, 141, 138)),
       fixed(),
