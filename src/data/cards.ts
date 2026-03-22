@@ -1,18 +1,6 @@
 import type { CardDefinition } from '../types'
 
 export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
-  barrier: {
-    accent: [134, 177, 255],
-    cost: 1,
-    description: 'Gain 9 block.',
-    effect: {
-      block: 9,
-    },
-    id: 'barrier',
-    label: 'BARRIER',
-    tags: ['guard'],
-    type: 'utility',
-  },
   bloom: {
     accent: [129, 210, 141],
     cost: 1,
@@ -75,7 +63,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     id: 'focus',
     label: 'FOCUS',
     tags: [],
-    type: 'utility',
+    type: 'payload',
   },
   quick: {
     accent: [115, 220, 255],
@@ -171,10 +159,10 @@ export const STARTER_DECK = [
   'burn',
   'shield',
   'focus',
-  'barrier',
+  'root',
 ] as const
 
 export const REWARD_POOLS = [
-  ['root', 'double', 'barrier'],
+  ['root', 'double', 'shield'],
   ['wilt', 'echo', 'focus'],
 ] as const

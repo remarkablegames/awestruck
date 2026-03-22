@@ -113,7 +113,7 @@ scene(SCENE.TITLE, () => {
 
   add([
     text(
-      'Build modifier chains left to right. Payloads work alone, utility cards resolve instantly, and invalid chains are blocked before confirm.',
+      'Build modifier chains left to right. Payloads work alone, and invalid chains are blocked before confirm.',
       {
         align: 'center',
         size: 16,

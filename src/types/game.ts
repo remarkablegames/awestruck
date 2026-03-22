@@ -23,7 +23,7 @@ export interface CardDefinition {
   label: string
   modifier?: ModifierDefinition
   tags: CardTag[]
-  type: 'modifier' | 'payload' | 'utility'
+  type: 'modifier' | 'payload'
 }
 
 export interface CardInstance {

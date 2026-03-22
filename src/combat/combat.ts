@@ -33,15 +33,6 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
   }
 
   const definitions = builder.map((card) => getCardDefinition(card.cardId))
-  const utilityCard = definitions.find((card) => card.type === 'utility')
-
-  if (utilityCard) {
-    return {
-      cost,
-      previewText: `${utilityCard.label} is a utility card and cannot enter the chain.`,
-      status: 'invalid',
-    }
-  }
 
   const payloadCards = definitions.filter((card) => card.type === 'payload')
 
@@ -136,10 +127,6 @@ export function commitChainCard(state: CombatState, instanceId: string): void {
   const card = state.hand[handIndex]
   const definition = getCardDefinition(card.cardId)
 
-  if (definition.type === 'utility') {
-    return
-  }
-
   if (state.player.energy < definition.cost) {
     state.message = 'Not enough energy to commit that card.'
     return
@@ -157,42 +144,6 @@ export function commitChainCard(state: CombatState, instanceId: string): void {
   state.hand.splice(handIndex, 1)
   state.builder.push(card)
   state.message = preview.previewText
-}
-
-export function playUtilityCard(state: CombatState, instanceId: string): void {
-  if (state.status !== 'playerTurn') {
-    return
-  }
-
-  const handIndex = state.hand.findIndex(
-    (card) => card.instanceId === instanceId,
-  )
-
-  if (handIndex < 0) {
-    return
-  }
-
-  const card = state.hand[handIndex]
-  const definition = getCardDefinition(card.cardId)
-
-  if (definition.type !== 'utility') {
-    return
-  }
-
-  if (state.player.energy < definition.cost) {
-    state.message = 'Not enough energy to play that card.'
-    return
-  }
-
-  state.player.energy -= definition.cost
-  state.hand.splice(handIndex, 1)
-  state.discardPile.push(card)
-
-  const combatEnded = applyCardEffect(state, definition.effect)
-
-  if (!combatEnded) {
-    state.message = `${definition.label} resolves.`
-  }
 }
 
 export function cancelBuilder(state: CombatState): void {

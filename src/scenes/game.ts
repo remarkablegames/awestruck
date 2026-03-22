@@ -9,7 +9,6 @@ import {
   getChainPreview,
   getDeckCountLabel,
   getRewardDefinitions,
-  playUtilityCard,
 } from '../combat'
 import { SAVE_KEY, SCENE, TAG } from '../constants'
 import type { CardInstance, CombatState } from '../types'
@@ -414,15 +413,8 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       })
 
       panel.onClick(() => {
-        if (definition.type !== 'utility') {
-          runAction(() => {
-            commitChainCard(state, card.instanceId)
-          })
-          return
-        }
-
         runAction(() => {
-          playUtilityCard(state, card.instanceId)
+          commitChainCard(state, card.instanceId)
         })
       })
     }
@@ -505,14 +497,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
   }
 
-  const toRoleLabel = (type: 'modifier' | 'payload' | 'utility') => {
+  const toRoleLabel = (type: 'modifier' | 'payload') => {
     switch (type) {
       case 'modifier':
         return 'Modifier'
       case 'payload':
         return 'Payload'
-      case 'utility':
-        return 'Utility'
     }
   }
 
