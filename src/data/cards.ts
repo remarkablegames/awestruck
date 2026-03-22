@@ -14,6 +14,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['growth'],
     type: 'payload',
   },
+
   burn: {
     accent: [255, 118, 74],
     cost: 1,
@@ -27,9 +28,10 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['flame'],
     type: 'payload',
   },
+
   double: {
     accent: [255, 212, 92],
-    cost: 1,
+    cost: 2,
     description: 'Double the next payload.',
     effect: {},
     id: 'double',
@@ -40,6 +42,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: [],
     type: 'modifier',
   },
+
   echo: {
     accent: [171, 153, 255],
     cost: 1,
@@ -53,6 +56,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: [],
     type: 'modifier',
   },
+
   focus: {
     accent: [129, 200, 255],
     cost: 1,
@@ -65,6 +69,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: [],
     type: 'payload',
   },
+
   quick: {
     accent: [115, 220, 255],
     cost: 1,
@@ -80,6 +85,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: [],
     type: 'modifier',
   },
+
   root: {
     accent: [165, 139, 99],
     cost: 1,
@@ -93,6 +99,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['growth'],
     type: 'payload',
   },
+
   shield: {
     accent: [112, 150, 255],
     cost: 1,
@@ -105,6 +112,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['guard'],
     type: 'payload',
   },
+
   thorn: {
     accent: [255, 163, 102],
     cost: 1,
@@ -117,6 +125,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['thorn'],
     type: 'payload',
   },
+
   wide: {
     accent: [153, 215, 96],
     cost: 1,
@@ -132,6 +141,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: [],
     type: 'modifier',
   },
+
   wilt: {
     accent: [141, 203, 118],
     cost: 1,
