@@ -1,7 +1,7 @@
 {
-  "name": "Kaplay Template",
-  "short_name": "Kaplay Template",
-  "description": "Kaplay Template",
+  "name": "Awestruck",
+  "short_name": "Awestruck",
+  "description": "Awestruck",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
