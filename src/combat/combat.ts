@@ -23,20 +23,18 @@ export function getCardDefinition(cardId: string): CardDefinition {
 export function getChainPreview(builder: CardInstance[]): ChainPreview {
   const cost = getChainCost(builder)
 
-  if (builder.length === 0) {
+  if (!builder.length) {
     return {
       cost,
-      previewText:
-        'Commit modifiers, then end the chain with a payload. Payloads also work alone.',
+      previewText: 'Build a modifier chain or play a payload alone.',
       status: 'empty',
     }
   }
 
   const definitions = builder.map((card) => getCardDefinition(card.cardId))
-
   const payloadCards = definitions.filter((card) => card.type === 'payload')
 
-  if (payloadCards.length === 0) {
+  if (!payloadCards.length) {
     return {
       cost,
       previewText: 'The chain needs a payload word to resolve.',
@@ -92,7 +90,7 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
     cost,
     effect,
     payload,
-    previewText: `${payload.label} -> ${formatEffect(effect)}`,
+    previewText: `${payload.label} → ${formatEffect(effect)}`,
     status: 'ready',
   }
 }
@@ -227,7 +225,7 @@ export function getRewardDefinitions(state: CombatState): CardDefinition[] {
 }
 
 export function getDeckCountLabel(state: CombatState): string {
-  return `${toLabel(state.deckList.length)} cards`
+  return toLabel(state.deckList.length)
 }
 
 function applyCardEffect(state: CombatState, effect: CardEffect): boolean {

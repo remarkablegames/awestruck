@@ -15,7 +15,7 @@ import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
-const ACTION_BUTTON_OFFSET_Y = 80
+const ACTION_BUTTON_OFFSET_Y = 60
 const BUILDER_PANEL_OFFSET_Y = 10
 const END_TURN_BUTTON_OFFSET_Y = -42
 const toLabel = (value: number) => String(value)
@@ -72,7 +72,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   const renderHeader = () => {
     add([
-      text(`Floor ${toLabel(state.floor)}  Turn ${toLabel(state.turn)}`, {
+      text(`Floor ${toLabel(state.floor)}, Turn ${toLabel(state.turn)}`, {
         size: 26,
       }),
       color(247, 232, 179),
@@ -83,7 +83,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(
-        `Player ${toLabel(state.player.health)}/${toLabel(state.player.maxHealth)} HP`,
+        `Player HP ${toLabel(state.player.health)}/${toLabel(state.player.maxHealth)}`,
         {
           size: 20,
         },
@@ -96,7 +96,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(
-        `Block ${toLabel(state.player.block)}  Energy ${toLabel(state.player.energy)}/${toLabel(state.player.maxEnergy)}`,
+        `Block ${toLabel(state.player.block)}, Energy ${toLabel(state.player.energy)}/${toLabel(state.player.maxEnergy)}`,
         {
           size: 20,
         },
@@ -109,9 +109,9 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(
-        `Draw ${toLabel(state.drawPile.length)}  Discard ${toLabel(state.discardPile.length)}  Deck ${getDeckCountLabel(state)}`,
+        `Draw ${toLabel(state.drawPile.length)}, Discard ${toLabel(state.discardPile.length)}, Deck ${getDeckCountLabel(state)}`,
         {
-          size: 18,
+          size: 20,
         },
       ),
       color(155, 166, 196),
@@ -140,7 +140,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       }),
       color(255, 226, 216),
       fixed(),
-      pos(panelX + 24, panelY + 22),
+      pos(panelX + 20, panelY + 22),
       TAG.UI,
     ])
 
@@ -153,20 +153,20 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       ),
       color(251, 214, 198),
       fixed(),
-      pos(panelX + 24, panelY + 66),
+      pos(panelX + 20, panelY + 66),
       TAG.UI,
     ])
 
     add([
       text(
-        `Block ${toLabel(state.enemy.block)}  Burn ${toLabel(state.enemy.burn)}`,
+        `Block ${toLabel(state.enemy.block)}, Burn ${toLabel(state.enemy.burn)}`,
         {
-          size: 16,
+          size: 18,
         },
       ),
       color(255, 183, 120),
       fixed(),
-      pos(panelX + 24, panelY + 94),
+      pos(panelX + 20, panelY + 94),
       TAG.UI,
     ])
 
@@ -178,18 +178,18 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       }),
       color(174, 208, 255),
       fixed(),
-      pos(panelX + 24, panelY + 118),
+      pos(panelX + 20, panelY + 118),
       TAG.UI,
     ])
 
     add([
       text(intent.description, {
-        size: 16,
-        width: 204,
+        size: 18,
+        width: 220,
       }),
       color(214, 224, 250),
       fixed(),
-      pos(panelX + 24, panelY + 142),
+      pos(panelX + 20, panelY + 142),
       TAG.UI,
     ])
   }
@@ -238,7 +238,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       text(previewText, {
-        size: 16,
+        size: 20,
         width: previewWidth,
       }),
       color(181, 198, 236),
@@ -332,7 +332,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderFooter = () => {
     add([
       text(state.message, {
-        size: 18,
+        size: 20,
         width: width() - 80,
       }),
       color(218, 226, 246),
