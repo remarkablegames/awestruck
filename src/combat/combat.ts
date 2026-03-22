@@ -128,11 +128,6 @@ export function commitChainCard(state: CombatState, instanceId: string): void {
     return
   }
 
-  if (state.confirmedWordThisTurn) {
-    state.message = 'You can only confirm one chain per turn.'
-    return
-  }
-
   const handIndex = state.hand.findIndex(
     (card) => card.instanceId === instanceId,
   )
@@ -225,11 +220,6 @@ export function confirmBuilder(state: CombatState): void {
     return
   }
 
-  if (state.confirmedWordThisTurn) {
-    state.message = 'You have already confirmed a chain this turn.'
-    return
-  }
-
   const preview = getChainPreview(state.builder)
 
   if (preview.status !== 'ready') {
@@ -240,7 +230,6 @@ export function confirmBuilder(state: CombatState): void {
   const combatEnded = applyCardEffect(state, preview.effect)
   state.discardPile.push(...state.builder)
   state.builder = []
-  state.confirmedWordThisTurn = true
 
   if (!combatEnded) {
     state.message = preview.previewText
@@ -462,7 +451,6 @@ function createFloorState({
   const state: CombatState = {
     bestFloor: Math.max(bestFloor, floor),
     builder: [],
-    confirmedWordThisTurn: false,
     deckList,
     discardPile: [],
     drawPile: shuffle([...deckList]),
@@ -605,7 +593,6 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
 function replaceState(target: CombatState, source: CombatState): void {
   target.bestFloor = source.bestFloor
   target.builder = source.builder
-  target.confirmedWordThisTurn = source.confirmedWordThisTurn
   target.deckList = source.deckList
   target.discardPile = source.discardPile
   target.drawPile = source.drawPile
@@ -652,7 +639,6 @@ function runEnemyTurn(state: CombatState): void {
   state.enemy.intentCursor =
     (state.enemy.intentCursor + 1) % state.enemy.intents.length
   state.player.block = 0
-  state.confirmedWordThisTurn = false
   state.builder = []
   state.player.energy = state.player.maxEnergy
   state.turn += 1

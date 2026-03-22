@@ -372,9 +372,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderCard = (card: CardInstance, x: number, y: number) => {
     const definition = getCardDefinition(card.cardId)
     const disabled =
-      state.status !== 'playerTurn' ||
-      state.player.energy < definition.cost ||
-      (definition.type !== 'utility' && state.confirmedWordThisTurn)
+      state.status !== 'playerTurn' || state.player.energy < definition.cost
 
     const panel = add([
       rect(CARD_WIDTH, CARD_HEIGHT, { radius: 18 }),

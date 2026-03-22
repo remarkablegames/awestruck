@@ -85,7 +85,6 @@ export type ChainPreview =
 export interface CombatState {
   bestFloor: number
   builder: CardInstance[]
-  confirmedWordThisTurn: boolean
   deckList: CardInstance[]
   discardPile: CardInstance[]
   drawPile: CardInstance[]
