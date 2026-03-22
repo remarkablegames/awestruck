@@ -11,11 +11,9 @@ import {
   getRewardDefinitions,
 } from '../combat'
 import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
-import { addButton } from '../gameobjects'
+import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
-const CARD_WIDTH = 156
-const CARD_HEIGHT = 244
 const ACTION_AREA_TOP_RATIO = 0.42
 const ACTION_BUTTON_OFFSET_Y = 80
 const BUILDER_PANEL_OFFSET_Y = 10
@@ -317,108 +315,18 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const disabled =
       state.status !== 'playerTurn' || state.player.energy < definition.cost
 
-    const panel = add([
-      rect(CARD_WIDTH, CARD_HEIGHT, { radius: 18 }),
-      area(),
-      color(
-        disabled ? 75 : definition.accent[0],
-        disabled ? 81 : definition.accent[1],
-        disabled ? 98 : definition.accent[2],
-      ),
-      outline(3, rgb(229, 233, 246)),
-      fixed(),
-      pos(x, y),
-      z(10),
-      TAG.UI,
-    ])
-
-    if (!disabled) {
-      panel.onHover(() => {
-        panel.color = rgb(
-          Math.min(definition.accent[0] + 18, 255),
-          Math.min(definition.accent[1] + 18, 255),
-          Math.min(definition.accent[2] + 18, 255),
-        )
-      })
-
-      panel.onHoverEnd(() => {
-        panel.color = rgb(
-          definition.accent[0],
-          definition.accent[1],
-          definition.accent[2],
-        )
-      })
-
-      panel.onClick(() => {
+    addCard({
+      card,
+      definition,
+      disabled,
+      onClick: (selectedCard) => {
         runAction(() => {
-          commitChainCard(state, card.instanceId)
+          commitChainCard(state, selectedCard.instanceId)
         })
-      })
-    }
-
-    add([
-      text(definition.label, {
-        align: 'center',
-        size: 30,
-        width: CARD_WIDTH - 18,
-      }),
-      color(15, 20, 28),
-      fixed(),
-      pos(x + CARD_WIDTH / 2, y + 34),
-      anchor('center'),
-      z(11),
-      TAG.UI,
-    ])
-
-    add([
-      rect(34, 34, { radius: 10 }),
-      color(28, 36, 52),
-      outline(2, rgb(245, 247, 255)),
-      fixed(),
-      pos(x - 14, y - 10),
-      z(11),
-      TAG.UI,
-    ])
-
-    add([
-      text(toLabel(definition.cost), {
-        align: 'center',
-        size: 20,
-        width: 34,
-      }),
-      color(245, 247, 255),
-      fixed(),
-      pos(x + 3, y + 7),
-      anchor('center'),
-      z(12),
-      TAG.UI,
-    ])
-
-    add([
-      text(toRoleLabel(definition.type), {
-        align: 'center',
-        size: 18,
-        width: CARD_WIDTH - 18,
-      }),
-      color(32, 44, 62),
-      fixed(),
-      pos(x + CARD_WIDTH / 2, y + 78),
-      anchor('center'),
-      z(11),
-      TAG.UI,
-    ])
-
-    add([
-      text(definition.description, {
-        size: 18,
-        width: CARD_WIDTH - 24,
-      }),
-      color(27, 35, 48),
-      fixed(),
-      pos(x + 14, y + 118),
-      z(11),
-      TAG.UI,
-    ])
+      },
+      x,
+      y,
+    })
   }
 
   const renderFooter = () => {
@@ -432,15 +340,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       pos(40, height() - 42),
       TAG.UI,
     ])
-  }
-
-  const toRoleLabel = (type: 'modifier' | 'payload') => {
-    switch (type) {
-      case 'modifier':
-        return 'Modifier'
-      case 'payload':
-        return 'Payload'
-    }
   }
 
   const renderOverlayPanel = (title: string, subtitle: string) => {
