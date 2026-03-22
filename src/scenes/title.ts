@@ -52,7 +52,7 @@ scene(SCENE.TITLE, () => {
 
   add([
     text(
-      'Starter words: DOUBLE, QUICK, WIDE, ECHO, BURN, THORN, SHIELD, BLOOM',
+      'Starter words: DOUBLE, QUICK, WIDE, ECHO, BURN, THORN, SHIELD, BLOOM, SURGE, WARD, FOCUS, WILT',
       {
         align: 'center',
         size: 15,

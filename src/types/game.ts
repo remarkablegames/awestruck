@@ -4,11 +4,23 @@ export interface CardEffect {
   damage?: number
   draw?: number
   heal?: number
+  ignoreBlock?: boolean
+  selfDamage?: number
 }
 
 export type CardTag = 'flame' | 'growth' | 'guard' | 'thorn'
 
-export type ModifierKind = 'double' | 'echo' | 'quick' | 'wide'
+export type ModifierKind =
+  | 'double'
+  | 'echo'
+  | 'embered'
+  | 'heavy'
+  | 'leech'
+  | 'pierce'
+  | 'quick'
+  | 'risky'
+  | 'safe'
+  | 'wide'
 
 export interface ModifierDefinition {
   kind: ModifierKind

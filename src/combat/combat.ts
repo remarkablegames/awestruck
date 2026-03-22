@@ -232,7 +232,7 @@ export function getDeckCountLabel(state: CombatState): string {
 
 function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
   if (effect.damage) {
-    dealDamageToEnemy(state, effect.damage)
+    dealDamageToEnemy(state, effect.damage, effect.ignoreBlock)
   }
 
   if (effect.block) {
@@ -254,8 +254,18 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
     drawCards(state, effect.draw)
   }
 
+  if (effect.selfDamage) {
+    dealDamageToPlayer(state, effect.selfDamage)
+  }
+
   if (state.enemy.health <= 0) {
     handleEnemyDefeat(state)
+    return true
+  }
+
+  if (state.player.health <= 0) {
+    state.status = 'lost'
+    state.message = 'You overextended the chain and collapsed.'
     return true
   }
 
@@ -274,11 +284,51 @@ function applyModifier(
         effect,
         mapEffect(effect, (value) => Math.ceil(value / 2)),
       )
+    case 'embered':
+      return mergeEffects(effect, {
+        burn: 3,
+      })
+    case 'heavy':
+      return mergeEffects(effect, {
+        block: hasDefense(effect) ? 6 : undefined,
+        burn: effect.burn ? 2 : undefined,
+        damage: effect.damage ? 4 : undefined,
+        heal: effect.heal ? 2 : undefined,
+      })
+    case 'leech':
+      return mergeEffects(effect, {
+        heal: effect.damage ? Math.ceil(effect.damage / 2) : undefined,
+      })
+    case 'pierce':
+      return effect.damage
+        ? {
+            ...effect,
+            ignoreBlock: true,
+          }
+        : effect
     case 'quick':
       return mergeEffects(effect, {
         damage: hasOffense(effect) ? 2 : undefined,
         block: hasDefense(effect) ? 3 : undefined,
         draw: 1,
+      })
+    case 'risky':
+      return mergeEffects(
+        {
+          ...effect,
+          selfDamage: (effect.selfDamage ?? 0) + 2,
+        },
+        {
+          block: hasDefense(effect) ? 5 : undefined,
+          burn: effect.burn ? 2 : undefined,
+          damage: effect.damage ? 5 : undefined,
+          draw: 1,
+          heal: effect.heal ? 2 : undefined,
+        },
+      )
+    case 'safe':
+      return mergeEffects(effect, {
+        block: 4,
       })
     case 'wide':
       return mergeEffects(effect, {
@@ -296,6 +346,8 @@ function cloneEffect(effect: CardEffect): CardEffect {
     damage: effect.damage,
     draw: effect.draw,
     heal: effect.heal,
+    ignoreBlock: effect.ignoreBlock,
+    selfDamage: effect.selfDamage,
   }
 }
 
@@ -423,7 +475,16 @@ function createFloorState({
   return state
 }
 
-function dealDamageToEnemy(state: CombatState, amount: number): void {
+function dealDamageToEnemy(
+  state: CombatState,
+  amount: number,
+  ignoreBlock = false,
+): void {
+  if (ignoreBlock) {
+    state.enemy.health = Math.max(0, state.enemy.health - amount)
+    return
+  }
+
   const blocked = Math.min(state.enemy.block, amount)
   const overflow = amount - blocked
 
@@ -483,6 +544,14 @@ function formatEffect(effect: CardEffect): string {
     parts.push(`draw ${toLabel(effect.draw)}`)
   }
 
+  if (effect.ignoreBlock) {
+    parts.push('ignore block')
+  }
+
+  if (effect.selfDamage) {
+    parts.push(`take ${toLabel(effect.selfDamage)} damage`)
+  }
+
   if (parts.length === 0) {
     return 'no effect'
   }
@@ -505,7 +574,7 @@ function handleEnemyDefeat(state: CombatState): void {
   }
 
   state.status = 'reward'
-  state.rewardOptions = [...REWARD_POOLS[state.floor - 1]]
+  state.rewardOptions = drawRewardOptions(state.floor)
   state.message =
     'Choose one new word to strengthen the next modifier or payload chain.'
 }
@@ -524,7 +593,9 @@ function isSameEffect(left: CardEffect, right: CardEffect): boolean {
     left.burn === right.burn &&
     left.damage === right.damage &&
     left.draw === right.draw &&
-    left.heal === right.heal
+    left.heal === right.heal &&
+    left.ignoreBlock === right.ignoreBlock &&
+    left.selfDamage === right.selfDamage
   )
 }
 
@@ -538,6 +609,8 @@ function mapEffect(
     damage: effect.damage ? mapper(effect.damage) : undefined,
     draw: effect.draw ? mapper(effect.draw) : undefined,
     heal: effect.heal ? mapper(effect.heal) : undefined,
+    ignoreBlock: effect.ignoreBlock,
+    selfDamage: effect.selfDamage,
   }
 }
 
@@ -548,7 +621,17 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
     damage: (base.damage ?? 0) + (extra.damage ?? 0) || undefined,
     draw: (base.draw ?? 0) + (extra.draw ?? 0) || undefined,
     heal: (base.heal ?? 0) + (extra.heal ?? 0) || undefined,
+    ignoreBlock:
+      base.ignoreBlock === true || extra.ignoreBlock === true
+        ? true
+        : undefined,
+    selfDamage: (base.selfDamage ?? 0) + (extra.selfDamage ?? 0) || undefined,
   }
+}
+
+function drawRewardOptions(floor: number): string[] {
+  const rewardPool = REWARD_POOLS[floor - 1] ?? []
+  return shuffle([...rewardPool]).slice(0, 3)
 }
 
 function replaceState(target: CombatState, source: CombatState): void {

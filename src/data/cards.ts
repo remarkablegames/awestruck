@@ -1,6 +1,19 @@
 import type { CardDefinition } from '../types'
 
 export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
+  bastion: {
+    accent: [96, 129, 218],
+    cost: 2,
+    description: 'Gain 12 block.',
+    effect: {
+      block: 12,
+    },
+    id: 'bastion',
+    label: 'BASTION',
+    tags: ['guard'],
+    type: 'payload',
+  },
+
   bloom: {
     accent: [129, 210, 141],
     cost: 1,
@@ -57,6 +70,20 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'modifier',
   },
 
+  embered: {
+    accent: [255, 143, 88],
+    cost: 1,
+    description: 'The next payload also applies burn.',
+    effect: {},
+    id: 'embered',
+    label: 'EMBERED',
+    modifier: {
+      kind: 'embered',
+    },
+    tags: [],
+    type: 'modifier',
+  },
+
   focus: {
     accent: [129, 200, 255],
     cost: 1,
@@ -68,6 +95,48 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     label: 'FOCUS',
     tags: [],
     type: 'payload',
+  },
+
+  heavy: {
+    accent: [143, 125, 102],
+    cost: 1,
+    description: 'Make the next payload much heavier.',
+    effect: {},
+    id: 'heavy',
+    label: 'HEAVY',
+    modifier: {
+      kind: 'heavy',
+    },
+    tags: [],
+    type: 'modifier',
+  },
+
+  leech: {
+    accent: [145, 209, 164],
+    cost: 1,
+    description: 'The next damaging payload also heals you.',
+    effect: {},
+    id: 'leech',
+    label: 'LEECH',
+    modifier: {
+      kind: 'leech',
+    },
+    tags: [],
+    type: 'modifier',
+  },
+
+  pierce: {
+    accent: [198, 217, 255],
+    cost: 1,
+    description: 'The next damaging payload ignores block.',
+    effect: {},
+    id: 'pierce',
+    label: 'PIERCE',
+    modifier: {
+      kind: 'pierce',
+    },
+    tags: [],
+    type: 'modifier',
   },
 
   quick: {
@@ -86,6 +155,47 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'modifier',
   },
 
+  risky: {
+    accent: [255, 156, 142],
+    cost: 1,
+    description: 'Push the next payload harder, but take 2 damage.',
+    effect: {},
+    id: 'risky',
+    label: 'RISKY',
+    modifier: {
+      kind: 'risky',
+    },
+    tags: [],
+    type: 'modifier',
+  },
+
+  safe: {
+    accent: [167, 221, 202],
+    cost: 1,
+    description: 'The next payload also grants a little block.',
+    effect: {},
+    id: 'safe',
+    label: 'SAFE',
+    modifier: {
+      kind: 'safe',
+    },
+    tags: [],
+    type: 'modifier',
+  },
+
+  sear: {
+    accent: [255, 103, 64],
+    cost: 1,
+    description: 'Apply 6 burn.',
+    effect: {
+      burn: 6,
+    },
+    id: 'sear',
+    label: 'SEAR',
+    tags: ['flame'],
+    type: 'payload',
+  },
+
   shield: {
     accent: [112, 150, 255],
     cost: 1,
@@ -99,6 +209,20 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'payload',
   },
 
+  surge: {
+    accent: [118, 205, 255],
+    cost: 1,
+    description: 'Deal 4 damage and draw 1.',
+    effect: {
+      damage: 4,
+      draw: 1,
+    },
+    id: 'surge',
+    label: 'SURGE',
+    tags: ['flame'],
+    type: 'payload',
+  },
+
   thorn: {
     accent: [255, 163, 102],
     cost: 1,
@@ -109,6 +233,20 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     id: 'thorn',
     label: 'THORN',
     tags: ['thorn'],
+    type: 'payload',
+  },
+
+  ward: {
+    accent: [142, 194, 255],
+    cost: 1,
+    description: 'Gain 5 block and draw 1.',
+    effect: {
+      block: 5,
+      draw: 1,
+    },
+    id: 'ward',
+    label: 'WARD',
+    tags: ['guard'],
     type: 'payload',
   },
 
@@ -152,13 +290,13 @@ export const STARTER_DECK = [
   'quick',
   'wide',
   'echo',
-  'burn',
-  'shield',
+  'surge',
+  'ward',
   'focus',
   'wilt',
 ] as const
 
 export const REWARD_POOLS = [
-  ['wilt', 'double', 'shield'],
-  ['wilt', 'echo', 'focus'],
+  ['sear', 'pierce', 'safe', 'surge', 'ward'],
+  ['bastion', 'heavy', 'leech', 'risky', 'embered'],
 ] as const
