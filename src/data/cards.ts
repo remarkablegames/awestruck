@@ -42,6 +42,20 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     type: 'payload',
   },
 
+  charge: {
+    accent: [255, 238, 142],
+    cost: 1,
+    description: 'Gain 1 energy and draw 1.',
+    effect: {
+      draw: 1,
+      energy: 1,
+    },
+    id: 'charge',
+    label: 'CHARGE',
+    tags: [],
+    type: 'payload',
+  },
+
   double: {
     accent: [255, 212, 92],
     cost: 2,
@@ -297,6 +311,6 @@ export const STARTER_DECK = [
 ] as const
 
 export const REWARD_POOLS = [
-  ['sear', 'pierce', 'safe', 'surge', 'ward'],
+  ['charge', 'sear', 'pierce', 'safe', 'surge', 'ward'],
   ['bastion', 'heavy', 'leech', 'risky', 'embered'],
 ] as const

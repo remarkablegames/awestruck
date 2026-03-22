@@ -3,6 +3,7 @@ export interface CardEffect {
   burn?: number
   damage?: number
   draw?: number
+  energy?: number
   heal?: number
   ignoreBlock?: boolean
   selfDamage?: number

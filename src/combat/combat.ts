@@ -254,6 +254,10 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
     drawCards(state, effect.draw)
   }
 
+  if (effect.energy) {
+    state.player.energy += effect.energy
+  }
+
   if (effect.selfDamage) {
     dealDamageToPlayer(state, effect.selfDamage)
   }
@@ -345,6 +349,7 @@ function cloneEffect(effect: CardEffect): CardEffect {
     burn: effect.burn,
     damage: effect.damage,
     draw: effect.draw,
+    energy: effect.energy,
     heal: effect.heal,
     ignoreBlock: effect.ignoreBlock,
     selfDamage: effect.selfDamage,
@@ -544,6 +549,10 @@ function formatEffect(effect: CardEffect): string {
     parts.push(`draw ${toLabel(effect.draw)}`)
   }
 
+  if (effect.energy) {
+    parts.push(`gain ${toLabel(effect.energy)} energy`)
+  }
+
   if (effect.ignoreBlock) {
     parts.push('ignore block')
   }
@@ -593,6 +602,7 @@ function isSameEffect(left: CardEffect, right: CardEffect): boolean {
     left.burn === right.burn &&
     left.damage === right.damage &&
     left.draw === right.draw &&
+    left.energy === right.energy &&
     left.heal === right.heal &&
     left.ignoreBlock === right.ignoreBlock &&
     left.selfDamage === right.selfDamage
@@ -608,6 +618,7 @@ function mapEffect(
     burn: effect.burn ? mapper(effect.burn) : undefined,
     damage: effect.damage ? mapper(effect.damage) : undefined,
     draw: effect.draw ? mapper(effect.draw) : undefined,
+    energy: effect.energy ? mapper(effect.energy) : undefined,
     heal: effect.heal ? mapper(effect.heal) : undefined,
     ignoreBlock: effect.ignoreBlock,
     selfDamage: effect.selfDamage,
@@ -620,6 +631,7 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
     burn: (base.burn ?? 0) + (extra.burn ?? 0) || undefined,
     damage: (base.damage ?? 0) + (extra.damage ?? 0) || undefined,
     draw: (base.draw ?? 0) + (extra.draw ?? 0) || undefined,
+    energy: (base.energy ?? 0) + (extra.energy ?? 0) || undefined,
     heal: (base.heal ?? 0) + (extra.heal ?? 0) || undefined,
     ignoreBlock:
       base.ignoreBlock === true || extra.ignoreBlock === true
