@@ -1,3 +1,3 @@
+export * from './save'
 export * from './scene'
-export * from './sprite'
 export * from './tag'

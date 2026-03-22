@@ -1,1 +1,1 @@
-export * from './gameobject'
+export * from './game'
