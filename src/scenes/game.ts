@@ -303,7 +303,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       }),
       color(181, 198, 236),
       fixed(),
-      pos(panelX + 24, panelY + 100),
+      pos(panelX + 24, panelY + 92),
       TAG.UI,
     ])
   }
@@ -337,7 +337,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 54,
       label: 'Cancel',
       width: 150,
-      x: width() - 180,
+      x: width() - 170,
       y: 250,
     })
 
