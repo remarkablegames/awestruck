@@ -56,6 +56,7 @@ export function addButton({
 
   if (!disabled) {
     button.onHover(() => {
+      setCursor('pointer')
       button.color = rgb(
         Math.min(fillColor[0] + 18, 255),
         Math.min(fillColor[1] + 18, 255),
@@ -64,10 +65,18 @@ export function addButton({
     })
 
     button.onHoverEnd(() => {
+      setCursor('default')
       button.color = rgb(fillColor[0], fillColor[1], fillColor[2])
     })
 
-    button.onClick(onClick)
+    button.onClick(() => {
+      setCursor('default')
+      onClick()
+    })
+
+    button.onDestroy(() => {
+      setCursor('default')
+    })
   }
 
   const buttonLabel = add([
