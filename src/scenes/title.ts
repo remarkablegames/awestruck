@@ -1,4 +1,5 @@
 import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
+import { addButton } from '../gameobjects'
 
 const toLabel = (value: number) => String(value)
 
@@ -83,39 +84,20 @@ scene(SCENE.TITLE, () => {
     TAG.UI,
   ])
 
-  const button = add([
-    rect(260, 72, { radius: 18 }),
-    area(),
-    color(74, 104, 168),
-    outline(4, rgb(196, 216, 255)),
-    fixed(),
-    pos(centerX, centerY + 154),
-    anchor('center'),
-    TAG.UI,
-  ])
-
-  button.onHover(() => {
-    button.color = rgb(92, 130, 208)
+  addButton({
+    buttonComps: [outline(4, rgb(196, 216, 255))],
+    fillColor: [74, 104, 168],
+    height: 72,
+    label: 'Start Run',
+    labelComps: [color(248, 250, 255)],
+    labelSize: 26,
+    onClick: () => {
+      go(SCENE.GAME)
+    },
+    width: 260,
+    x: centerX,
+    y: centerY + 154,
   })
-
-  button.onHoverEnd(() => {
-    button.color = rgb(74, 104, 168)
-  })
-
-  button.onClick(() => {
-    go(SCENE.GAME)
-  })
-
-  add([
-    text('Start Run', {
-      size: 26,
-    }),
-    color(248, 250, 255),
-    fixed(),
-    pos(centerX, centerY + 154),
-    anchor('center'),
-    TAG.UI,
-  ])
 
   add([
     text(

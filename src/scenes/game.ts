@@ -11,6 +11,7 @@ import {
   getRewardDefinitions,
 } from '../combat'
 import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
+import { addButton } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
 const CARD_WIDTH = 156
@@ -39,72 +40,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     action()
     persistProgress()
     go(SCENE.GAME, state)
-  }
-
-  const addButton = ({
-    action,
-    disabled = false,
-    fillColor,
-    height,
-    label,
-    width: buttonWidth,
-    x,
-    y,
-  }: {
-    action: () => void
-    disabled?: boolean
-    fillColor: [number, number, number]
-    height: number
-    label: string
-    width: number
-    x: number
-    y: number
-  }) => {
-    const button = add([
-      rect(buttonWidth, height, { radius: 18 }),
-      area(),
-      color(
-        disabled ? 74 : fillColor[0],
-        disabled ? 82 : fillColor[1],
-        disabled ? 104 : fillColor[2],
-      ),
-      outline(3, rgb(205, 219, 255)),
-      fixed(),
-      pos(x, y),
-      anchor('center'),
-      z(20),
-      TAG.UI,
-    ])
-
-    if (!disabled) {
-      button.onHover(() => {
-        button.color = rgb(
-          Math.min(fillColor[0] + 18, 255),
-          Math.min(fillColor[1] + 18, 255),
-          Math.min(fillColor[2] + 18, 255),
-        )
-      })
-
-      button.onHoverEnd(() => {
-        button.color = rgb(fillColor[0], fillColor[1], fillColor[2])
-      })
-
-      button.onClick(action)
-    }
-
-    add([
-      text(label, {
-        align: 'center',
-        size: 20,
-        width: buttonWidth - 24,
-      }),
-      color(247, 249, 255),
-      fixed(),
-      pos(x, y),
-      anchor('center'),
-      z(21),
-      TAG.UI,
-    ])
   }
 
   const renderBackground = () => {
@@ -320,45 +255,45 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const preview = getChainPreview(state.builder)
 
     addButton({
-      action: () => {
-        runAction(() => {
-          confirmBuilder(state)
-        })
-      },
       disabled: state.status !== 'playerTurn' || preview.status !== 'ready',
       fillColor: [111, 168, 101],
       height: 54,
       label: 'Confirm Chain',
+      onClick: () => {
+        runAction(() => {
+          confirmBuilder(state)
+        })
+      },
       width: 210,
       x: width() - 360,
       y: actionAreaTop + ACTION_BUTTON_OFFSET_Y,
     })
 
     addButton({
-      action: () => {
-        runAction(() => {
-          cancelBuilder(state)
-        })
-      },
       disabled: state.status !== 'playerTurn' || state.builder.length === 0,
       fillColor: [176, 119, 93],
       height: 54,
       label: 'Cancel',
+      onClick: () => {
+        runAction(() => {
+          cancelBuilder(state)
+        })
+      },
       width: 150,
       x: width() - 170,
       y: actionAreaTop + ACTION_BUTTON_OFFSET_Y,
     })
 
     addButton({
-      action: () => {
-        runAction(() => {
-          endTurn(state)
-        })
-      },
       disabled: state.status !== 'playerTurn',
       fillColor: [92, 130, 208],
       height: 58,
       label: 'End Turn',
+      onClick: () => {
+        runAction(() => {
+          endTurn(state)
+        })
+      },
       width: 180,
       x: width() - 185,
       y: actionAreaTop + END_TURN_BUTTON_OFFSET_Y,
@@ -641,24 +576,24 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     )
 
     addButton({
-      action: () => {
-        go(SCENE.GAME)
-      },
       fillColor: [92, 130, 208],
       height: 58,
       label: 'Restart Run',
+      onClick: () => {
+        go(SCENE.GAME)
+      },
       width: 196,
       x: width() / 2 - 112,
       y: height() / 2 + 104,
     })
 
     addButton({
-      action: () => {
-        go(SCENE.TITLE)
-      },
       fillColor: [124, 106, 164],
       height: 58,
       label: 'Back To Title',
+      onClick: () => {
+        go(SCENE.TITLE)
+      },
       width: 196,
       x: width() / 2 + 112,
       y: height() / 2 + 104,
