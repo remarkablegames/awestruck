@@ -1,9 +1,9 @@
-import { SAVE_KEY, SCENE, TAG } from '../constants'
+import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
 
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.TITLE, () => {
-  setBackground(rgb(14, 18, 28))
+  setBackground(rgb(...THEME.TITLE_BACKGROUND_COLOR))
 
   const bestFloor = getData<number>(SAVE_KEY.BEST_FLOOR, 0) ?? 0
   const panelWidth = Math.min(width() - 80, 760)
@@ -11,7 +11,13 @@ scene(SCENE.TITLE, () => {
   const centerX = width() / 2
   const centerY = height() / 2
 
-  add([rect(width(), height()), color(8, 12, 20), fixed(), pos(0, 0), TAG.UI])
+  add([
+    rect(width(), height()),
+    color(...THEME.TITLE_BACKGROUND_COLOR),
+    fixed(),
+    pos(0, 0),
+    TAG.UI,
+  ])
 
   add([
     rect(panelWidth, panelHeight, { radius: 24 }),

@@ -10,7 +10,7 @@ import {
   getDeckCountLabel,
   getRewardDefinitions,
 } from '../combat'
-import { SAVE_KEY, SCENE, TAG } from '../constants'
+import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
 import type { CardInstance, CombatState } from '../types'
 
 const CARD_WIDTH = 156
@@ -22,7 +22,7 @@ const END_TURN_BUTTON_OFFSET_Y = -42
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.GAME, (incomingState?: CombatState) => {
-  setBackground(rgb(10, 14, 24))
+  setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
 
   const bestFloor = getData<number>(SAVE_KEY.BEST_FLOOR, 0) ?? 0
   const state = incomingState ?? createInitialState(bestFloor)
@@ -112,7 +112,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       rect(width(), height()),
-      color(10, 14, 24),
+      color(...THEME.GAME_BACKGROUND_COLOR),
       fixed(),
       pos(0, 0),
       TAG.UI,
@@ -120,7 +120,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       rect(width(), actionAreaTop),
-      color(19, 28, 48),
+      color(...THEME.GAME_BACKGROUND_COLOR),
       fixed(),
       pos(0, 0),
       opacity(0.9),
@@ -129,7 +129,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     add([
       rect(width(), height() - actionAreaTop),
-      color(17, 24, 38),
+      color(...THEME.GAME_LOWER_BACKGROUND_COLOR),
       fixed(),
       pos(0, actionAreaTop),
       opacity(0.95),

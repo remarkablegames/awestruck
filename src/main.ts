@@ -1,9 +1,12 @@
 import kaplay from 'kaplay'
 
+import { THEME } from './constants'
+
 kaplay({
-  width: 1440,
+  background: [...THEME.PAGE_BACKGROUND_COLOR],
   height: 900,
   letterbox: true,
+  width: 1440,
 })
 
 const { start } = await import('./scenes')
