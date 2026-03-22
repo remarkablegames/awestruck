@@ -79,7 +79,7 @@ scene(SCENE.TITLE, () => {
     }),
     color(146, 203, 145),
     fixed(),
-    pos(centerX, centerY + 88),
+    pos(centerX, centerY + 76),
     anchor('center'),
     TAG.UI,
   ])
@@ -96,7 +96,7 @@ scene(SCENE.TITLE, () => {
     },
     width: 260,
     x: centerX,
-    y: centerY + 154,
+    y: centerY + 142,
   })
 
   add([
