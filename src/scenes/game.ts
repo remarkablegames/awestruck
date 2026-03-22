@@ -256,19 +256,19 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       disabled: state.status !== 'playerTurn' || preview.status !== 'ready',
       fillColor: [111, 168, 101],
       height: 54,
-      label: 'Confirm Chain',
+      label: 'Execute',
       onClick: () => {
         runAction(() => {
           confirmBuilder(state)
         })
       },
-      width: 210,
-      x: width() - 335,
+      width: 150,
+      x: width() - 305,
       y: actionAreaTop + ACTION_BUTTON_OFFSET_Y,
     })
 
     addButton({
-      disabled: state.status !== 'playerTurn' || state.builder.length === 0,
+      disabled: state.status !== 'playerTurn' || !state.builder.length,
       fillColor: [176, 119, 93],
       height: 54,
       label: 'Cancel',
@@ -285,15 +285,15 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     addButton({
       disabled: state.status !== 'playerTurn',
       fillColor: [92, 130, 208],
-      height: 58,
+      height: 52,
       label: 'End Turn',
       onClick: () => {
         runAction(() => {
           endTurn(state)
         })
       },
-      width: 180,
-      x: width() - 155,
+      width: 150,
+      x: width() - 140,
       y: actionAreaTop + END_TURN_BUTTON_OFFSET_Y,
     })
   }

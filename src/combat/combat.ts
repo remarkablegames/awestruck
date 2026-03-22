@@ -187,9 +187,9 @@ export function endTurn(state: CombatState): void {
     return
   }
 
-  if (state.builder.length > 0) {
+  if (state.builder.length) {
     state.message =
-      'Confirm or cancel the current chain before ending the turn.'
+      'Execute or cancel the current chain before ending the turn.'
     return
   }
 
