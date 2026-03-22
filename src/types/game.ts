@@ -11,7 +11,6 @@ export type CardTag = 'flame' | 'growth' | 'guard' | 'thorn'
 export type ModifierKind = 'double' | 'echo' | 'quick' | 'wide'
 
 export interface ModifierDefinition {
-  compatibleTags: CardTag[]
   kind: ModifierKind
 }
 

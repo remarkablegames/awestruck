@@ -42,12 +42,11 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   double: {
     accent: [255, 212, 92],
     cost: 1,
-    description: 'Double the next compatible payload.',
+    description: 'Double the next payload.',
     effect: {},
     id: 'double',
     label: 'DOUBLE',
     modifier: {
-      compatibleTags: ['flame', 'thorn'],
       kind: 'double',
     },
     tags: [],
@@ -56,13 +55,11 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   echo: {
     accent: [171, 153, 255],
     cost: 1,
-    description:
-      'Repeat half the current result on the next compatible payload.',
+    description: 'Repeat half the current result on the next payload.',
     effect: {},
     id: 'echo',
     label: 'ECHO',
     modifier: {
-      compatibleTags: ['flame', 'growth'],
       kind: 'echo',
     },
     tags: [],
@@ -83,14 +80,13 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   quick: {
     accent: [115, 220, 255],
     cost: 1,
-    description: 'Add tempo: draw 1, then sharpen offense or defense.',
+    description: 'Add tempo: draw 1, then sharpen the next payload.',
     effect: {
       draw: 1,
     },
     id: 'quick',
     label: 'QUICK',
     modifier: {
-      compatibleTags: ['flame', 'growth', 'thorn'],
       kind: 'quick',
     },
     tags: [],
@@ -136,14 +132,13 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   wide: {
     accent: [153, 215, 96],
     cost: 1,
-    description: 'Add block and side effects to the next compatible payload.',
+    description: 'Broaden the next payload with extra side effects.',
     effect: {
       block: 2,
     },
     id: 'wide',
     label: 'WIDE',
     modifier: {
-      compatibleTags: ['guard', 'growth'],
       kind: 'wide',
     },
     tags: [],

@@ -521,7 +521,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
-      rect(640, 340, { radius: 26 }),
+      rect(680, 400, { radius: 26 }),
       color(29, 38, 58),
       outline(4, rgb(196, 211, 246)),
       fixed(),
@@ -535,7 +535,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       text(title, {
         align: 'center',
         size: 38,
-        width: 520,
+        width: 560,
       }),
       color(248, 232, 181),
       fixed(),
@@ -549,7 +549,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       text(subtitle, {
         align: 'center',
         size: 20,
-        width: 520,
+        width: 560,
       }),
       color(222, 229, 248),
       fixed(),
@@ -568,7 +568,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
     getRewardDefinitions(state).forEach((definition, index) => {
       const x = width() / 2 - 196 + index * 196
-      const y = height() / 2 + 30
+      const y = height() / 2 + 92
       const panel = add([
         rect(164, 186, { radius: 20 }),
         area(),

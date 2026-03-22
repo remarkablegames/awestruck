@@ -3,7 +3,6 @@ import type {
   CardDefinition,
   CardEffect,
   CardInstance,
-  CardTag,
   ChainPreview,
   CombatState,
   EnemyIntent,
@@ -85,19 +84,17 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
       }
     }
 
-    const isCompatible = modifier.modifier.compatibleTags.some((tag) =>
-      payload.tags.includes(tag),
-    )
+    const nextEffect = applyModifier(effect, modifier.modifier.kind)
 
-    if (!isCompatible) {
+    if (isSameEffect(nextEffect, effect)) {
       return {
         cost,
-        previewText: `${modifier.label} cannot modify ${payload.label}.`,
+        previewText: `${modifier.label} has no effect on ${payload.label}.`,
         status: 'invalid',
       }
     }
 
-    effect = applyModifier(effect, modifier.modifier.kind, payload.tags)
+    effect = nextEffect
   }
 
   return {
@@ -317,7 +314,6 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
 function applyModifier(
   effect: CardEffect,
   modifierKind: ModifierKind,
-  payloadTags: CardTag[],
 ): CardEffect {
   switch (modifierKind) {
     case 'double':
@@ -329,15 +325,15 @@ function applyModifier(
       )
     case 'quick':
       return mergeEffects(effect, {
-        block: payloadTags.includes('growth') ? 3 : undefined,
         damage: hasOffense(effect) ? 2 : undefined,
+        block: hasDefense(effect) ? 3 : undefined,
         draw: 1,
       })
     case 'wide':
       return mergeEffects(effect, {
-        block: 4,
-        burn: payloadTags.includes('guard') ? undefined : 2,
-        heal: payloadTags.includes('growth') ? 1 : undefined,
+        block: hasDefense(effect) ? 4 : undefined,
+        burn: hasOffense(effect) ? 2 : undefined,
+        heal: effect.heal ? 1 : undefined,
       })
   }
 }
@@ -565,6 +561,20 @@ function handleEnemyDefeat(state: CombatState): void {
 
 function hasOffense(effect: CardEffect): boolean {
   return Boolean(effect.damage ?? effect.burn)
+}
+
+function hasDefense(effect: CardEffect): boolean {
+  return Boolean(effect.block ?? effect.heal)
+}
+
+function isSameEffect(left: CardEffect, right: CardEffect): boolean {
+  return (
+    left.block === right.block &&
+    left.burn === right.burn &&
+    left.damage === right.damage &&
+    left.draw === right.draw &&
+    left.heal === right.heal
+  )
 }
 
 function mapEffect(
