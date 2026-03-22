@@ -263,7 +263,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
         })
       },
       width: 210,
-      x: width() - 360,
+      x: width() - 335,
       y: actionAreaTop + ACTION_BUTTON_OFFSET_Y,
     })
 
@@ -278,7 +278,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
         })
       },
       width: 150,
-      x: width() - 170,
+      x: width() - 140,
       y: actionAreaTop + ACTION_BUTTON_OFFSET_Y,
     })
 
@@ -293,7 +293,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
         })
       },
       width: 180,
-      x: width() - 185,
+      x: width() - 155,
       y: actionAreaTop + END_TURN_BUTTON_OFFSET_Y,
     })
   }
