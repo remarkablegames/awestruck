@@ -208,10 +208,16 @@ export function cancelBuilder(state: CombatState): void {
     return
   }
 
+  const refundedEnergy = getChainCost(state.builder)
+
+  state.player.energy = Math.min(
+    state.player.maxEnergy,
+    state.player.energy + refundedEnergy,
+  )
   state.hand.push(...state.builder)
   state.builder = []
   state.message =
-    'The unfinished chain returns to your hand. Energy is still spent.'
+    'The unfinished chain returns to your hand and refunds energy.'
 }
 
 export function confirmBuilder(state: CombatState): void {
