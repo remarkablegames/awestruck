@@ -16,6 +16,7 @@ import type { CardInstance, CombatState } from '../types'
 
 const CARD_WIDTH = 156
 const CARD_HEIGHT = 244
+const ACTION_AREA_TOP_RATIO = 0.38
 const toLabel = (value: number) => String(value)
 
 scene(SCENE.GAME, (incomingState?: CombatState) => {
@@ -105,6 +106,8 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   }
 
   const renderBackground = () => {
+    const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
+
     add([
       rect(width(), height()),
       color(10, 14, 24),
@@ -114,7 +117,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
-      rect(width(), height() * 0.42),
+      rect(width(), actionAreaTop),
       color(19, 28, 48),
       fixed(),
       pos(0, 0),
@@ -123,10 +126,10 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
-      rect(width(), height() * 0.4),
+      rect(width(), height() - actionAreaTop),
       color(17, 24, 38),
       fixed(),
-      pos(0, height() * 0.6),
+      pos(0, actionAreaTop),
       opacity(0.95),
       TAG.UI,
     ])
@@ -257,8 +260,10 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   }
 
   const renderBuilderPanel = () => {
+    const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
     const panelX = 40
-    const panelY = 204
+    const panelY = actionAreaTop + 22
+    const panelHeight = 136
     const preview = getChainPreview(state.builder)
     const previewWidth = width() - 660
     const builderLabel = state.builder
@@ -267,7 +272,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     const previewText = preview.previewText
 
     add([
-      rect(width() - 80, 120, { radius: 20 }),
+      rect(width() - 80, panelHeight, { radius: 20 }),
       color(23, 31, 48),
       outline(4, rgb(88, 112, 162)),
       fixed(),
@@ -309,6 +314,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   }
 
   const renderActionButtons = () => {
+    const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
     const preview = getChainPreview(state.builder)
 
     addButton({
@@ -323,7 +329,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Confirm Chain',
       width: 210,
       x: width() - 360,
-      y: 256,
+      y: actionAreaTop + 74,
     })
 
     addButton({
@@ -338,7 +344,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'Cancel',
       width: 150,
       x: width() - 170,
-      y: 256,
+      y: actionAreaTop + 74,
     })
 
     addButton({
@@ -353,7 +359,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       label: 'End Turn',
       width: 180,
       x: width() - 208,
-      y: 418,
+      y: actionAreaTop + 202,
     })
   }
 
