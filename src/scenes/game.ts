@@ -437,6 +437,30 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
 
     add([
+      rect(34, 34, { radius: 10 }),
+      color(28, 36, 52),
+      outline(2, rgb(245, 247, 255)),
+      fixed(),
+      pos(x - 14, y - 10),
+      z(11),
+      TAG.UI,
+    ])
+
+    add([
+      text(toLabel(definition.cost), {
+        align: 'center',
+        size: 20,
+        width: 34,
+      }),
+      color(245, 247, 255),
+      fixed(),
+      pos(x + 3, y + 7),
+      anchor('center'),
+      z(12),
+      TAG.UI,
+    ])
+
+    add([
       text(toRoleLabel(definition.type), {
         align: 'center',
         size: 18,
@@ -458,20 +482,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(27, 35, 48),
       fixed(),
       pos(x + 14, y + 118),
-      z(11),
-      TAG.UI,
-    ])
-
-    add([
-      text(`${toLabel(definition.cost)} energy`, {
-        align: 'center',
-        size: 18,
-        width: CARD_WIDTH - 18,
-      }),
-      color(24, 28, 36),
-      fixed(),
-      pos(x + CARD_WIDTH / 2, y + 212),
-      anchor('center'),
       z(11),
       TAG.UI,
     ])
