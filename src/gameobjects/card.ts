@@ -19,6 +19,7 @@ interface CardOptions {
   card: CardInstance
   definition: CardDefinition
   disabled?: boolean
+  disabledReason?: string | null
   onClick: (card: CardInstance) => void
   panelComps?: Comp[]
   x: number
@@ -29,6 +30,7 @@ export function addCard({
   card,
   definition,
   disabled = false,
+  disabledReason = null,
   onClick,
   panelComps = [],
   x,
@@ -80,6 +82,37 @@ export function addCard({
 
     panel.onDestroy(() => {
       setCursor('default')
+    })
+  } else if (disabledReason) {
+    let disabledHint: GameObj | null = null
+
+    panel.onHover(() => {
+      disabledHint ??= add([
+        text(disabledReason, {
+          align: 'center',
+          size: 16,
+          width: CARD_WIDTH + 72,
+        }),
+        color(240, 243, 255),
+        fixed(),
+        pos(x + CARD_WIDTH / 2, y - 18),
+        anchor('bot'),
+        z(14),
+        TAG.UI,
+      ])
+
+      setCursor('not-allowed')
+    })
+
+    panel.onHoverEnd(() => {
+      setCursor('default')
+      disabledHint?.destroy()
+      disabledHint = null
+    })
+
+    panel.onDestroy(() => {
+      setCursor('default')
+      disabledHint?.destroy()
     })
   }
 

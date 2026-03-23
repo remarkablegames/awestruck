@@ -316,12 +316,14 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   const renderCard = (card: CardInstance, x: number, y: number) => {
     const definition = getCardDefinition(card.cardId)
-    const disabled = Boolean(getCardCommitDisabledReason(state, card))
+    const disabledReason = getCardCommitDisabledReason(state, card)
+    const disabled = Boolean(disabledReason)
 
     addCard({
       card,
       definition,
       disabled,
+      disabledReason,
       onClick: (selectedCard) => {
         runAction(() => {
           commitChainCard(state, selectedCard.instanceId)
