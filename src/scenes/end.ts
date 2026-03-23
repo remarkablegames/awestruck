@@ -1,0 +1,93 @@
+import { SCENE, SOUND, TAG, THEME } from '../constants'
+import { addButton } from '../gameobjects'
+
+type EndStatus = 'lost' | 'won'
+
+scene(SCENE.END, (status: EndStatus) => {
+  setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+
+  const title = status === 'won' ? 'Run Complete' : 'Run Lost'
+  const subtitle =
+    status === 'won'
+      ? 'You cleared all three floors and preserved the lexicon.'
+      : 'The Archivist won this run. Start again and tune the deck.'
+
+  add([
+    rect(width(), height()),
+    color(5, 8, 12),
+    opacity(0.72),
+    fixed(),
+    pos(0, 0),
+    z(30),
+    TAG.UI,
+  ])
+
+  add([
+    rect(680, 400, { radius: 26 }),
+    color(29, 38, 58),
+    outline(4, rgb(196, 211, 246)),
+    fixed(),
+    pos(width() / 2, height() / 2),
+    anchor('center'),
+    z(31),
+    TAG.UI,
+  ])
+
+  add([
+    text(title, {
+      align: 'center',
+      size: 38,
+      width: 560,
+    }),
+    color(248, 232, 181),
+    fixed(),
+    pos(width() / 2, height() / 2 - 112),
+    anchor('center'),
+    z(32),
+    TAG.UI,
+  ])
+
+  add([
+    text(subtitle, {
+      align: 'center',
+      size: 20,
+      width: 560,
+    }),
+    color(222, 229, 248),
+    fixed(),
+    pos(width() / 2, height() / 2 - 56),
+    anchor('center'),
+    z(32),
+    TAG.UI,
+  ])
+
+  addButton({
+    fillColor: [92, 130, 208],
+    height: 58,
+    label: 'Restart Run',
+    onClick: () => {
+      play(SOUND.CLICK)
+      go(SCENE.GAME)
+    },
+    width: 196,
+    x: width() / 2 - 112,
+    y: height() / 2 + 104,
+  })
+
+  addButton({
+    fillColor: [124, 106, 164],
+    height: 58,
+    label: 'Back To Title',
+    onClick: () => {
+      play(SOUND.CLICK)
+      go(SCENE.TITLE)
+    },
+    width: 196,
+    x: width() / 2 + 112,
+    y: height() / 2 + 104,
+  })
+
+  onKeyPress('escape', () => {
+    go(SCENE.TITLE)
+  })
+})

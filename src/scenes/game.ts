@@ -427,46 +427,17 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     })
   }
 
-  const renderRunEndOverlay = () => {
-    renderOverlayPanel(
-      state.status === 'won' ? 'Run Complete' : 'Run Lost',
-      state.status === 'won'
-        ? 'You cleared all three floors and preserved the lexicon.'
-        : 'The Archivist won this run. Start again and tune the deck.',
-    )
-
-    addButton({
-      fillColor: [92, 130, 208],
-      height: 58,
-      label: 'Restart Run',
-      onClick: () => {
-        play(SOUND.CLICK)
-        go(SCENE.GAME)
-      },
-      width: 196,
-      x: width() / 2 - 112,
-      y: height() / 2 + 104,
-    })
-
-    addButton({
-      fillColor: [124, 106, 164],
-      height: 58,
-      label: 'Back To Title',
-      onClick: () => {
-        play(SOUND.CLICK)
-        go(SCENE.TITLE)
-      },
-      width: 196,
-      x: width() / 2 + 112,
-      y: height() / 2 + 104,
-    })
-  }
-
   onKeyPress('escape', () => {
     go(SCENE.TITLE)
   })
 
   persistProgress()
+
+  if (state.status === 'won' || state.status === 'lost') {
+    go(SCENE.END, state.status)
+    return
+  }
+
   renderBackground()
   renderHeader()
   renderEnemyPanel()
@@ -477,9 +448,5 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   if (state.status === 'reward') {
     renderRewardOverlay()
-  }
-
-  if (state.status === 'won' || state.status === 'lost') {
-    renderRunEndOverlay()
   }
 })
