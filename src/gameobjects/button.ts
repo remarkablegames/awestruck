@@ -8,7 +8,6 @@ import type {
   ZComp,
 } from 'kaplay'
 
-import { TAG } from '../constants'
 import { sound } from '../utils'
 
 interface ButtonOptions {
@@ -52,7 +51,6 @@ export function addButton({
     anchor('center'),
     z(20),
     ...buttonComps,
-    TAG.UI,
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
   if (!disabled) {
@@ -95,7 +93,6 @@ export function addButton({
     anchor('center'),
     z(21),
     ...labelComps,
-    TAG.UI,
   ])
 
   return {

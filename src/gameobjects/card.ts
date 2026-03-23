@@ -8,7 +8,7 @@ import type {
   ZComp,
 } from 'kaplay'
 
-import { SOUND, TAG } from '../constants'
+import { SOUND } from '../constants'
 import type { CardDefinition, CardInstance } from '../types'
 import { sound } from '../utils'
 
@@ -49,7 +49,6 @@ export function addCard({
     pos(x, y),
     z(10),
     ...panelComps,
-    TAG.UI,
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
   if (!disabled) {
@@ -96,7 +95,6 @@ export function addCard({
         fixed(),
         pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
-        TAG.UI,
       ])
 
       disabledHintText ??= add([
@@ -109,7 +107,6 @@ export function addCard({
         fixed(),
         pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
-        TAG.UI,
       ])
 
       setCursor('not-allowed')
@@ -141,7 +138,6 @@ export function addCard({
     pos(x + CARD_WIDTH / 2, y + 34),
     anchor('center'),
     z(11),
-    TAG.UI,
   ])
 
   add([
@@ -151,7 +147,6 @@ export function addCard({
     fixed(),
     pos(x - 14, y - 10),
     z(11),
-    TAG.UI,
   ])
 
   add([
@@ -165,7 +160,6 @@ export function addCard({
     pos(x + 3, y + 7),
     anchor('center'),
     z(12),
-    TAG.UI,
   ])
 
   add([
@@ -179,7 +173,6 @@ export function addCard({
     pos(x + CARD_WIDTH / 2, y + 78),
     anchor('center'),
     z(11),
-    TAG.UI,
   ])
 
   add([
@@ -191,7 +184,6 @@ export function addCard({
     fixed(),
     pos(x + 14, y + 118),
     z(11),
-    TAG.UI,
   ])
 
   return { panel }

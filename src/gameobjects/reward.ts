@@ -1,4 +1,3 @@
-import { TAG } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 
@@ -21,7 +20,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     pos(x, y),
     anchor('center'),
     z(33),
-    TAG.UI,
   ])
 
   panel.onHover(() => {
@@ -63,7 +61,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     pos(x, y - 48),
     anchor('center'),
     z(34),
-    TAG.UI,
   ])
 
   const description = add([
@@ -77,7 +74,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     pos(x, y + 18),
     anchor('center'),
     z(34),
-    TAG.UI,
   ])
 
   return {

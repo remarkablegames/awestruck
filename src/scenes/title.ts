@@ -1,4 +1,4 @@
-import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
+import { DATA, SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 import { music } from '../utils'
 
@@ -24,7 +24,6 @@ scene(SCENE.TITLE, () => {
     color(...THEME.TITLE_BACKGROUND_COLOR),
     fixed(),
     pos(0, 0),
-    TAG.UI,
   ])
 
   add([
@@ -34,7 +33,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY - 8),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -45,7 +43,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY - 128),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -61,7 +58,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY - 40),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -77,7 +73,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY + 24),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -88,7 +83,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY + 76),
     anchor('center'),
-    TAG.UI,
   ])
 
   addButton({
@@ -117,7 +111,6 @@ scene(SCENE.TITLE, () => {
     fixed(),
     pos(centerX, centerY + 284),
     anchor('center'),
-    TAG.UI,
   ])
 
   onKeyPress('space', () => {

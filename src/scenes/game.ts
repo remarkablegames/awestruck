@@ -9,7 +9,7 @@ import {
   getChainPreview,
   getDeckCountLabel,
 } from '../combat'
-import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
+import { DATA, SCENE, SOUND, THEME } from '../constants'
 import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
@@ -47,7 +47,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(...THEME.GAME_BACKGROUND_COLOR),
       fixed(),
       pos(0, 0),
-      TAG.UI,
     ])
 
     add([
@@ -56,7 +55,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       fixed(),
       pos(0, 0),
       opacity(0.9),
-      TAG.UI,
     ])
 
     add([
@@ -65,7 +63,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       fixed(),
       pos(0, actionAreaTop),
       opacity(0.95),
-      TAG.UI,
     ])
   }
 
@@ -77,7 +74,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(247, 232, 179),
       fixed(),
       pos(40, 28),
-      TAG.UI,
     ])
 
     add([
@@ -90,7 +86,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(227, 239, 255),
       fixed(),
       pos(40, 66),
-      TAG.UI,
     ])
 
     add([
@@ -103,7 +98,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(171, 198, 255),
       fixed(),
       pos(40, 94),
-      TAG.UI,
     ])
 
     add([
@@ -116,7 +110,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(155, 166, 196),
       fixed(),
       pos(40, 124),
-      TAG.UI,
     ])
   }
 
@@ -130,7 +123,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       outline(4, rgb(195, 141, 138)),
       fixed(),
       pos(panelX, panelY),
-      TAG.UI,
     ])
 
     add([
@@ -140,7 +132,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(255, 226, 216),
       fixed(),
       pos(panelX + 20, panelY + 22),
-      TAG.UI,
     ])
 
     add([
@@ -153,7 +144,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(251, 214, 198),
       fixed(),
       pos(panelX + 20, panelY + 66),
-      TAG.UI,
     ])
 
     add([
@@ -166,7 +156,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(255, 183, 120),
       fixed(),
       pos(panelX + 20, panelY + 94),
-      TAG.UI,
     ])
 
     const intent = state.enemy.intents[state.enemy.intentCursor]
@@ -178,7 +167,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(174, 208, 255),
       fixed(),
       pos(panelX + 20, panelY + 118),
-      TAG.UI,
     ])
 
     add([
@@ -189,7 +177,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(214, 224, 250),
       fixed(),
       pos(panelX + 20, panelY + 142),
-      TAG.UI,
     ])
   }
 
@@ -211,7 +198,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       outline(4, rgb(88, 112, 162)),
       fixed(),
       pos(panelX, panelY),
-      TAG.UI,
     ])
 
     add([
@@ -221,7 +207,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(235, 241, 255),
       fixed(),
       pos(panelX + 24, panelY + 18),
-      TAG.UI,
     ])
 
     add([
@@ -232,7 +217,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(248, 229, 170),
       fixed(),
       pos(panelX + 24, panelY + 56),
-      TAG.UI,
     ])
 
     add([
@@ -243,7 +227,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(181, 198, 236),
       fixed(),
       pos(panelX + 24, panelY + 86),
-      TAG.UI,
     ])
   }
 
@@ -341,7 +324,6 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       color(218, 226, 246),
       fixed(),
       pos(40, height() - 42),
-      TAG.UI,
     ])
   }
 

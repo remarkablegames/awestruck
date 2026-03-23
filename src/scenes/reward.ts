@@ -1,18 +1,12 @@
 import { chooseReward, getRewardDefinitions } from '../combat'
-import { SCENE, SOUND, TAG, THEME } from '../constants'
+import { SCENE, SOUND, THEME } from '../constants'
 import { addReward } from '../gameobjects'
 import type { CombatState } from '../types'
 
 scene(SCENE.REWARD, (state: CombatState) => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
 
-  add([
-    rect(width(), height()),
-    color(5, 8, 12),
-    opacity(0.72),
-    pos(0, 0),
-    TAG.UI,
-  ])
+  add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])
 
   add([
     rect(680, 400, { radius: 26 }),
@@ -20,7 +14,6 @@ scene(SCENE.REWARD, (state: CombatState) => {
     outline(4, rgb(196, 211, 246)),
     pos(width() / 2, height() / 2),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -32,7 +25,6 @@ scene(SCENE.REWARD, (state: CombatState) => {
     color(248, 232, 181),
     pos(width() / 2, height() / 2 - 112),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -44,7 +36,6 @@ scene(SCENE.REWARD, (state: CombatState) => {
     color(222, 229, 248),
     pos(width() / 2, height() / 2 - 56),
     anchor('center'),
-    TAG.UI,
   ])
 
   getRewardDefinitions(state).forEach((definition, index) => {

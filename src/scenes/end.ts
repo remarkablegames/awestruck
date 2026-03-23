@@ -1,4 +1,4 @@
-import { SCENE, SOUND, TAG, THEME } from '../constants'
+import { SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 
 type EndStatus = 'lost' | 'won'
@@ -18,7 +18,6 @@ scene(SCENE.END, (status: EndStatus) => {
     opacity(0.72),
     fixed(),
     pos(0, 0),
-    TAG.UI,
   ])
 
   add([
@@ -28,7 +27,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -41,7 +39,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2 - 112),
     anchor('center'),
-    TAG.UI,
   ])
 
   add([
@@ -54,7 +51,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2 - 56),
     anchor('center'),
-    TAG.UI,
   ])
 
   addButton({
