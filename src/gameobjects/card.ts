@@ -84,20 +84,31 @@ export function addCard({
       setCursor('default')
     })
   } else if (disabledReason) {
-    let disabledHint: GameObj | null = null
+    let disabledHintBackground: GameObj | null = null
+    let disabledHintText: GameObj | null = null
 
     panel.onHover(() => {
-      disabledHint ??= add([
+      disabledHintBackground ??= add([
+        rect(CARD_WIDTH + 88, 52, { radius: 14 }),
+        color(10, 14, 22),
+        opacity(0.88),
+        outline(2, rgb(214, 224, 247)),
+        fixed(),
+        pos(x + CARD_WIDTH / 2, y - 38),
+        anchor('center'),
+        TAG.UI,
+      ])
+
+      disabledHintText ??= add([
         text(disabledReason, {
           align: 'center',
           size: 16,
-          width: CARD_WIDTH + 72,
+          width: CARD_WIDTH + 60,
         }),
         color(240, 243, 255),
         fixed(),
-        pos(x + CARD_WIDTH / 2, y - 18),
-        anchor('bot'),
-        z(14),
+        pos(x + CARD_WIDTH / 2, y - 38),
+        anchor('center'),
         TAG.UI,
       ])
 
@@ -106,13 +117,16 @@ export function addCard({
 
     panel.onHoverEnd(() => {
       setCursor('default')
-      disabledHint?.destroy()
-      disabledHint = null
+      disabledHintBackground?.destroy()
+      disabledHintText?.destroy()
+      disabledHintBackground = null
+      disabledHintText = null
     })
 
     panel.onDestroy(() => {
       setCursor('default')
-      disabledHint?.destroy()
+      disabledHintBackground?.destroy()
+      disabledHintText?.destroy()
     })
   }
 
