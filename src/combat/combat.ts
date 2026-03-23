@@ -156,7 +156,7 @@ export function getCardCommitDisabledReason(
   const definition = getCardDefinition(card.cardId)
 
   if (state.player.energy < definition.cost) {
-    return 'Not enough energy to commit that card.'
+    return 'Not enough energy to commit this card.'
   }
 
   if (hasPayloadCard(state.builder)) {

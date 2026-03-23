@@ -47,7 +47,6 @@ export function addCard({
     outline(3, rgb(229, 233, 246)),
     fixed(),
     pos(x, y),
-    z(10),
     ...panelComps,
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
@@ -137,7 +136,6 @@ export function addCard({
     fixed(),
     pos(x + CARD_WIDTH / 2, y + 34),
     anchor('center'),
-    z(11),
   ])
 
   add([
@@ -146,7 +144,6 @@ export function addCard({
     outline(2, rgb(245, 247, 255)),
     fixed(),
     pos(x - 14, y - 10),
-    z(11),
   ])
 
   add([
@@ -159,7 +156,6 @@ export function addCard({
     fixed(),
     pos(x + 3, y + 7),
     anchor('center'),
-    z(12),
   ])
 
   add([
@@ -172,7 +168,6 @@ export function addCard({
     fixed(),
     pos(x + CARD_WIDTH / 2, y + 78),
     anchor('center'),
-    z(11),
   ])
 
   add([
@@ -183,7 +178,6 @@ export function addCard({
     color(27, 35, 48),
     fixed(),
     pos(x + 14, y + 118),
-    z(11),
   ])
 
   return { panel }

@@ -49,7 +49,6 @@ export function addButton({
     fixed(),
     pos(x, y),
     anchor('center'),
-    z(20),
     ...buttonComps,
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
@@ -91,7 +90,6 @@ export function addButton({
     fixed(),
     pos(x, y),
     anchor('center'),
-    z(21),
     ...labelComps,
   ])
 

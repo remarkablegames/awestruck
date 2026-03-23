@@ -19,7 +19,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     fixed(),
     pos(x, y),
     anchor('center'),
-    z(33),
   ])
 
   panel.onHover(() => {
@@ -60,7 +59,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     fixed(),
     pos(x, y - 48),
     anchor('center'),
-    z(34),
   ])
 
   const description = add([
@@ -73,7 +71,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     fixed(),
     pos(x, y + 18),
     anchor('center'),
-    z(34),
   ])
 
   return {
