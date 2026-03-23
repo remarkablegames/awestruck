@@ -1,3 +1,3 @@
 export const TAG = {
-  UI: 'Ui',
+  UI: 'ui',
 } as const
