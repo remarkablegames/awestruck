@@ -290,7 +290,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 52,
       label: 'End Turn',
       onClick: () => {
-        play(SOUND.CLICK)
+        play(SOUND.DROP)
         runAction(() => {
           endTurn(state)
         })

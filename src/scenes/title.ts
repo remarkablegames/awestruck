@@ -92,7 +92,7 @@ scene(SCENE.TITLE, () => {
     labelComps: [color(248, 250, 255)],
     labelSize: 26,
     onClick: () => {
-      play(SOUND.CLICK)
+      play(SOUND.DROP)
       go(SCENE.GAME)
     },
     width: 260,
