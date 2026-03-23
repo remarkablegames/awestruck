@@ -13,6 +13,7 @@ import type { CardDefinition, CardInstance } from '../types'
 
 export const CARD_WIDTH = 156
 export const CARD_HEIGHT = 244
+const UI_TICK_COOLDOWN = 0.12 // seconds
 
 interface CardOptions {
   card: CardInstance
@@ -50,8 +51,16 @@ export function addCard({
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
   if (!disabled) {
+    let lastTickAt = -UI_TICK_COOLDOWN
+
     panel.onHover(() => {
-      play(SOUND.TICK)
+      const now = time()
+
+      if (now - lastTickAt >= UI_TICK_COOLDOWN) {
+        play(SOUND.TICK)
+        lastTickAt = now
+      }
+
       setCursor('pointer')
       panel.color = rgb(
         Math.min(definition.accent[0] + 18, 255),
