@@ -2,7 +2,7 @@ import { SCENE, SOUND } from '../constants'
 
 scene(SCENE.PRELOAD, () => {
   Object.values(SOUND).forEach((sound) => {
-    ;['mp3', 'ogg'].forEach((extension) => {
+    ;['ogg', 'mp3'].forEach((extension) => {
       loadSound(sound, `sounds/${sound}.${extension}`)
     })
   })

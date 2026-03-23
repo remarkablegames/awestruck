@@ -1,5 +1,6 @@
 import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
 import { addButton } from '../gameobjects'
+import { music } from '../utils'
 
 const toLabel = (value: number) => String(value)
 
@@ -11,6 +12,12 @@ scene(SCENE.TITLE, () => {
   const panelHeight = 420
   const centerX = width() / 2
   const centerY = height() / 2
+
+  const startRun = () => {
+    music.startMusic()
+    play(SOUND.DROP)
+    go(SCENE.GAME)
+  }
 
   add([
     rect(width(), height()),
@@ -91,10 +98,7 @@ scene(SCENE.TITLE, () => {
     label: 'Start Run',
     labelComps: [color(248, 250, 255)],
     labelSize: 26,
-    onClick: () => {
-      play(SOUND.DROP)
-      go(SCENE.GAME)
-    },
+    onClick: startRun,
     width: 260,
     x: centerX,
     y: centerY + 142,
@@ -117,10 +121,10 @@ scene(SCENE.TITLE, () => {
   ])
 
   onKeyPress('space', () => {
-    go(SCENE.GAME)
+    startRun()
   })
 
   onKeyPress('enter', () => {
-    go(SCENE.GAME)
+    startRun()
   })
 })

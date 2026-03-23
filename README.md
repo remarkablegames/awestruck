@@ -15,6 +15,7 @@ Play the game on:
 
 ## Credits
 
+- [AstreFone](https://soundcloud.com/astrefone) (Music)
 - [Kenney Interface Sounds](https://kenney.nl/assets/interface-sounds)
 
 ## Prerequisites
