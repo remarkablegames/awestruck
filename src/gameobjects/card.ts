@@ -1,11 +1,8 @@
 import type { AreaComp, ColorComp, Comp, GameObj, PosComp, ZComp } from 'kaplay'
 
-import { SOUND } from '../constants'
+import { CARD, SOUND } from '../constants'
 import type { CardDefinition, CardInstance } from '../types'
 import { sound } from '../utils'
-
-export const CARD_WIDTH = 150
-export const CARD_HEIGHT = 250
 
 interface CardOptions {
   card: CardInstance
@@ -29,7 +26,7 @@ export function addCard({
   y,
 }: CardOptions) {
   const panel = add([
-    rect(CARD_WIDTH, CARD_HEIGHT, { radius: 18 }),
+    rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
     area(),
     color(
       disabled ? 75 : definition.accent[0],
@@ -78,11 +75,11 @@ export function addCard({
 
     panel.onHover(() => {
       disabledHintBackground ??= add([
-        rect(CARD_WIDTH + 88, 60, { radius: 14 }),
+        rect(CARD.WIDTH + 88, 60, { radius: 14 }),
         color(10, 14, 22),
         opacity(0.88),
         outline(2, rgb(214, 224, 247)),
-        pos(x + CARD_WIDTH / 2, y - 46),
+        pos(x + CARD.WIDTH / 2, y - 46),
         anchor('center'),
       ])
 
@@ -90,10 +87,10 @@ export function addCard({
         text(disabledReason, {
           align: 'center',
           size: 16,
-          width: CARD_WIDTH + 60,
+          width: CARD.WIDTH + 60,
         }),
         color(240, 243, 255),
-        pos(x + CARD_WIDTH / 2, y - 46),
+        pos(x + CARD.WIDTH / 2, y - 46),
         anchor('center'),
       ])
 
@@ -119,10 +116,10 @@ export function addCard({
     text(definition.label, {
       align: 'center',
       size: 30,
-      width: CARD_WIDTH - 18,
+      width: CARD.WIDTH - 18,
     }),
     color(15, 20, 28),
-    pos(x + CARD_WIDTH / 2, y + 34),
+    pos(x + CARD.WIDTH / 2, y + 34),
     anchor('center'),
   ])
 
@@ -148,17 +145,17 @@ export function addCard({
     text(toRoleLabel(definition.type), {
       align: 'center',
       size: 18,
-      width: CARD_WIDTH - 18,
+      width: CARD.WIDTH - 18,
     }),
     color(32, 44, 62),
-    pos(x + CARD_WIDTH / 2, y + 78),
+    pos(x + CARD.WIDTH / 2, y + 78),
     anchor('center'),
   ])
 
   add([
     text(definition.description, {
       size: 18,
-      width: CARD_WIDTH - 24,
+      width: CARD.WIDTH - 24,
     }),
     color(27, 35, 48),
     pos(x + 14, y + 118),

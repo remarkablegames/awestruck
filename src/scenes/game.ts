@@ -9,8 +9,8 @@ import {
   getChainPreview,
   getDeckCountLabel,
 } from '../combat'
-import { DATA, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
+import { CARD, DATA, SCENE, SOUND, THEME } from '../constants'
+import { addButton, addCard } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
@@ -286,12 +286,12 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   const renderHand = () => {
     const cards = state.hand
     const totalWidth =
-      cards.length * CARD_WIDTH + Math.max(cards.length - 1, 0) * 16
+      cards.length * CARD.WIDTH + Math.max(cards.length - 1, 0) * 16
     const startX = Math.max(18, width() / 2 - totalWidth / 2)
-    const y = height() - CARD_HEIGHT - 84
+    const y = height() - CARD.HEIGHT - 84
 
     cards.forEach((card, index) => {
-      renderCard(card, startX + index * (CARD_WIDTH + 16), y)
+      renderCard(card, startX + index * (CARD.WIDTH + 16), y)
     })
   }
 

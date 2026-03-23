@@ -1,3 +1,4 @@
+import { CARD } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 
@@ -12,7 +13,7 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
   const playTick = sound.createTickPlayer()
 
   const panel = add([
-    rect(150, 250, { radius: 20 }),
+    rect(CARD.WIDTH, CARD.HEIGHT, { radius: 20 }),
     area(),
     color(definition.accent[0], definition.accent[1], definition.accent[2]),
     outline(3, rgb(239, 242, 249)),
