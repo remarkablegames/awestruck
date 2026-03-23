@@ -230,16 +230,16 @@ export function chooseReward(state: CombatState, cardId: string): void {
   state.nextInstanceId += 1
   state.deckList.push(rewardCard)
 
-  const nextFloor = state.floor + 1
-  const nextState = createFloorState({
-    bestFloor: state.bestFloor,
-    deckList: state.deckList,
-    floor: nextFloor,
-    nextInstanceId: state.nextInstanceId,
-  })
-
-  replaceState(state, nextState)
+  advanceFromReward(state)
   state.message = `${CARD_DEFINITIONS[cardId].label} joins the deck for floor ${toLabel(state.floor)}.`
+}
+
+export function skipReward(state: CombatState): void {
+  if (state.status !== 'reward') {
+    return
+  }
+
+  advanceFromReward(state)
 }
 
 export function getRewardDefinitions(state: CombatState): CardDefinition[] {
@@ -691,6 +691,18 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
 function drawRewardOptions(floor: number): string[] {
   const rewardPool = REWARD_POOLS[floor - 1] ?? []
   return shuffle([...rewardPool]).slice(0, 3)
+}
+
+function advanceFromReward(state: CombatState): void {
+  const nextFloor = state.floor + 1
+  const nextState = createFloorState({
+    bestFloor: state.bestFloor,
+    deckList: state.deckList,
+    floor: nextFloor,
+    nextInstanceId: state.nextInstanceId,
+  })
+
+  replaceState(state, nextState)
 }
 
 function replaceState(target: CombatState, source: CombatState): void {

@@ -12,11 +12,10 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
   const playTick = sound.createTickPlayer()
 
   const panel = add([
-    rect(164, 186, { radius: 20 }),
+    rect(150, 250, { radius: 20 }),
     area(),
     color(definition.accent[0], definition.accent[1], definition.accent[2]),
     outline(3, rgb(239, 242, 249)),
-    fixed(),
     pos(x, y),
     anchor('center'),
   ])
@@ -56,7 +55,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
       width: 132,
     }),
     color(15, 20, 28),
-    fixed(),
     pos(x, y - 48),
     anchor('center'),
   ])
@@ -68,7 +66,6 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
       width: 132,
     }),
     color(24, 31, 44),
-    fixed(),
     pos(x, y + 18),
     anchor('center'),
   ])

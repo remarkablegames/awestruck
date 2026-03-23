@@ -1,19 +1,11 @@
-import type {
-  AreaComp,
-  ColorComp,
-  Comp,
-  FixedComp,
-  GameObj,
-  PosComp,
-  ZComp,
-} from 'kaplay'
+import type { AreaComp, ColorComp, Comp, GameObj, PosComp, ZComp } from 'kaplay'
 
 import { SOUND } from '../constants'
 import type { CardDefinition, CardInstance } from '../types'
 import { sound } from '../utils'
 
-export const CARD_WIDTH = 156
-export const CARD_HEIGHT = 244
+export const CARD_WIDTH = 150
+export const CARD_HEIGHT = 250
 
 interface CardOptions {
   card: CardInstance
@@ -45,10 +37,9 @@ export function addCard({
       disabled ? 98 : definition.accent[2],
     ),
     outline(3, rgb(229, 233, 246)),
-    fixed(),
     pos(x, y),
     ...panelComps,
-  ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
+  ]) as GameObj<AreaComp | ColorComp | PosComp | ZComp>
 
   if (!disabled) {
     const playTick = sound.createTickPlayer()
@@ -91,7 +82,6 @@ export function addCard({
         color(10, 14, 22),
         opacity(0.88),
         outline(2, rgb(214, 224, 247)),
-        fixed(),
         pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
       ])
@@ -103,7 +93,6 @@ export function addCard({
           width: CARD_WIDTH + 60,
         }),
         color(240, 243, 255),
-        fixed(),
         pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
       ])
@@ -133,7 +122,6 @@ export function addCard({
       width: CARD_WIDTH - 18,
     }),
     color(15, 20, 28),
-    fixed(),
     pos(x + CARD_WIDTH / 2, y + 34),
     anchor('center'),
   ])
@@ -142,7 +130,6 @@ export function addCard({
     rect(34, 34, { radius: 10 }),
     color(28, 36, 52),
     outline(2, rgb(245, 247, 255)),
-    fixed(),
     pos(x - 14, y - 10),
   ])
 
@@ -153,7 +140,6 @@ export function addCard({
       width: 34,
     }),
     color(245, 247, 255),
-    fixed(),
     pos(x + 3, y + 7),
     anchor('center'),
   ])
@@ -165,7 +151,6 @@ export function addCard({
       width: CARD_WIDTH - 18,
     }),
     color(32, 44, 62),
-    fixed(),
     pos(x + CARD_WIDTH / 2, y + 78),
     anchor('center'),
   ])
@@ -176,7 +161,6 @@ export function addCard({
       width: CARD_WIDTH - 24,
     }),
     color(27, 35, 48),
-    fixed(),
     pos(x + 14, y + 118),
   ])
 

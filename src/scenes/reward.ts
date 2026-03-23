@@ -1,6 +1,6 @@
-import { chooseReward, getRewardDefinitions } from '../combat'
+import { chooseReward, getRewardDefinitions, skipReward } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
-import { addReward } from '../gameobjects'
+import { addButton, addReward } from '../gameobjects'
 import type { CombatState } from '../types'
 
 scene(SCENE.REWARD, (state: CombatState) => {
@@ -12,7 +12,7 @@ scene(SCENE.REWARD, (state: CombatState) => {
     rect(680, 400, { radius: 26 }),
     color(29, 38, 58),
     outline(4, rgb(196, 211, 246)),
-    pos(width() / 2, height() / 2),
+    pos(center()),
     anchor('center'),
   ])
 
@@ -23,7 +23,7 @@ scene(SCENE.REWARD, (state: CombatState) => {
       width: 560,
     }),
     color(248, 232, 181),
-    pos(width() / 2, height() / 2 - 112),
+    pos(center().x, center().y - 150),
     anchor('center'),
   ])
 
@@ -34,13 +34,13 @@ scene(SCENE.REWARD, (state: CombatState) => {
       width: 560,
     }),
     color(222, 229, 248),
-    pos(width() / 2, height() / 2 - 56),
+    pos(center().x, center().y - 100),
     anchor('center'),
   ])
 
   getRewardDefinitions(state).forEach((definition, index) => {
-    const x = width() / 2 - 196 + index * 196
-    const y = height() / 2 + 92
+    const x = center().x - 170 + index * 170
+    const y = center().y + 60
 
     addReward({
       definition,
@@ -52,5 +52,19 @@ scene(SCENE.REWARD, (state: CombatState) => {
       x,
       y,
     })
+  })
+
+  addButton({
+    fillColor: [92, 130, 208],
+    height: 50,
+    label: 'Skip Reward',
+    onClick: () => {
+      play(SOUND.BACK)
+      skipReward(state)
+      go(SCENE.GAME, state)
+    },
+    width: 180,
+    x: center().x,
+    y: center().y + 240,
   })
 })
