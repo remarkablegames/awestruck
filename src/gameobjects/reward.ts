@@ -1,5 +1,6 @@
 import { TAG } from '../constants'
 import type { CardDefinition } from '../types'
+import { sound } from '../utils'
 
 interface RewardOptions {
   definition: CardDefinition
@@ -9,6 +10,8 @@ interface RewardOptions {
 }
 
 export function addReward({ definition, onClick, x, y }: RewardOptions) {
+  const playTick = sound.createTickPlayer()
+
   const panel = add([
     rect(164, 186, { radius: 20 }),
     area(),
@@ -22,6 +25,8 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
   ])
 
   panel.onHover(() => {
+    playTick()
+    setCursor('pointer')
     panel.color = rgb(
       Math.min(definition.accent[0] + 18, 255),
       Math.min(definition.accent[1] + 18, 255),
@@ -30,6 +35,7 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
   })
 
   panel.onHoverEnd(() => {
+    setCursor('default')
     panel.color = rgb(
       definition.accent[0],
       definition.accent[1],
@@ -37,7 +43,14 @@ export function addReward({ definition, onClick, x, y }: RewardOptions) {
     )
   })
 
-  panel.onClick(onClick)
+  panel.onClick(() => {
+    setCursor('default')
+    onClick()
+  })
+
+  panel.onDestroy(() => {
+    setCursor('default')
+  })
 
   const label = add([
     text(definition.label, {

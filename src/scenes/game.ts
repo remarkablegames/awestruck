@@ -416,6 +416,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       addReward({
         definition,
         onClick: () => {
+          play(SOUND.DROP)
           runAction(() => {
             chooseReward(state, definition.id)
           })
