@@ -18,7 +18,6 @@ scene(SCENE.END, (status: EndStatus) => {
     opacity(0.72),
     fixed(),
     pos(0, 0),
-    z(30),
     TAG.UI,
   ])
 
@@ -29,7 +28,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2),
     anchor('center'),
-    z(31),
     TAG.UI,
   ])
 
@@ -43,7 +41,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2 - 112),
     anchor('center'),
-    z(32),
     TAG.UI,
   ])
 
@@ -57,7 +54,6 @@ scene(SCENE.END, (status: EndStatus) => {
     fixed(),
     pos(width() / 2, height() / 2 - 56),
     anchor('center'),
-    z(32),
     TAG.UI,
   ])
 
