@@ -89,12 +89,12 @@ export function addCard({
 
     panel.onHover(() => {
       disabledHintBackground ??= add([
-        rect(CARD_WIDTH + 88, 52, { radius: 14 }),
+        rect(CARD_WIDTH + 88, 60, { radius: 14 }),
         color(10, 14, 22),
         opacity(0.88),
         outline(2, rgb(214, 224, 247)),
         fixed(),
-        pos(x + CARD_WIDTH / 2, y - 38),
+        pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
         TAG.UI,
       ])
@@ -107,7 +107,7 @@ export function addCard({
         }),
         color(240, 243, 255),
         fixed(),
-        pos(x + CARD_WIDTH / 2, y - 38),
+        pos(x + CARD_WIDTH / 2, y - 46),
         anchor('center'),
         TAG.UI,
       ])
