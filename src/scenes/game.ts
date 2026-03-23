@@ -10,7 +10,7 @@ import {
   getDeckCountLabel,
   getRewardDefinitions,
 } from '../combat'
-import { SAVE_KEY, SCENE, SOUND, TAG, THEME } from '../constants'
+import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
 import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
@@ -23,14 +23,14 @@ const toLabel = (value: number) => String(value)
 scene(SCENE.GAME, (incomingState?: CombatState) => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
 
-  const bestFloor = getData<number>(SAVE_KEY.BEST_FLOOR, 0) ?? 0
+  const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
   const state = incomingState ?? createInitialState(bestFloor)
 
   const persistProgress = () => {
-    const savedBestFloor = getData<number>(SAVE_KEY.BEST_FLOOR, 0) ?? 0
+    const savedBestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
 
     if (state.bestFloor > savedBestFloor) {
-      setData(SAVE_KEY.BEST_FLOOR, state.bestFloor)
+      setData(DATA.BEST_FLOOR, state.bestFloor)
     }
   }
 

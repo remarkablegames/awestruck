@@ -1,4 +1,4 @@
-import { SAVE_KEY, SCENE, SOUND, TAG, THEME } from '../constants'
+import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 
 const toLabel = (value: number) => String(value)
@@ -6,7 +6,7 @@ const toLabel = (value: number) => String(value)
 scene(SCENE.TITLE, () => {
   setBackground(rgb(...THEME.TITLE_BACKGROUND_COLOR))
 
-  const bestFloor = getData<number>(SAVE_KEY.BEST_FLOOR, 0) ?? 0
+  const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
   const panelWidth = Math.min(width() - 80, 760)
   const panelHeight = 420
   const centerX = width() / 2
