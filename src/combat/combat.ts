@@ -124,9 +124,10 @@ export function commitChainCard(state: CombatState, instanceId: string): void {
 
   const card = state.hand[handIndex]
   const definition = getCardDefinition(card.cardId)
+  const disabledReason = getCardCommitDisabledReason(state, card)
 
-  if (state.player.energy < definition.cost) {
-    state.message = 'Not enough energy to commit that card.'
+  if (disabledReason) {
+    state.message = disabledReason
     return
   }
 
@@ -142,6 +143,27 @@ export function commitChainCard(state: CombatState, instanceId: string): void {
   state.hand.splice(handIndex, 1)
   state.builder.push(card)
   state.message = preview.previewText
+}
+
+export function getCardCommitDisabledReason(
+  state: CombatState,
+  card: CardInstance,
+): string | null {
+  if (state.status !== 'playerTurn') {
+    return 'You can only commit cards during your turn.'
+  }
+
+  const definition = getCardDefinition(card.cardId)
+
+  if (state.player.energy < definition.cost) {
+    return 'Not enough energy to commit that card.'
+  }
+
+  if (hasPayloadCard(state.builder)) {
+    return 'Resolve or cancel the current payload chain first.'
+  }
+
+  return null
 }
 
 export function cancelBuilder(state: CombatState): void {
@@ -584,6 +606,12 @@ function getChainCost(builder: CardInstance[]): number {
   return builder.reduce(
     (total, card) => total + getCardDefinition(card.cardId).cost,
     0,
+  )
+}
+
+function hasPayloadCard(builder: CardInstance[]): boolean {
+  return builder.some(
+    (card) => getCardDefinition(card.cardId).type === 'payload',
   )
 }
 

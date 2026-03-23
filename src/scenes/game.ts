@@ -5,6 +5,7 @@ import {
   confirmBuilder,
   createInitialState,
   endTurn,
+  getCardCommitDisabledReason,
   getCardDefinition,
   getChainPreview,
   getDeckCountLabel,
@@ -315,8 +316,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
 
   const renderCard = (card: CardInstance, x: number, y: number) => {
     const definition = getCardDefinition(card.cardId)
-    const disabled =
-      state.status !== 'playerTurn' || state.player.energy < definition.cost
+    const disabled = Boolean(getCardCommitDisabledReason(state, card))
 
     addCard({
       card,
