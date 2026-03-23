@@ -8,9 +8,8 @@ import type {
   ZComp,
 } from 'kaplay'
 
-import { SOUND, TAG } from '../constants'
-
-const UI_TICK_COOLDOWN = 0.12 // seconds
+import { TAG } from '../constants'
+import { sound } from '../utils'
 
 interface ButtonOptions {
   buttonComps?: Comp[]
@@ -57,16 +56,10 @@ export function addButton({
   ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
 
   if (!disabled) {
-    let lastTickAt = -UI_TICK_COOLDOWN
+    const playTick = sound.createTickPlayer()
 
     button.onHover(() => {
-      const now = time()
-
-      if (now - lastTickAt >= UI_TICK_COOLDOWN) {
-        play(SOUND.TICK)
-        lastTickAt = now
-      }
-
+      playTick()
       setCursor('pointer')
       button.color = rgb(
         Math.min(fillColor[0] + 18, 255),
