@@ -12,7 +12,13 @@ import {
   getRewardDefinitions,
 } from '../combat'
 import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
-import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
+import {
+  addButton,
+  addCard,
+  addReward,
+  CARD_HEIGHT,
+  CARD_WIDTH,
+} from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
@@ -407,67 +413,16 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     getRewardDefinitions(state).forEach((definition, index) => {
       const x = width() / 2 - 196 + index * 196
       const y = height() / 2 + 92
-      const panel = add([
-        rect(164, 186, { radius: 20 }),
-        area(),
-        color(definition.accent[0], definition.accent[1], definition.accent[2]),
-        outline(3, rgb(239, 242, 249)),
-        fixed(),
-        pos(x, y),
-        anchor('center'),
-        z(33),
-        TAG.UI,
-      ])
-
-      panel.onHover(() => {
-        panel.color = rgb(
-          Math.min(definition.accent[0] + 18, 255),
-          Math.min(definition.accent[1] + 18, 255),
-          Math.min(definition.accent[2] + 18, 255),
-        )
+      addReward({
+        definition,
+        onClick: () => {
+          runAction(() => {
+            chooseReward(state, definition.id)
+          })
+        },
+        x,
+        y,
       })
-
-      panel.onHoverEnd(() => {
-        panel.color = rgb(
-          definition.accent[0],
-          definition.accent[1],
-          definition.accent[2],
-        )
-      })
-
-      panel.onClick(() => {
-        runAction(() => {
-          chooseReward(state, definition.id)
-        })
-      })
-
-      add([
-        text(definition.label, {
-          align: 'center',
-          size: 28,
-          width: 132,
-        }),
-        color(15, 20, 28),
-        fixed(),
-        pos(x, y - 48),
-        anchor('center'),
-        z(34),
-        TAG.UI,
-      ])
-
-      add([
-        text(definition.description, {
-          align: 'center',
-          size: 16,
-          width: 132,
-        }),
-        color(24, 31, 44),
-        fixed(),
-        pos(x, y + 18),
-        anchor('center'),
-        z(34),
-        TAG.UI,
-      ])
     })
   }
 
