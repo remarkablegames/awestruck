@@ -10,7 +10,7 @@ import {
   getDeckCountLabel,
   getRewardDefinitions,
 } from '../combat'
-import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
+import { SAVE_KEY, SCENE, SOUND, TAG, THEME } from '../constants'
 import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
@@ -258,6 +258,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 54,
       label: 'Execute',
       onClick: () => {
+        play(SOUND.DROP)
         runAction(() => {
           confirmBuilder(state)
         })
@@ -273,6 +274,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 54,
       label: 'Cancel',
       onClick: () => {
+        play(SOUND.BACK)
         runAction(() => {
           cancelBuilder(state)
         })
@@ -288,6 +290,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 52,
       label: 'End Turn',
       onClick: () => {
+        play(SOUND.CLICK)
         runAction(() => {
           endTurn(state)
         })
@@ -479,6 +482,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 58,
       label: 'Restart Run',
       onClick: () => {
+        play(SOUND.CLICK)
         go(SCENE.GAME)
       },
       width: 196,
@@ -491,6 +495,7 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
       height: 58,
       label: 'Back To Title',
       onClick: () => {
+        play(SOUND.CLICK)
         go(SCENE.TITLE)
       },
       width: 196,

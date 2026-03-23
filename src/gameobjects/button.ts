@@ -8,7 +8,7 @@ import type {
   ZComp,
 } from 'kaplay'
 
-import { TAG } from '../constants'
+import { SOUND, TAG } from '../constants'
 
 interface ButtonOptions {
   buttonComps?: Comp[]
@@ -56,6 +56,7 @@ export function addButton({
 
   if (!disabled) {
     button.onHover(() => {
+      play(SOUND.TICK)
       setCursor('pointer')
       button.color = rgb(
         Math.min(fillColor[0] + 18, 255),

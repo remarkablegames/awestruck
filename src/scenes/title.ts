@@ -1,4 +1,4 @@
-import { SAVE_KEY, SCENE, TAG, THEME } from '../constants'
+import { SAVE_KEY, SCENE, SOUND, TAG, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 
 const toLabel = (value: number) => String(value)
@@ -92,6 +92,7 @@ scene(SCENE.TITLE, () => {
     labelComps: [color(248, 250, 255)],
     labelSize: 26,
     onClick: () => {
+      play(SOUND.CLICK)
       go(SCENE.GAME)
     },
     width: 260,

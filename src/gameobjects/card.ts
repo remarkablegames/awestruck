@@ -8,7 +8,7 @@ import type {
   ZComp,
 } from 'kaplay'
 
-import { TAG } from '../constants'
+import { SOUND, TAG } from '../constants'
 import type { CardDefinition, CardInstance } from '../types'
 
 export const CARD_WIDTH = 156
@@ -51,6 +51,7 @@ export function addCard({
 
   if (!disabled) {
     panel.onHover(() => {
+      play(SOUND.TICK)
       setCursor('pointer')
       panel.color = rgb(
         Math.min(definition.accent[0] + 18, 255),
@@ -69,6 +70,7 @@ export function addCard({
     })
 
     panel.onClick(() => {
+      play(SOUND.CLICK)
       setCursor('default')
       onClick(card)
     })

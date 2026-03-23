@@ -13,6 +13,10 @@ Play the game on:
 
 - [remarkablegames](https://remarkablegames.org/awestruck/)
 
+## Credits
+
+- [Kenney Interface Sounds](https://kenney.nl/assets/interface-sounds)
+
 ## Prerequisites
 
 [nvm](https://github.com/nvm-sh/nvm#installing-and-updating):

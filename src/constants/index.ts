@@ -1,4 +1,5 @@
 export * from './save'
 export * from './scene'
+export * from './sound'
 export * from './tag'
 export * from './theme'
