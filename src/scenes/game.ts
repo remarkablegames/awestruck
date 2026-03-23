@@ -1,6 +1,5 @@
 import {
   cancelBuilder,
-  chooseReward,
   commitChainCard,
   confirmBuilder,
   createInitialState,
@@ -9,16 +8,9 @@ import {
   getCardDefinition,
   getChainPreview,
   getDeckCountLabel,
-  getRewardDefinitions,
 } from '../combat'
 import { DATA, SCENE, SOUND, TAG, THEME } from '../constants'
-import {
-  addButton,
-  addCard,
-  addReward,
-  CARD_HEIGHT,
-  CARD_WIDTH,
-} from '../gameobjects'
+import { addButton, addCard, CARD_HEIGHT, CARD_WIDTH } from '../gameobjects'
 import type { CardInstance, CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
@@ -353,85 +345,16 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
     ])
   }
 
-  const renderOverlayPanel = (title: string, subtitle: string) => {
-    add([
-      rect(width(), height()),
-      color(5, 8, 12),
-      opacity(0.72),
-      fixed(),
-      pos(0, 0),
-      z(30),
-      TAG.UI,
-    ])
-
-    add([
-      rect(680, 400, { radius: 26 }),
-      color(29, 38, 58),
-      outline(4, rgb(196, 211, 246)),
-      fixed(),
-      pos(width() / 2, height() / 2),
-      anchor('center'),
-      z(31),
-      TAG.UI,
-    ])
-
-    add([
-      text(title, {
-        align: 'center',
-        size: 38,
-        width: 560,
-      }),
-      color(248, 232, 181),
-      fixed(),
-      pos(width() / 2, height() / 2 - 112),
-      anchor('center'),
-      z(32),
-      TAG.UI,
-    ])
-
-    add([
-      text(subtitle, {
-        align: 'center',
-        size: 20,
-        width: 560,
-      }),
-      color(222, 229, 248),
-      fixed(),
-      pos(width() / 2, height() / 2 - 56),
-      anchor('center'),
-      z(32),
-      TAG.UI,
-    ])
-  }
-
-  const renderRewardOverlay = () => {
-    renderOverlayPanel(
-      'Choose A Reward',
-      'Pick one new card before entering the next Archivist floor.',
-    )
-
-    getRewardDefinitions(state).forEach((definition, index) => {
-      const x = width() / 2 - 196 + index * 196
-      const y = height() / 2 + 92
-      addReward({
-        definition,
-        onClick: () => {
-          play(SOUND.DROP)
-          runAction(() => {
-            chooseReward(state, definition.id)
-          })
-        },
-        x,
-        y,
-      })
-    })
-  }
-
   onKeyPress('escape', () => {
     go(SCENE.TITLE)
   })
 
   persistProgress()
+
+  if (state.status === 'reward') {
+    go(SCENE.REWARD, state)
+    return
+  }
 
   if (state.status === 'won' || state.status === 'lost') {
     go(SCENE.END, state.status)
@@ -445,8 +368,4 @@ scene(SCENE.GAME, (incomingState?: CombatState) => {
   renderActionButtons()
   renderHand()
   renderFooter()
-
-  if (state.status === 'reward') {
-    renderRewardOverlay()
-  }
 })
