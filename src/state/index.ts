@@ -13,6 +13,10 @@ import type { CombatState } from '../types'
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
 type EndStatus = 'lost' | 'won'
+type StateAction<TArgs extends unknown[] = []> = (
+  state: CombatState,
+  ...args: TArgs
+) => void
 
 interface StateSnapshot {
   endStatus?: EndStatus
@@ -62,43 +66,34 @@ class StateManager {
   }
 
   commitChainCard(instanceId: string): void {
-    this.runAction(() => {
-      commitChainCard(this.state, instanceId)
-    })
+    this.runAction(commitChainCard, instanceId)
   }
 
   cancelBuilder(): void {
-    this.runAction(() => {
-      cancelBuilder(this.state)
-    })
+    this.runAction(cancelBuilder)
   }
 
   confirmBuilder(): void {
-    this.runAction(() => {
-      confirmBuilder(this.state)
-    })
+    this.runAction(confirmBuilder)
   }
 
   endTurn(): void {
-    this.runAction(() => {
-      endTurn(this.state)
-    })
+    this.runAction(endTurn)
   }
 
   chooseReward(cardId: string): void {
-    this.runAction(() => {
-      chooseReward(this.state, cardId)
-    })
+    this.runAction(chooseReward, cardId)
   }
 
   skipReward(): void {
-    this.runAction(() => {
-      skipReward(this.state)
-    })
+    this.runAction(skipReward)
   }
 
-  private runAction(action: () => void): void {
-    action()
+  private runAction<TArgs extends unknown[]>(
+    action: StateAction<TArgs>,
+    ...args: TArgs
+  ): void {
+    action(this.state, ...args)
     this.persistProgress()
     this.notify()
   }
