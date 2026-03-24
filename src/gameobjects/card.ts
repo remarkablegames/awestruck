@@ -1,33 +1,39 @@
-import type { AreaComp, ColorComp, Comp, GameObj, PosComp, ZComp } from 'kaplay'
+import type { GameObj } from 'kaplay'
 
-import { CARD, SOUND } from '../constants'
+import { CARD, HAND, SOUND } from '../constants'
 import type { CardDefinition, CardInstance } from '../types'
 import { sound } from '../utils'
 
 interface CardOptions {
+  angle?: number
   card: CardInstance
   definition: CardDefinition
   disabled?: boolean
   disabledReason?: string | null
   onClick: (card: CardInstance) => void
-  panelComps?: Comp[]
+  parent?: GameObj
+  scale?: number
   x: number
   y: number
 }
 
 export function addCard({
+  angle = 0,
   card,
   definition,
   disabled = false,
   disabledReason = null,
   onClick,
-  panelComps = [],
+  parent,
+  scale: initialScale = 1,
   x,
   y,
 }: CardOptions) {
-  const objects: GameObj[] = []
+  const root = parent
+    ? parent.add([pos(x, y), rotate(angle), scale(initialScale)])
+    : add([pos(x, y), rotate(angle), scale(initialScale)])
 
-  const panel = add([
+  const panel = root.add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
     area(),
     color(
@@ -36,17 +42,18 @@ export function addCard({
       disabled ? 98 : definition.accent[2],
     ),
     outline(3, rgb(229, 233, 246)),
-    pos(x, y),
-    ...panelComps,
-  ]) as GameObj<AreaComp | ColorComp | PosComp | ZComp>
-  objects.push(panel)
+    pos(-CARD.WIDTH / 2, -CARD.HEIGHT / 2),
+  ])
 
   if (!disabled) {
     const playTick = sound.createTickPlayer()
+    const basePos = vec2(x, y)
 
     panel.onHover(() => {
       playTick()
       setCursor('pointer')
+      root.scaleTo(initialScale * HAND.HOVER_SCALE)
+      root.pos = basePos.add(0, -HAND.HOVER_LIFT)
       panel.color = rgb(
         Math.min(definition.accent[0] + 18, 255),
         Math.min(definition.accent[1] + 18, 255),
@@ -56,6 +63,8 @@ export function addCard({
 
     panel.onHoverEnd(() => {
       setCursor('default')
+      root.scaleTo(initialScale)
+      root.pos = basePos
       panel.color = rgb(
         definition.accent[0],
         definition.accent[1],
@@ -71,6 +80,8 @@ export function addCard({
 
     panel.onDestroy(() => {
       setCursor('default')
+      root.scaleTo(initialScale)
+      root.pos = basePos
     })
   } else if (disabledReason) {
     let disabledHintBackground: GameObj | null = null
@@ -78,22 +89,21 @@ export function addCard({
 
     panel.onHover(() => {
       disabledHintBackground ??= add([
-        rect(CARD.WIDTH + 88, 60, { radius: 14 }),
+        rect(CARD.WIDTH + 88, 90, { radius: 14 }),
         color(10, 14, 22),
-        opacity(0.88),
         outline(2, rgb(214, 224, 247)),
-        pos(x + CARD.WIDTH / 2, y - 46),
+        pos(root.pos.x, root.pos.y - (CARD.HEIGHT * root.scale.y) / 2 - 46),
         anchor('center'),
       ])
 
       disabledHintText ??= add([
         text(disabledReason, {
           align: 'center',
-          size: 16,
+          size: 18,
           width: CARD.WIDTH + 60,
         }),
         color(240, 243, 255),
-        pos(x + CARD.WIDTH / 2, y - 46),
+        pos(root.pos.x, root.pos.y - (CARD.HEIGHT * root.scale.y) / 2 - 46),
         anchor('center'),
       ])
 
@@ -115,65 +125,58 @@ export function addCard({
     })
   }
 
-  const label = add([
+  root.add([
     text(definition.label, {
       align: 'center',
       size: 30,
       width: CARD.WIDTH - 18,
     }),
     color(15, 20, 28),
-    pos(x + CARD.WIDTH / 2, y + 34),
+    pos(0, -CARD.HEIGHT / 2 + 34),
     anchor('center'),
   ])
-  objects.push(label)
 
-  const costPanel = add([
+  root.add([
     rect(34, 34, { radius: 10 }),
     color(28, 36, 52),
     outline(2, rgb(245, 247, 255)),
-    pos(x - 14, y - 10),
+    pos(-CARD.WIDTH / 2 - 14, -CARD.HEIGHT / 2 - 10),
   ])
-  objects.push(costPanel)
 
-  const costLabel = add([
+  root.add([
     text(String(definition.cost), {
       align: 'center',
       size: 20,
       width: 34,
     }),
     color(245, 247, 255),
-    pos(x + 3, y + 7),
+    pos(-CARD.WIDTH / 2 + 3, -CARD.HEIGHT / 2 + 7),
     anchor('center'),
   ])
-  objects.push(costLabel)
 
-  const roleLabel = add([
+  root.add([
     text(toRoleLabel(definition.type), {
       align: 'center',
       size: 18,
       width: CARD.WIDTH - 18,
     }),
     color(32, 44, 62),
-    pos(x + CARD.WIDTH / 2, y + 78),
+    pos(0, -CARD.HEIGHT / 2 + 78),
     anchor('center'),
   ])
-  objects.push(roleLabel)
 
-  const description = add([
+  root.add([
     text(definition.description, {
       size: 18,
       width: CARD.WIDTH - 24,
     }),
     color(27, 35, 48),
-    pos(x + 14, y + 118),
+    pos(-CARD.WIDTH / 2 + 14, -CARD.HEIGHT / 2 + 118),
   ])
-  objects.push(description)
 
   return {
-    description,
-    label,
-    objects,
     panel,
+    root,
   }
 }
 

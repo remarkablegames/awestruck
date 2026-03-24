@@ -1,13 +1,12 @@
 import {
-  getCardCommitDisabledReason,
   getCardDefinition,
   getChainPreview,
   getDeckCountLabel,
 } from '../combat'
-import { CARD, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addCard } from '../gameobjects'
+import { HAND, SCENE, SOUND, THEME } from '../constants'
+import { addButton, addHand } from '../gameobjects'
 import { getStateManager } from '../state'
-import type { CardInstance, CombatState } from '../types'
+import type { CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
 const ACTION_BUTTON_OFFSET_Y = 60
@@ -22,6 +21,7 @@ interface Destroyable {
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
   const stateManager = getStateManager()
+  let handScrollOffset = 0
 
   const uiObjects: Destroyable[] = []
 
@@ -317,39 +317,16 @@ scene(SCENE.GAME, () => {
   }
 
   const renderHand = (state: CombatState) => {
-    const cards = state.hand
-    const totalWidth =
-      cards.length * CARD.WIDTH + Math.max(cards.length - 1, 0) * 16
-    const startX = Math.max(18, width() / 2 - totalWidth / 2)
-    const y = height() - CARD.HEIGHT - 84
-
-    cards.forEach((card, index) => {
-      renderCard(state, card, startX + index * (CARD.WIDTH + 16), y)
-    })
-  }
-
-  const renderCard = (
-    state: CombatState,
-    card: CardInstance,
-    x: number,
-    y: number,
-  ) => {
-    const definition = getCardDefinition(card.cardId)
-    const disabledReason = getCardCommitDisabledReason(state, card)
-    const disabled = Boolean(disabledReason)
-
-    const cardObjects = addCard({
-      card,
-      definition,
-      disabled,
-      disabledReason,
-      onClick: (selectedCard) => {
+    const handObjects = addHand({
+      onCardClick: (selectedCard) => {
         stateManager.commitChainCard(selectedCard.instanceId)
       },
-      x,
-      y,
+      scrollOffset: handScrollOffset,
+      state,
     })
-    trackAll(cardObjects.objects)
+
+    handScrollOffset = Math.min(handScrollOffset, handObjects.maxScrollOffset)
+    trackAll(handObjects.objects)
   }
 
   const renderFooter = (state: CombatState) => {
@@ -378,6 +355,24 @@ scene(SCENE.GAME, () => {
 
   onKeyPress('escape', () => {
     go(SCENE.TITLE)
+  })
+
+  onScroll((delta) => {
+    const state = stateManager.getState()
+
+    if (state.hand.length <= HAND.FAN_MAX_CARDS) {
+      return
+    }
+
+    const direction = delta.y === 0 ? delta.x : delta.y
+
+    if (direction === 0) {
+      return
+    }
+
+    handScrollOffset += direction > 0 ? HAND.SCROLL_STEP : -HAND.SCROLL_STEP
+    handScrollOffset = Math.max(0, handScrollOffset)
+    renderUI(state)
   })
 
   const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
