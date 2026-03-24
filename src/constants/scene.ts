@@ -1,7 +1,5 @@
-export const SCENE = {
-  END: 'end',
-  GAME: 'game',
-  PRELOAD: 'preload',
-  REWARD: 'reward',
-  TITLE: 'title',
-} as const
+export const END = 'end'
+export const GAME = 'game'
+export const PRELOAD = 'preload'
+export const REWARD = 'reward'
+export const TITLE = 'title'

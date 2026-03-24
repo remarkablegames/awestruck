@@ -1,7 +1,5 @@
-export const SOUND = {
-  BACK: 'back',
-  CLICK: 'click',
-  DROP: 'drop',
-  MUSIC: 'music',
-  TICK: 'tick',
-} as const
+export const BACK = 'back'
+export const CLICK = 'click'
+export const DROP = 'drop'
+export const MUSIC = 'music'
+export const TICK = 'tick'

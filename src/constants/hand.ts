@@ -1,13 +1,11 @@
-export const HAND = {
-  BOTTOM_MARGIN: 84,
-  FAN_ARC_HEIGHT: 22,
-  FAN_MAX_CARDS: 12,
-  HOVER_LIFT: 24,
-  HOVER_SCALE: 1.08,
-  MAX_ROTATION: 7,
-  MAX_SPACING: 120,
-  MIN_SCALE: 1,
-  MIN_SPACING: 22,
-  SCROLL_STEP: 88,
-  SIDE_MARGIN: 18,
-} as const
+export const BOTTOM_MARGIN = 84
+export const FAN_ARC_HEIGHT = 22
+export const FAN_MAX_CARDS = 12
+export const HOVER_LIFT = 24
+export const HOVER_SCALE = 1.08
+export const MAX_ROTATION = 7
+export const MAX_SPACING = 120
+export const MIN_SCALE = 1
+export const MIN_SPACING = 22
+export const SCROLL_STEP = 88
+export const SIDE_MARGIN = 18

@@ -1,4 +1,2 @@
-export const CARD = {
-  WIDTH: 150,
-  HEIGHT: 250,
-} as const
+export const HEIGHT = 250
+export const WIDTH = 150
