@@ -1,7 +1,5 @@
 import { CARDS, COMBAT } from '../constants'
 
-const MAX_HAND_SIZE = 12
-
 export interface RunConfig {
   startingDeck: string[]
   startingFloor: number
@@ -84,7 +82,7 @@ function parseHandSize(handSize: string | null): number | null {
 
   const parsedHandSize = Number.parseInt(handSize, 10)
 
-  if (parsedHandSize < 1 || parsedHandSize > MAX_HAND_SIZE) {
+  if (parsedHandSize < 1) {
     return null
   }
 

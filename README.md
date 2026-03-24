@@ -94,22 +94,22 @@ The game supports a few querystring overrides for debugging and playtesting fres
 - `handSize`: change the opening hand size and normal turn draw size
 - `deck`: provide a comma-separated list of card IDs, or `*` to load all cards
 
-Examples:
+Start at floor 2:
 
 ```
 http://localhost:5173/?floor=2
 ```
 
+Start with all cards:
+
 ```
-http://localhost:5173/?handSize=7
+http://localhost:5173/?deck=*&handSize=30
 ```
+
+Start with specific cards:
 
 ```
 http://localhost:5173/?deck=burn,thorn,focus
-```
-
-```
-http://localhost:5173/?deck=*&floor=3&handSize=8
 ```
 
 Notes:
