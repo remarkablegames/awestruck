@@ -1,10 +1,11 @@
 import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
 import { addButton, addReward } from '../gameobjects'
-import { stateManager } from '../state'
+import { getStateManager } from '../state'
 
 scene(SCENE.REWARD, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+  const stateManager = getStateManager()
   const state = stateManager.getState()
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])

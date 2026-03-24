@@ -1,6 +1,6 @@
 import { DATA, SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
-import { stateManager } from '../state'
+import { resetStateManager } from '../state'
 import { music } from '../utils'
 
 const toLabel = (value: number) => String(value)
@@ -17,7 +17,7 @@ scene(SCENE.TITLE, () => {
   const startRun = () => {
     music.startMusic()
     play(SOUND.DROP)
-    stateManager.reset()
+    resetStateManager()
     go(SCENE.GAME)
   }
 

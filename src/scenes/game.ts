@@ -6,7 +6,7 @@ import {
 } from '../combat'
 import { CARD, SCENE, SOUND, THEME } from '../constants'
 import { addButton, addCard } from '../gameobjects'
-import { stateManager } from '../state'
+import { getStateManager } from '../state'
 import type { CardInstance, CombatState } from '../types'
 
 const ACTION_AREA_TOP_RATIO = 0.42
@@ -21,6 +21,7 @@ interface Destroyable {
 
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+  const stateManager = getStateManager()
 
   const uiObjects: Destroyable[] = []
 
@@ -382,15 +383,21 @@ scene(SCENE.GAME, () => {
   const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
     switch (scene) {
       case SCENE.REWARD:
-        go(SCENE.REWARD)
+        wait(0, () => {
+          go(SCENE.REWARD)
+        })
         return
       case SCENE.END:
         if (endStatus) {
-          go(SCENE.END, endStatus)
+          wait(0, () => {
+            go(SCENE.END, endStatus)
+          })
         }
         return
       case SCENE.GAME:
-        renderUI(state)
+        wait(0, () => {
+          renderUI(state)
+        })
         return
     }
   })

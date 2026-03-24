@@ -10,20 +10,17 @@ import {
 import { DATA, SCENE } from '../constants'
 import type { CombatState } from '../types'
 
-export type StateScene =
-  | typeof SCENE.END
-  | typeof SCENE.GAME
-  | typeof SCENE.REWARD
+type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
-export type EndStatus = 'lost' | 'won'
+type EndStatus = 'lost' | 'won'
 
-export interface StateSnapshot {
+interface StateSnapshot {
   endStatus?: EndStatus
   scene: StateScene
   state: CombatState
 }
 
-export type StateListener = (snapshot: StateSnapshot) => void
+type StateListener = (snapshot: StateSnapshot) => void
 
 class StateManager {
   private listeners = new Set<StateListener>()
@@ -39,11 +36,6 @@ class StateManager {
     const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
     this.state = createInitialState(bestFloor)
     this.persistProgress()
-  }
-
-  reset(): StateManager {
-    stateManager = new StateManager()
-    return stateManager
   }
 
   subscribe(listener: StateListener): () => void {
@@ -140,4 +132,13 @@ class StateManager {
   }
 }
 
-export let stateManager = new StateManager()
+let stateManager = new StateManager()
+
+export function getStateManager(): StateManager {
+  return stateManager
+}
+
+export function resetStateManager(): StateManager {
+  stateManager = new StateManager()
+  return stateManager
+}
