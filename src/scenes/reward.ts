@@ -1,10 +1,11 @@
-import { chooseReward, getRewardDefinitions, skipReward } from '../combat'
+import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
 import { addButton, addReward } from '../gameobjects'
-import type { CombatState } from '../types'
+import { stateManager } from '../state'
 
-scene(SCENE.REWARD, (state: CombatState) => {
+scene(SCENE.REWARD, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+  const state = stateManager.getState()
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])
 
@@ -46,8 +47,8 @@ scene(SCENE.REWARD, (state: CombatState) => {
       definition,
       onClick: () => {
         play(SOUND.DROP)
-        chooseReward(state, definition.id)
-        go(SCENE.GAME, state)
+        stateManager.chooseReward(definition.id)
+        go(SCENE.GAME)
       },
       x,
       y,
@@ -60,8 +61,8 @@ scene(SCENE.REWARD, (state: CombatState) => {
     label: 'Skip Reward',
     onClick: () => {
       play(SOUND.BACK)
-      skipReward(state)
-      go(SCENE.GAME, state)
+      stateManager.skipReward()
+      go(SCENE.GAME)
     },
     width: 180,
     x: center().x,

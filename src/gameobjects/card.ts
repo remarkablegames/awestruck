@@ -25,6 +25,8 @@ export function addCard({
   x,
   y,
 }: CardOptions) {
+  const objects: GameObj[] = []
+
   const panel = add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
     area(),
@@ -37,6 +39,7 @@ export function addCard({
     pos(x, y),
     ...panelComps,
   ]) as GameObj<AreaComp | ColorComp | PosComp | ZComp>
+  objects.push(panel)
 
   if (!disabled) {
     const playTick = sound.createTickPlayer()
@@ -112,7 +115,7 @@ export function addCard({
     })
   }
 
-  add([
+  const label = add([
     text(definition.label, {
       align: 'center',
       size: 30,
@@ -122,15 +125,17 @@ export function addCard({
     pos(x + CARD.WIDTH / 2, y + 34),
     anchor('center'),
   ])
+  objects.push(label)
 
-  add([
+  const costPanel = add([
     rect(34, 34, { radius: 10 }),
     color(28, 36, 52),
     outline(2, rgb(245, 247, 255)),
     pos(x - 14, y - 10),
   ])
+  objects.push(costPanel)
 
-  add([
+  const costLabel = add([
     text(String(definition.cost), {
       align: 'center',
       size: 20,
@@ -140,8 +145,9 @@ export function addCard({
     pos(x + 3, y + 7),
     anchor('center'),
   ])
+  objects.push(costLabel)
 
-  add([
+  const roleLabel = add([
     text(toRoleLabel(definition.type), {
       align: 'center',
       size: 18,
@@ -151,8 +157,9 @@ export function addCard({
     pos(x + CARD.WIDTH / 2, y + 78),
     anchor('center'),
   ])
+  objects.push(roleLabel)
 
-  add([
+  const description = add([
     text(definition.description, {
       size: 18,
       width: CARD.WIDTH - 24,
@@ -160,8 +167,14 @@ export function addCard({
     color(27, 35, 48),
     pos(x + 14, y + 118),
   ])
+  objects.push(description)
 
-  return { panel }
+  return {
+    description,
+    label,
+    objects,
+    panel,
+  }
 }
 
 function toRoleLabel(type: 'modifier' | 'payload') {

@@ -1,5 +1,6 @@
 import { SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
+import { stateManager } from '../state'
 
 type EndStatus = 'lost' | 'won'
 
@@ -59,6 +60,7 @@ scene(SCENE.END, (status: EndStatus) => {
     label: 'Restart Run',
     onClick: () => {
       play(SOUND.CLICK)
+      stateManager.reset()
       go(SCENE.GAME)
     },
     width: 196,
