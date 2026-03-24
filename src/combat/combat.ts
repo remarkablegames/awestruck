@@ -1,4 +1,4 @@
-import { CARD_DEFINITIONS, REWARD_POOLS, STARTER_DECK } from '../data/cards'
+import { CARDS, COMBAT } from '../constants'
 import type {
   CardDefinition,
   CardEffect,
@@ -10,14 +10,10 @@ import type {
   ModifierKind,
 } from '../types'
 
-const HAND_SIZE = 5
-const MAX_ENERGY = 3
-const MAX_FLOOR = 3
-const PLAYER_MAX_HEALTH = 42
 const toLabel = (value: number) => String(value)
 
 export function getCardDefinition(cardId: string): CardDefinition {
-  return CARD_DEFINITIONS[cardId]
+  return CARDS.CARD_DEFINITIONS[cardId]
 }
 
 export function getChainPreview(builder: CardInstance[]): ChainPreview {
@@ -96,7 +92,7 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
 }
 
 export function createInitialState(bestFloor: number): CombatState {
-  const deckList = STARTER_DECK.map((cardId, index) => ({
+  const deckList = CARDS.STARTER_DECK.map((cardId, index) => ({
     cardId,
     instanceId: `card-${toLabel(index)}`,
   }))
@@ -231,7 +227,7 @@ export function chooseReward(state: CombatState, cardId: string): void {
   state.deckList.push(rewardCard)
 
   advanceFromReward(state)
-  state.message = `${CARD_DEFINITIONS[cardId].label} joins the deck for floor ${toLabel(state.floor)}.`
+  state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${toLabel(state.floor)}.`
 }
 
 export function skipReward(state: CombatState): void {
@@ -486,17 +482,17 @@ function createFloorState({
     nextInstanceId,
     player: {
       block: 0,
-      energy: MAX_ENERGY,
-      health: PLAYER_MAX_HEALTH,
-      maxEnergy: MAX_ENERGY,
-      maxHealth: PLAYER_MAX_HEALTH,
+      energy: COMBAT.MAX_ENERGY,
+      health: COMBAT.PLAYER_MAX_HEALTH,
+      maxEnergy: COMBAT.MAX_ENERGY,
+      maxHealth: COMBAT.PLAYER_MAX_HEALTH,
     },
     rewardOptions: [],
     status: 'playerTurn',
     turn: 1,
   }
 
-  drawCards(state, HAND_SIZE)
+  drawCards(state, COMBAT.HAND_SIZE)
 
   return state
 }
@@ -616,7 +612,7 @@ function hasPayloadCard(builder: CardInstance[]): boolean {
 }
 
 function handleEnemyDefeat(state: CombatState): void {
-  if (state.floor >= MAX_FLOOR) {
+  if (state.floor >= COMBAT.MAX_FLOOR) {
     state.status = 'won'
     state.message = 'The final Archivist falls. Your lexicon holds.'
     return
@@ -689,7 +685,7 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
 }
 
 function drawRewardOptions(floor: number): string[] {
-  const rewardPool = REWARD_POOLS[floor - 1] ?? []
+  const rewardPool = CARDS.REWARD_POOLS[floor - 1] ?? []
   return shuffle([...rewardPool]).slice(0, 3)
 }
 
@@ -757,7 +753,7 @@ function runEnemyTurn(state: CombatState): void {
   state.builder = []
   state.player.energy = state.player.maxEnergy
   state.turn += 1
-  drawCards(state, HAND_SIZE)
+  drawCards(state, COMBAT.HAND_SIZE)
   state.message = `${state.enemy.label} acted. Assemble the next chain.`
 }
 
