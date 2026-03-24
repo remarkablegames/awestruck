@@ -118,8 +118,8 @@ function getHandLayout(cardCount: number, scrollOffset: number) {
     }
   }
 
-  const laneLeft = HAND.SIDE_MARGIN + HAND.SCROLL_GUTTER_WIDTH
-  const laneRight = width() - HAND.SIDE_MARGIN - HAND.SCROLL_GUTTER_WIDTH
+  const laneLeft = HAND.SCROLL_GUTTER_WIDTH
+  const laneRight = width() - HAND.SCROLL_GUTTER_WIDTH
   const scrollableWidth = laneRight - laneLeft - CARD.WIDTH
   const spacing = Math.max(CARD.WIDTH * HAND.MIN_SCALE + 14, 130)
   const totalWidth =
@@ -166,7 +166,7 @@ function getFanSpacing(cardCount: number): number {
     return CARD.WIDTH
   }
 
-  const availableWidth = width() - HAND.SIDE_MARGIN * 2 - CARD.WIDTH
+  const availableWidth = width() - CARD.WIDTH
   const spacingFromWidth = availableWidth / (cardCount - 1)
   return clamp(spacingFromWidth, HAND.MIN_SPACING, HAND.MAX_SPACING)
 }

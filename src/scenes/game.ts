@@ -372,8 +372,8 @@ scene(SCENE.GAME, () => {
       })
     }
 
-    createZone(-1, HAND.SIDE_MARGIN + HAND.SCROLL_GUTTER_WIDTH / 2)
-    createZone(1, width() - HAND.SIDE_MARGIN - HAND.SCROLL_GUTTER_WIDTH / 2)
+    createZone(-1, HAND.SCROLL_GUTTER_WIDTH / 2)
+    createZone(1, width() - HAND.SCROLL_GUTTER_WIDTH / 2)
   }
 
   const renderFooter = (state: CombatState) => {

@@ -11,4 +11,3 @@ export const SCROLL_GUTTER_WIDTH = 50
 export const SCROLL_HOVER_DELAY_MS = 240
 export const SCROLL_HOVER_INTERVAL_MS = 160
 export const SCROLL_STEP = 20 // scroll speed
-export const SIDE_MARGIN = 20
