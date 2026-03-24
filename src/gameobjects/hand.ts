@@ -62,38 +62,6 @@ export function addHand({
     objects.push(cardObjects.root)
   })
 
-  if (layout.canScrollLeft) {
-    objects.push(
-      hand.add([
-        text('‹', {
-          size: 28,
-        }),
-        color(214, 224, 250),
-        pos(
-          HAND.SIDE_MARGIN + 10,
-          height() - CARD.HEIGHT / 2 - HAND.BOTTOM_MARGIN,
-        ),
-        anchor('center'),
-      ]),
-    )
-  }
-
-  if (layout.canScrollRight) {
-    objects.push(
-      hand.add([
-        text('›', {
-          size: 28,
-        }),
-        color(214, 224, 250),
-        pos(
-          width() - HAND.SIDE_MARGIN - 10,
-          height() - CARD.HEIGHT / 2 - HAND.BOTTOM_MARGIN,
-        ),
-        anchor('center'),
-      ]),
-    )
-  }
-
   return {
     canScrollLeft: layout.canScrollLeft,
     canScrollRight: layout.canScrollRight,
@@ -150,14 +118,16 @@ function getHandLayout(cardCount: number, scrollOffset: number) {
     }
   }
 
-  const scrollableWidth = width() - HAND.SIDE_MARGIN * 2 - CARD.WIDTH
+  const laneLeft = HAND.SIDE_MARGIN + HAND.SCROLL_GUTTER_WIDTH
+  const laneRight = width() - HAND.SIDE_MARGIN - HAND.SCROLL_GUTTER_WIDTH
+  const scrollableWidth = laneRight - laneLeft - CARD.WIDTH
   const spacing = Math.max(CARD.WIDTH * HAND.MIN_SCALE + 14, 130)
   const totalWidth =
     CARD.WIDTH * HAND.MIN_SCALE + Math.max(cardCount - 1, 0) * spacing
   const maxScrollOffset = Math.max(0, totalWidth - scrollableWidth)
   const clampedScrollOffset = clamp(scrollOffset, 0, maxScrollOffset)
   const startX =
-    HAND.SIDE_MARGIN + (CARD.WIDTH * HAND.MIN_SCALE) / 2 - clampedScrollOffset
+    laneLeft + (CARD.WIDTH * HAND.MIN_SCALE) / 2 - clampedScrollOffset
 
   const cards = Array.from({ length: cardCount }, (_, index) => ({
     angle: 0,
@@ -172,7 +142,7 @@ function getHandLayout(cardCount: number, scrollOffset: number) {
     const left = cardLayout.x - (CARD.WIDTH * cardLayout.scale) / 2
     const right = cardLayout.x + (CARD.WIDTH * cardLayout.scale) / 2
 
-    return right >= -40 && left <= width() + 40
+    return right >= laneLeft - 40 && left <= laneRight + 40
   })
 
   return {

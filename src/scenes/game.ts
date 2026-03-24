@@ -3,7 +3,7 @@ import {
   getChainPreview,
   getDeckCountLabel,
 } from '../combat'
-import { HAND, SCENE, SOUND, THEME } from '../constants'
+import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
 import { addButton, addHand } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
@@ -21,6 +21,8 @@ interface Destroyable {
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
   const stateManager = getStateManager()
+  let hoverScrollDelayId: number | null = null
+  let hoverScrollIntervalId: number | null = null
   let handScrollOffset = 0
 
   const uiObjects: Destroyable[] = []
@@ -41,6 +43,18 @@ scene(SCENE.GAME, () => {
   const clearUi = () => {
     while (uiObjects.length) {
       uiObjects.pop()?.destroy()
+    }
+  }
+
+  const clearHoverScroll = () => {
+    if (hoverScrollDelayId !== null) {
+      window.clearTimeout(hoverScrollDelayId)
+      hoverScrollDelayId = null
+    }
+
+    if (hoverScrollIntervalId !== null) {
+      window.clearInterval(hoverScrollIntervalId)
+      hoverScrollIntervalId = null
     }
   }
 
@@ -329,6 +343,58 @@ scene(SCENE.GAME, () => {
     trackAll(handObjects.objects)
   }
 
+  const renderHandScrollZones = (state: CombatState) => {
+    if (state.hand.length <= HAND.FAN_MAX_CARDS) {
+      clearHoverScroll()
+      return
+    }
+
+    const zoneHeight = CARD.HEIGHT + 24
+    const zoneY = height() - CARD.HEIGHT / 2 - HAND.BOTTOM_MARGIN + 10
+
+    const createZone = (direction: -1 | 1, x: number) => {
+      const zone = track(
+        add([
+          rect(HAND.SCROLL_GUTTER_WIDTH, zoneHeight, { radius: 14 }),
+          area(),
+          color(92, 130, 208),
+          fixed(),
+          opacity(0),
+          pos(x, zoneY),
+          anchor('center'),
+          z(220),
+        ]),
+      )
+
+      zone.onHover(() => {
+        setCursor(direction < 0 ? 'w-resize' : 'e-resize')
+        zone.opacity = 0.12
+        clearHoverScroll()
+        scrollHand(direction)
+
+        hoverScrollDelayId = window.setTimeout(() => {
+          hoverScrollIntervalId = window.setInterval(() => {
+            scrollHand(direction)
+          }, HAND.SCROLL_HOVER_INTERVAL_MS)
+        }, HAND.SCROLL_HOVER_DELAY_MS)
+      })
+
+      zone.onHoverEnd(() => {
+        setCursor('default')
+        zone.opacity = 0
+        clearHoverScroll()
+      })
+
+      zone.onDestroy(() => {
+        setCursor('default')
+        clearHoverScroll()
+      })
+    }
+
+    createZone(-1, HAND.SIDE_MARGIN + HAND.SCROLL_GUTTER_WIDTH / 2)
+    createZone(1, width() - HAND.SIDE_MARGIN - HAND.SCROLL_GUTTER_WIDTH / 2)
+  }
+
   const renderFooter = (state: CombatState) => {
     track(
       add([
@@ -350,12 +416,25 @@ scene(SCENE.GAME, () => {
     renderBuilderPanel(state)
     renderActionButtons(state)
     renderHand(state)
+    renderHandScrollZones(state)
     renderFooter(state)
   }
 
   onKeyPress('escape', () => {
     go(SCENE.TITLE)
   })
+
+  const scrollHand = (direction: -1 | 1) => {
+    const state = stateManager.getState()
+
+    if (state.hand.length <= HAND.FAN_MAX_CARDS) {
+      return
+    }
+
+    handScrollOffset += direction * HAND.SCROLL_STEP
+    handScrollOffset = Math.max(0, handScrollOffset)
+    renderUI(state)
+  }
 
   onScroll((delta) => {
     const state = stateManager.getState()
@@ -370,9 +449,7 @@ scene(SCENE.GAME, () => {
       return
     }
 
-    handScrollOffset += direction > 0 ? HAND.SCROLL_STEP : -HAND.SCROLL_STEP
-    handScrollOffset = Math.max(0, handScrollOffset)
-    renderUI(state)
+    scrollHand(direction > 0 ? 1 : -1)
   })
 
   const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
@@ -399,6 +476,7 @@ scene(SCENE.GAME, () => {
 
   add([pos(0, 0)]).onDestroy(() => {
     unsubscribe()
+    clearHoverScroll()
     clearUi()
   })
 
