@@ -24,7 +24,6 @@ scene(SCENE.TITLE, () => {
   add([
     rect(width(), height()),
     color(...THEME.TITLE_BACKGROUND_COLOR),
-    fixed(),
     pos(0, 0),
   ])
 
@@ -32,7 +31,6 @@ scene(SCENE.TITLE, () => {
     rect(panelWidth, panelHeight, { radius: 24 }),
     color(25, 33, 52),
     outline(4, rgb(74, 104, 168)),
-    fixed(),
     pos(centerX, centerY - 8),
     anchor('center'),
   ])
@@ -42,7 +40,6 @@ scene(SCENE.TITLE, () => {
       size: 54,
     }),
     color(244, 229, 178),
-    fixed(),
     pos(centerX, centerY - 128),
     anchor('center'),
   ])
@@ -57,7 +54,6 @@ scene(SCENE.TITLE, () => {
       },
     ),
     color(218, 227, 255),
-    fixed(),
     pos(centerX, centerY - 40),
     anchor('center'),
   ])
@@ -72,7 +68,6 @@ scene(SCENE.TITLE, () => {
       },
     ),
     color(164, 190, 236),
-    fixed(),
     pos(centerX, centerY + 24),
     anchor('center'),
   ])
@@ -82,7 +77,6 @@ scene(SCENE.TITLE, () => {
       size: 20,
     }),
     color(146, 203, 145),
-    fixed(),
     pos(centerX, centerY + 76),
     anchor('center'),
   ])
@@ -110,7 +104,6 @@ scene(SCENE.TITLE, () => {
       },
     ),
     color(171, 182, 210),
-    fixed(),
     pos(centerX, centerY + 284),
     anchor('center'),
   ])

@@ -64,14 +64,12 @@ scene(SCENE.GAME, () => {
     add([
       rect(width(), height()),
       color(...THEME.GAME_BACKGROUND_COLOR),
-      fixed(),
       pos(0, 0),
     ])
 
     add([
       rect(width(), actionAreaTop),
       color(...THEME.GAME_BACKGROUND_COLOR),
-      fixed(),
       pos(0, 0),
       opacity(0.9),
     ])
@@ -79,7 +77,6 @@ scene(SCENE.GAME, () => {
     add([
       rect(width(), height() - actionAreaTop),
       color(...THEME.GAME_LOWER_BACKGROUND_COLOR),
-      fixed(),
       pos(0, actionAreaTop),
       opacity(0.95),
     ])
@@ -92,7 +89,6 @@ scene(SCENE.GAME, () => {
           size: 26,
         }),
         color(247, 232, 179),
-        fixed(),
         pos(40, 28),
       ]),
     )
@@ -106,7 +102,6 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(227, 239, 255),
-        fixed(),
         pos(40, 66),
       ]),
     )
@@ -120,7 +115,6 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(171, 198, 255),
-        fixed(),
         pos(40, 94),
       ]),
     )
@@ -134,7 +128,6 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(155, 166, 196),
-        fixed(),
         pos(40, 124),
       ]),
     )
@@ -149,7 +142,6 @@ scene(SCENE.GAME, () => {
         rect(250, 192, { radius: 22 }),
         color(38, 29, 44),
         outline(4, rgb(195, 141, 138)),
-        fixed(),
         pos(panelX, panelY),
       ]),
     )
@@ -160,7 +152,6 @@ scene(SCENE.GAME, () => {
           size: 28,
         }),
         color(255, 226, 216),
-        fixed(),
         pos(panelX + 20, panelY + 22),
       ]),
     )
@@ -174,7 +165,6 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(251, 214, 198),
-        fixed(),
         pos(panelX + 20, panelY + 66),
       ]),
     )
@@ -188,7 +178,6 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(255, 183, 120),
-        fixed(),
         pos(panelX + 20, panelY + 94),
       ]),
     )
@@ -201,7 +190,6 @@ scene(SCENE.GAME, () => {
           size: 18,
         }),
         color(174, 208, 255),
-        fixed(),
         pos(panelX + 20, panelY + 118),
       ]),
     )
@@ -213,7 +201,6 @@ scene(SCENE.GAME, () => {
           width: 220,
         }),
         color(214, 224, 250),
-        fixed(),
         pos(panelX + 20, panelY + 142),
       ]),
     )
@@ -236,7 +223,6 @@ scene(SCENE.GAME, () => {
         rect(width() - 80, panelHeight, { radius: 20 }),
         color(23, 31, 48),
         outline(4, rgb(88, 112, 162)),
-        fixed(),
         pos(panelX, panelY),
       ]),
     )
@@ -247,7 +233,6 @@ scene(SCENE.GAME, () => {
           size: 24,
         }),
         color(235, 241, 255),
-        fixed(),
         pos(panelX + 24, panelY + 18),
       ]),
     )
@@ -259,7 +244,6 @@ scene(SCENE.GAME, () => {
           width: previewWidth,
         }),
         color(248, 229, 170),
-        fixed(),
         pos(panelX + 24, panelY + 56),
       ]),
     )
@@ -271,7 +255,6 @@ scene(SCENE.GAME, () => {
           width: previewWidth,
         }),
         color(181, 198, 236),
-        fixed(),
         pos(panelX + 24, panelY + 86),
       ]),
     )
@@ -358,7 +341,6 @@ scene(SCENE.GAME, () => {
           rect(HAND.SCROLL_GUTTER_WIDTH, zoneHeight, { radius: 14 }),
           area(),
           color(92, 130, 208),
-          fixed(),
           opacity(0),
           pos(x, zoneY),
           anchor('center'),
@@ -403,7 +385,6 @@ scene(SCENE.GAME, () => {
           width: width() - 80,
         }),
         color(218, 226, 246),
-        fixed(),
         pos(40, height() - 42),
       ]),
     )

@@ -1,12 +1,4 @@
-import type {
-  AreaComp,
-  ColorComp,
-  Comp,
-  FixedComp,
-  GameObj,
-  PosComp,
-  ZComp,
-} from 'kaplay'
+import type { AreaComp, ColorComp, Comp, GameObj, PosComp, ZComp } from 'kaplay'
 
 import { sound } from '../utils'
 
@@ -46,11 +38,10 @@ export function addButton({
       disabled ? 104 : fillColor[2],
     ),
     outline(3, rgb(205, 219, 255)),
-    fixed(),
     pos(x, y),
     anchor('center'),
     ...buttonComps,
-  ]) as GameObj<AreaComp | ColorComp | FixedComp | PosComp | ZComp>
+  ]) as GameObj<AreaComp | ColorComp | PosComp | ZComp>
 
   if (!disabled) {
     const playTick = sound.createTickPlayer()
@@ -87,7 +78,6 @@ export function addButton({
       width: buttonWidth - 24,
     }),
     color(247, 249, 255),
-    fixed(),
     pos(x, y),
     anchor('center'),
     ...labelComps,

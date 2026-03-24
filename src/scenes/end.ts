@@ -13,19 +13,12 @@ scene(SCENE.END, (status: EndStatus) => {
       ? 'You cleared all three floors and preserved the lexicon.'
       : 'The Archivist won this run. Start again and tune the deck.'
 
-  add([
-    rect(width(), height()),
-    color(5, 8, 12),
-    opacity(0.72),
-    fixed(),
-    pos(0, 0),
-  ])
+  add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])
 
   add([
     rect(680, 400, { radius: 26 }),
     color(29, 38, 58),
     outline(4, rgb(196, 211, 246)),
-    fixed(),
     pos(width() / 2, height() / 2),
     anchor('center'),
   ])
@@ -37,7 +30,6 @@ scene(SCENE.END, (status: EndStatus) => {
       width: 560,
     }),
     color(248, 232, 181),
-    fixed(),
     pos(width() / 2, height() / 2 - 112),
     anchor('center'),
   ])
@@ -49,7 +41,6 @@ scene(SCENE.END, (status: EndStatus) => {
       width: 560,
     }),
     color(222, 229, 248),
-    fixed(),
     pos(width() / 2, height() / 2 - 56),
     anchor('center'),
   ])
