@@ -91,7 +91,10 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
   }
 }
 
-export function createInitialState(bestFloor: number): CombatState {
+export function createInitialState(
+  bestFloor: number,
+  startingFloor = 1,
+): CombatState {
   const deckList = CARDS.STARTER_DECK.map((cardId, index) => ({
     cardId,
     instanceId: `card-${toLabel(index)}`,
@@ -100,7 +103,7 @@ export function createInitialState(bestFloor: number): CombatState {
   return createFloorState({
     bestFloor,
     deckList,
-    floor: 1,
+    floor: startingFloor,
     nextInstanceId: deckList.length,
   })
 }

@@ -30,7 +30,7 @@ class StateManager {
   private listeners = new Set<StateListener>()
   private state: CombatState
 
-  constructor(state?: CombatState) {
+  constructor(state?: CombatState, startingFloor?: number) {
     if (state) {
       this.state = state
       this.persistProgress()
@@ -38,7 +38,7 @@ class StateManager {
     }
 
     const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
-    this.state = createInitialState(bestFloor)
+    this.state = createInitialState(bestFloor, startingFloor)
     this.persistProgress()
   }
 
@@ -133,7 +133,7 @@ export function getStateManager(): StateManager {
   return stateManager
 }
 
-export function resetStateManager(): StateManager {
-  stateManager = new StateManager()
+export function resetStateManager(startingFloor?: number): StateManager {
+  stateManager = new StateManager(undefined, startingFloor)
   return stateManager
 }
