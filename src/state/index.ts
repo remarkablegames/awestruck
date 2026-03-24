@@ -7,15 +7,19 @@ import {
   endTurn,
   skipReward,
 } from '../combat'
-import { DATA } from '../constants'
+import { DATA, SCENE } from '../constants'
 import type { CombatState } from '../types'
 
-export type StateRoute = 'end' | 'game' | 'reward'
+export type StateScene =
+  | typeof SCENE.END
+  | typeof SCENE.GAME
+  | typeof SCENE.REWARD
+
 export type EndStatus = 'lost' | 'won'
 
 export interface StateSnapshot {
   endStatus?: EndStatus
-  route: StateRoute
+  scene: StateScene
   state: CombatState
 }
 
@@ -56,7 +60,7 @@ class StateManager {
         this.state.status === 'lost' || this.state.status === 'won'
           ? this.state.status
           : undefined,
-      route: this.getRoute(),
+      scene: this.getScene(),
       state: this.state,
     }
   }
@@ -123,15 +127,15 @@ class StateManager {
     }
   }
 
-  private getRoute(): StateRoute {
+  private getScene(): StateScene {
     switch (this.state.status) {
       case 'reward':
-        return 'reward'
+        return SCENE.REWARD
       case 'won':
       case 'lost':
-        return 'end'
+        return SCENE.END
       case 'playerTurn':
-        return 'game'
+        return SCENE.GAME
     }
   }
 }

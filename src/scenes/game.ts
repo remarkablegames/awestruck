@@ -365,7 +365,7 @@ scene(SCENE.GAME, () => {
     )
   }
 
-  const renderUi = (state: CombatState) => {
+  const renderUI = (state: CombatState) => {
     clearUi()
     renderHeader(state)
     renderEnemyPanel(state)
@@ -379,18 +379,18 @@ scene(SCENE.GAME, () => {
     go(SCENE.TITLE)
   })
 
-  const unsubscribe = stateManager.subscribe(({ endStatus, route, state }) => {
-    switch (route) {
-      case 'reward':
+  const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
+    switch (scene) {
+      case SCENE.REWARD:
         go(SCENE.REWARD)
         return
-      case 'end':
+      case SCENE.END:
         if (endStatus) {
           go(SCENE.END, endStatus)
         }
         return
-      case 'game':
-        renderUi(state)
+      case SCENE.GAME:
+        renderUI(state)
         return
     }
   })
@@ -403,17 +403,17 @@ scene(SCENE.GAME, () => {
   renderBackground()
   const initialSnapshot = stateManager.getSnapshot()
 
-  switch (initialSnapshot.route) {
-    case 'reward':
+  switch (initialSnapshot.scene) {
+    case SCENE.REWARD:
       go(SCENE.REWARD)
       return
-    case 'end':
+    case SCENE.END:
       if (initialSnapshot.endStatus) {
         go(SCENE.END, initialSnapshot.endStatus)
       }
       return
-    case 'game':
-      renderUi(initialSnapshot.state)
+    case SCENE.GAME:
+      renderUI(initialSnapshot.state)
       return
   }
 })
