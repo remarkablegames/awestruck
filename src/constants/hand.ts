@@ -10,4 +10,7 @@ export const MIN_SPACING = 22
 export const SCROLL_GUTTER_WIDTH = 50
 export const SCROLL_HOVER_DELAY_MS = 240
 export const SCROLL_HOVER_INTERVAL_MS = 160
-export const SCROLL_STEP = 20 // scroll speed
+
+// scroll speed
+export const HOVER_SCROLL_STEP = 20
+export const WHEEL_SCROLL_STEP = 60

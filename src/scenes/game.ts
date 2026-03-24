@@ -351,11 +351,11 @@ scene(SCENE.GAME, () => {
         setCursor(direction < 0 ? 'w-resize' : 'e-resize')
         zone.opacity = 0.12
         clearHoverScroll()
-        scrollHand(direction)
+        scrollHand(direction, HAND.HOVER_SCROLL_STEP)
 
         hoverScrollDelayId = window.setTimeout(() => {
           hoverScrollIntervalId = window.setInterval(() => {
-            scrollHand(direction)
+            scrollHand(direction, HAND.HOVER_SCROLL_STEP)
           }, HAND.SCROLL_HOVER_INTERVAL_MS)
         }, HAND.SCROLL_HOVER_DELAY_MS)
       })
@@ -404,14 +404,14 @@ scene(SCENE.GAME, () => {
     go(SCENE.TITLE)
   })
 
-  const scrollHand = (direction: -1 | 1) => {
+  const scrollHand = (direction: -1 | 1, step: number) => {
     const state = stateManager.getState()
 
     if (state.hand.length <= HAND.FAN_MAX_CARDS) {
       return
     }
 
-    handScrollOffset += direction * HAND.SCROLL_STEP
+    handScrollOffset += direction * step
     handScrollOffset = Math.max(0, handScrollOffset)
     renderUI(state)
   }
@@ -429,7 +429,7 @@ scene(SCENE.GAME, () => {
       return
     }
 
-    scrollHand(direction > 0 ? 1 : -1)
+    scrollHand(direction > 0 ? 1 : -1, HAND.WHEEL_SCROLL_STEP)
   })
 
   const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
