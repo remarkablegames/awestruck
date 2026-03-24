@@ -34,8 +34,8 @@ export function addCard({
   y,
 }: CardOptions) {
   const root = parent
-    ? parent.add([pos(x, y), rotate(angle), scale(initialScale)])
-    : add([pos(x, y), rotate(angle), scale(initialScale)])
+    ? parent.add([pos(x, y), rotate(angle), scale(initialScale), z(0)])
+    : add([pos(x, y), rotate(angle), scale(initialScale), z(0)])
 
   const panel = root.add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
@@ -58,8 +58,11 @@ export function addCard({
     panel.onHover(() => {
       playTick()
       setCursor('pointer')
+
       root.scaleTo(initialScale * HAND.HOVER_SCALE)
       root.pos = basePos.add(0, -HAND.HOVER_LIFT)
+      root.z = 1
+
       panel.color = rgb(
         Math.min(definition.accent[0] + 18, 255),
         Math.min(definition.accent[1] + 18, 255),
@@ -71,6 +74,8 @@ export function addCard({
       setCursor('default')
       root.scaleTo(initialScale)
       root.pos = basePos
+      root.z = 0
+
       panel.color = rgb(
         definition.accent[0],
         definition.accent[1],
