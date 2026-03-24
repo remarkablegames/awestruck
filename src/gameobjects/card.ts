@@ -10,6 +10,8 @@ interface CardOptions {
   definition: CardDefinition
   disabled?: boolean
   disabledReason?: string | null
+  interactiveLeft?: number
+  interactiveWidth?: number
   onClick: (card: CardInstance) => void
   parent?: GameObj
   scale?: number
@@ -23,6 +25,8 @@ export function addCard({
   definition,
   disabled = false,
   disabledReason = null,
+  interactiveLeft = 0,
+  interactiveWidth = CARD.WIDTH,
   onClick,
   parent,
   scale: initialScale = 1,
@@ -35,7 +39,9 @@ export function addCard({
 
   const panel = root.add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
-    area(),
+    area({
+      shape: new Rect(vec2(interactiveLeft, 0), interactiveWidth, CARD.HEIGHT),
+    }),
     color(
       disabled ? 75 : definition.accent[0],
       disabled ? 81 : definition.accent[1],

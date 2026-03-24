@@ -14,6 +14,8 @@ interface AddHandOptions {
 interface HandLayoutCard {
   angle: number
   cardIndex: number
+  interactiveLeft: number
+  interactiveWidth: number
   scale: number
   x: number
   y: number
@@ -47,6 +49,8 @@ export function addHand({
       definition: getCardDefinition(card.cardId),
       disabled: Boolean(disabledReason),
       disabledReason,
+      interactiveLeft: cardLayout.interactiveLeft,
+      interactiveWidth: cardLayout.interactiveWidth,
       onClick: onCardClick,
       parent: hand,
       scale: cardLayout.scale,
@@ -117,13 +121,17 @@ function getHandLayout(cardCount: number, scrollOffset: number) {
     const rotationStep =
       cardCount > 1 ? (HAND.MAX_ROTATION * 2) / (cardCount - 1) : 0
     const scale = getFanScale(cardCount)
+    const exposedWidth = getFanExposedWidth(cardCount, scale)
     const cards = Array.from({ length: cardCount }, (_, index) => {
       const distance = index - center
       const curveProgress = center === 0 ? 0 : Math.abs(distance) / center
+      const isTopCard = index === cardCount - 1
 
       return {
         angle: distance * rotationStep,
         cardIndex: index,
+        interactiveLeft: 0,
+        interactiveWidth: isTopCard ? CARD.WIDTH : exposedWidth,
         scale,
         x: centerX + distance * spacing,
         y:
@@ -154,6 +162,8 @@ function getHandLayout(cardCount: number, scrollOffset: number) {
   const cards = Array.from({ length: cardCount }, (_, index) => ({
     angle: 0,
     cardIndex: index,
+    interactiveLeft: 0,
+    interactiveWidth: CARD.WIDTH,
     scale: HAND.MIN_SCALE,
     x: startX + index * spacing,
     y: baseY + 10 + (CARD.HEIGHT * HAND.MIN_SCALE) / 2,
@@ -189,6 +199,13 @@ function getFanSpacing(cardCount: number): number {
   const availableWidth = width() - HAND.SIDE_MARGIN * 2 - CARD.WIDTH
   const spacingFromWidth = availableWidth / (cardCount - 1)
   return clamp(spacingFromWidth, HAND.MIN_SPACING, HAND.MAX_SPACING)
+}
+
+function getFanExposedWidth(cardCount: number, scale: number): number {
+  const spacing = getFanSpacing(cardCount)
+  const localWidth = spacing / scale
+
+  return clamp(localWidth + 10, 34, CARD.WIDTH)
 }
 
 function clamp(value: number, min: number, max: number): number {
