@@ -344,7 +344,6 @@ scene(SCENE.GAME, () => {
           opacity(0),
           pos(x, zoneY),
           anchor('center'),
-          z(220),
         ]),
       )
 
