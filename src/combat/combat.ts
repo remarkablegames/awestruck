@@ -1,3 +1,4 @@
+import type { RunConfig } from '../config'
 import { CARDS, COMBAT } from '../constants'
 import type {
   CardDefinition,
@@ -93,9 +94,9 @@ export function getChainPreview(builder: CardInstance[]): ChainPreview {
 
 export function createInitialState(
   bestFloor: number,
-  startingFloor = 1,
+  runConfig: RunConfig,
 ): CombatState {
-  const deckList = CARDS.STARTER_DECK.map((cardId, index) => ({
+  const deckList = runConfig.startingDeck.map((cardId, index) => ({
     cardId,
     instanceId: `card-${toLabel(index)}`,
   }))
@@ -103,7 +104,8 @@ export function createInitialState(
   return createFloorState({
     bestFloor,
     deckList,
-    floor: startingFloor,
+    floor: runConfig.startingFloor,
+    handSize: runConfig.startingHandSize,
     nextInstanceId: deckList.length,
   })
 }
@@ -465,11 +467,13 @@ function createFloorState({
   bestFloor,
   deckList,
   floor,
+  handSize,
   nextInstanceId,
 }: {
   bestFloor: number
   deckList: CardInstance[]
   floor: number
+  handSize: number
   nextInstanceId: number
 }): CombatState {
   const state: CombatState = {
@@ -481,6 +485,7 @@ function createFloorState({
     enemy: createEnemyState(floor),
     floor,
     hand: [],
+    handSize,
     message: `Floor ${toLabel(floor)} begins. Build a modifier chain or play a payload alone.`,
     nextInstanceId,
     player: {
@@ -495,7 +500,7 @@ function createFloorState({
     turn: 1,
   }
 
-  drawCards(state, COMBAT.HAND_SIZE)
+  drawCards(state, state.handSize)
 
   return state
 }
@@ -698,6 +703,7 @@ function advanceFromReward(state: CombatState): void {
     bestFloor: state.bestFloor,
     deckList: state.deckList,
     floor: nextFloor,
+    handSize: state.handSize,
     nextInstanceId: state.nextInstanceId,
   })
 
@@ -713,6 +719,7 @@ function replaceState(target: CombatState, source: CombatState): void {
   target.enemy = source.enemy
   target.floor = source.floor
   target.hand = source.hand
+  target.handSize = source.handSize
   target.message = source.message
   target.nextInstanceId = source.nextInstanceId
   target.player = source.player
@@ -756,7 +763,7 @@ function runEnemyTurn(state: CombatState): void {
   state.builder = []
   state.player.energy = state.player.maxEnergy
   state.turn += 1
-  drawCards(state, COMBAT.HAND_SIZE)
+  drawCards(state, state.handSize)
   state.message = `${state.enemy.label} acted. Assemble the next chain.`
 }
 

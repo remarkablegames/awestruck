@@ -104,6 +104,7 @@ export interface CombatState {
   enemy: EnemyState
   floor: number
   hand: CardInstance[]
+  handSize: number
   message: string
   nextInstanceId: number
   player: PlayerState

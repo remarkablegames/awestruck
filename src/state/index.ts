@@ -7,6 +7,8 @@ import {
   endTurn,
   skipReward,
 } from '../combat'
+import type { RunConfig } from '../config'
+import { getDefaultRunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
 import type { CombatState } from '../types'
 
@@ -30,7 +32,7 @@ class StateManager {
   private listeners = new Set<StateListener>()
   private state: CombatState
 
-  constructor(state?: CombatState, startingFloor?: number) {
+  constructor(state?: CombatState, runConfig?: RunConfig) {
     if (state) {
       this.state = state
       this.persistProgress()
@@ -38,7 +40,10 @@ class StateManager {
     }
 
     const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
-    this.state = createInitialState(bestFloor, startingFloor)
+    this.state = createInitialState(
+      bestFloor,
+      runConfig ?? getDefaultRunConfig(),
+    )
     this.persistProgress()
   }
 
@@ -133,7 +138,7 @@ export function getStateManager(): StateManager {
   return stateManager
 }
 
-export function resetStateManager(startingFloor?: number): StateManager {
-  stateManager = new StateManager(undefined, startingFloor)
+export function resetStateManager(runConfig?: RunConfig): StateManager {
+  stateManager = new StateManager(undefined, runConfig)
   return stateManager
 }

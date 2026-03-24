@@ -1,21 +1,6 @@
-import { COMBAT, SCENE, SOUND } from '../constants'
+import { getRunConfigFromQuery } from '../config'
+import { SCENE, SOUND } from '../constants'
 import { resetStateManager } from '../state'
-
-function getQueryFloor(): number | null {
-  const floor = new URLSearchParams(window.location.search).get('floor')
-
-  if (!floor || !/^\d+$/.test(floor)) {
-    return null
-  }
-
-  const parsedFloor = Number.parseInt(floor, 10)
-
-  if (parsedFloor < 1 || parsedFloor > COMBAT.MAX_FLOOR) {
-    return null
-  }
-
-  return parsedFloor
-}
 
 scene(SCENE.PRELOAD, () => {
   Object.values(SOUND).forEach((sound) => {
@@ -24,10 +9,10 @@ scene(SCENE.PRELOAD, () => {
     })
   })
 
-  const queryFloor = getQueryFloor()
+  const runConfig = getRunConfigFromQuery()
 
-  if (queryFloor) {
-    resetStateManager(queryFloor)
+  if (runConfig) {
+    resetStateManager(runConfig)
     go(SCENE.GAME)
     return
   }

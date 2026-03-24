@@ -86,6 +86,38 @@ Builds the game and compresses the contents into a ZIP archive in the `dist` fol
 
 Your game can be uploaded to your server, [itch.io](https://itch.io/), [newgrounds](https://www.newgrounds.com/), etc.
 
+## Development
+
+The game supports a few querystring overrides for debugging and playtesting fresh runs.
+
+- `floor`: start on a specific floor from `1` to `3`
+- `handSize`: change the opening hand size and normal turn draw size
+- `deck`: provide a comma-separated list of card IDs, or `*` to load all cards
+
+Examples:
+
+```
+http://localhost:5173/?floor=2
+```
+
+```
+http://localhost:5173/?handSize=7
+```
+
+```
+http://localhost:5173/?deck=burn,thorn,focus
+```
+
+```
+http://localhost:5173/?deck=*&floor=3&handSize=8
+```
+
+Notes:
+
+- Query overrides are applied only when creating a fresh run
+- Invalid values fall back to the default run setup
+- `deck` uses card IDs, not display labels
+
 ## License
 
 [MIT](LICENSE)
