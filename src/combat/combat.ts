@@ -306,7 +306,7 @@ function applyModifier(
     case 'echo':
       return mergeEffects(
         effect,
-        mapEffect(effect, (value) => Math.ceil(value / 2)),
+        mapEffect(effect, (value) => Math.floor(value / 2)),
       )
     case 'embered':
       return mergeEffects(effect, {
@@ -314,10 +314,10 @@ function applyModifier(
       })
     case 'heavy':
       return mergeEffects(effect, {
-        block: hasDefense(effect) ? 6 : undefined,
+        block: hasDefense(effect) ? 5 : undefined,
         burn: effect.burn ? 2 : undefined,
-        damage: effect.damage ? 4 : undefined,
-        heal: effect.heal ? 2 : undefined,
+        damage: effect.damage ? 3 : undefined,
+        heal: effect.heal ? 1 : undefined,
       })
     case 'leech':
       return mergeEffects(effect, {
@@ -332,8 +332,8 @@ function applyModifier(
         : effect
     case 'quick':
       return mergeEffects(effect, {
-        damage: hasOffense(effect) ? 2 : undefined,
-        block: hasDefense(effect) ? 3 : undefined,
+        damage: hasOffense(effect) ? 1 : undefined,
+        block: hasDefense(effect) ? 2 : undefined,
         draw: 1,
       })
     case 'risky':
@@ -343,21 +343,21 @@ function applyModifier(
           selfDamage: (effect.selfDamage ?? 0) + 2,
         },
         {
-          block: hasDefense(effect) ? 5 : undefined,
+          block: hasDefense(effect) ? 4 : undefined,
           burn: effect.burn ? 2 : undefined,
-          damage: effect.damage ? 5 : undefined,
+          damage: effect.damage ? 4 : undefined,
           draw: 1,
-          heal: effect.heal ? 2 : undefined,
+          heal: effect.heal ? 1 : undefined,
         },
       )
     case 'safe':
       return mergeEffects(effect, {
-        block: 4,
+        block: 3,
       })
     case 'wide':
       return mergeEffects(effect, {
-        block: hasDefense(effect) ? 4 : undefined,
-        burn: hasOffense(effect) ? 2 : undefined,
+        block: hasDefense(effect) ? 3 : undefined,
+        burn: hasOffense(effect) ? 1 : undefined,
         heal: effect.heal ? 1 : undefined,
       })
   }

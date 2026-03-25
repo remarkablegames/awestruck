@@ -17,10 +17,10 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   bloom: {
     accent: [129, 210, 141],
     cost: 1,
-    description: 'Gain 6 block and heal 3.',
+    description: 'Gain 5 block and heal 2.',
     effect: {
-      block: 6,
-      heal: 3,
+      block: 5,
+      heal: 2,
     },
     id: 'bloom',
     label: 'BLOOM',
@@ -172,10 +172,10 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   rage: {
     accent: [255, 122, 122],
     cost: 0,
-    description: 'Gain 1 energy. Lose 3 health.',
+    description: 'Gain 1 energy. Lose 4 health.',
     effect: {
       energy: 1,
-      selfDamage: 3,
+      selfDamage: 4,
       selfDamageIgnoresBlock: true,
     },
     id: 'rage',
@@ -215,9 +215,9 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   sear: {
     accent: [255, 103, 64],
     cost: 1,
-    description: 'Apply 6 burn.',
+    description: 'Apply 5 burn.',
     effect: {
-      burn: 6,
+      burn: 5,
     },
     id: 'sear',
     label: 'SEAR',
@@ -228,9 +228,9 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   shield: {
     accent: [112, 150, 255],
     cost: 1,
-    description: 'Gain 8 block.',
+    description: 'Gain 7 block.',
     effect: {
-      block: 8,
+      block: 7,
     },
     id: 'shield',
     label: 'SHIELD',
@@ -268,9 +268,9 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   ward: {
     accent: [142, 194, 255],
     cost: 1,
-    description: 'Gain 5 block and draw 1.',
+    description: 'Gain 4 block and draw 1.',
     effect: {
-      block: 5,
+      block: 4,
       draw: 1,
     },
     id: 'ward',
@@ -298,10 +298,10 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   wilt: {
     accent: [141, 203, 118],
     cost: 1,
-    description: 'Deal 4 damage and heal 2.',
+    description: 'Deal 4 damage and heal 1.',
     effect: {
       damage: 4,
-      heal: 2,
+      heal: 1,
     },
     id: 'wilt',
     label: 'WILT',
@@ -311,18 +311,18 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
 }
 
 export const STARTER_DECK = [
-  'burn',
   'thorn',
-  'shield',
-  'bloom',
-  'double',
-  'quick',
-  'wide',
-  'echo',
+  'thorn',
+  'burn',
+  'burn',
   'surge',
+  'bloom',
+  'shield',
+  'shield',
   'ward',
-  'focus',
   'wilt',
+  'quick',
+  'focus',
 ] as const
 
 export const REWARD_POOLS = [

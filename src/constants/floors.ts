@@ -12,25 +12,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
   {
     enemyIntents: [
       {
-        attack: 6,
-        description: 'Strike for 6 damage.',
+        attack: 7,
+        description: 'Strike for 7 damage.',
         id: 'jab',
         label: 'JAB',
       },
       {
-        block: 5,
-        description: 'Gain 5 block.',
+        block: 6,
+        description: 'Gain 6 block.',
         id: 'brace',
         label: 'BRACE',
       },
       {
-        attack: 8,
-        description: 'Strike for 8 damage.',
+        attack: 9,
+        description: 'Strike for 9 damage.',
         id: 'slam',
         label: 'SLAM',
       },
     ],
-    enemyMaxHealth: 24,
+    enemyMaxHealth: 28,
     enemySprite: SPRITE.SOLDIER,
   },
 
@@ -38,25 +38,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
   {
     enemyIntents: [
       {
-        attack: 8,
-        description: 'Strike for 8 damage.',
+        attack: 10,
+        description: 'Strike for 10 damage.',
         id: 'lunge',
         label: 'LUNGE',
       },
       {
-        block: 7,
-        description: 'Gain 7 block.',
+        block: 8,
+        description: 'Gain 8 block.',
         id: 'fortify',
         label: 'FORTIFY',
       },
       {
-        attack: 10,
-        description: 'Strike for 10 damage.',
+        attack: 12,
+        description: 'Strike for 12 damage.',
         id: 'crack',
         label: 'CRACK',
       },
     ],
-    enemyMaxHealth: 32,
+    enemyMaxHealth: 36,
     enemySprite: SPRITE.ARCHER,
   },
 
@@ -64,25 +64,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
   {
     enemyIntents: [
       {
-        attack: 9,
-        description: 'Strike for 9 damage.',
+        attack: 11,
+        description: 'Strike for 11 damage.',
         id: 'snap',
         label: 'SNAP',
       },
       {
-        block: 8,
-        description: 'Gain 8 block.',
+        block: 9,
+        description: 'Gain 9 block.',
         id: 'molt',
         label: 'MOLT',
       },
       {
-        attack: 11,
-        description: 'Strike for 11 damage.',
+        attack: 13,
+        description: 'Strike for 13 damage.',
         id: 'talon',
         label: 'TALON',
       },
     ],
-    enemyMaxHealth: 36,
+    enemyMaxHealth: 42,
     enemySprite: SPRITE.HATCHLING,
   },
 
@@ -90,25 +90,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
   {
     enemyIntents: [
       {
-        attack: 12,
-        description: 'Strike for 12 damage.',
+        attack: 14,
+        description: 'Strike for 14 damage.',
         id: 'cleave',
         label: 'CLEAVE',
       },
       {
-        block: 10,
-        description: 'Gain 10 block.',
+        block: 12,
+        description: 'Gain 12 block.',
         id: 'shell',
         label: 'SHELL',
       },
       {
-        attack: 14,
-        description: 'Strike for 14 damage.',
+        attack: 16,
+        description: 'Strike for 16 damage.',
         id: 'ruin',
         label: 'RUIN',
       },
     ],
-    enemyMaxHealth: 46,
+    enemyMaxHealth: 54,
     enemySprite: SPRITE.REAVER,
   },
 ]
