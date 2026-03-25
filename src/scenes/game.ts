@@ -24,7 +24,6 @@ scene(SCENE.GAME, () => {
   let hoverScrollDelayId: number | null = null
   let hoverScrollIntervalId: number | null = null
   let handScrollOffset = 0
-  let previousEnemyHealth: number | null = null
 
   const uiObjects: GameObj[] = []
 
@@ -278,7 +277,6 @@ scene(SCENE.GAME, () => {
       height: 54,
       label: 'Execute',
       onClick: () => {
-        play(SOUND.DROP)
         stateManager.confirmBuilder()
       },
       width: 150,
@@ -442,37 +440,41 @@ scene(SCENE.GAME, () => {
 
   const enemyDisplay = addEnemy(stateManager.getState().enemy)
 
-  const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
-    switch (scene) {
-      case SCENE.REWARD:
-        wait(0, () => {
-          go(SCENE.REWARD)
-        })
-        return
-      case SCENE.END:
-        if (endStatus) {
+  const unsubscribe = stateManager.subscribe(
+    ({ actionResult, endStatus, scene, state }) => {
+      switch (scene) {
+        case SCENE.REWARD:
           wait(0, () => {
-            go(SCENE.END, endStatus)
+            go(SCENE.REWARD)
           })
-        }
-        return
-      case SCENE.GAME:
-        wait(0, () => {
-          enemyDisplay.sync(state.enemy)
+          return
 
-          if (
-            previousEnemyHealth !== null &&
-            state.enemy.health < previousEnemyHealth
-          ) {
-            enemyDisplay.playHit(previousEnemyHealth - state.enemy.health)
+        case SCENE.END:
+          if (endStatus) {
+            wait(0, () => {
+              go(SCENE.END, endStatus)
+            })
           }
+          return
 
-          previousEnemyHealth = state.enemy.health
-          renderUI(state)
-        })
-        return
-    }
-  })
+        case SCENE.GAME:
+          wait(0, () => {
+            enemyDisplay.sync(state.enemy)
+
+            if (actionResult?.type === 'confirmBuilder') {
+              if (actionResult.enemyDamage > 0) {
+                enemyDisplay.playHit(actionResult.enemyDamage)
+              } else {
+                play(SOUND.DROP)
+              }
+            }
+
+            renderUI(state)
+          })
+          return
+      }
+    },
+  )
 
   add([pos(0, 0)]).onDestroy(() => {
     unsubscribe()
@@ -483,7 +485,6 @@ scene(SCENE.GAME, () => {
 
   renderBackground()
   const initialSnapshot = stateManager.getSnapshot()
-  previousEnemyHealth = initialSnapshot.state.enemy.health
 
   switch (initialSnapshot.scene) {
     case SCENE.REWARD:

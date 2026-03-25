@@ -21,14 +21,28 @@ type StateAction<TArgs extends unknown[] = []> = (
 ) => void
 
 interface StateSnapshot {
+  actionResult?: StateActionResult
   endStatus?: EndStatus
   scene: StateScene
   state: CombatState
 }
 
+export interface ConfirmBuilderActionResult {
+  enemyBurnApplied: number
+  enemyDamage: number
+  energyGained: number
+  playerBlockGained: number
+  playerHealGained: number
+  selfDamageTaken: number
+  type: 'confirmBuilder'
+}
+
+export type StateActionResult = ConfirmBuilderActionResult
+
 type StateListener = (snapshot: StateSnapshot) => void
 
 class StateManager {
+  private actionResult?: StateActionResult
   private listeners = new Set<StateListener>()
   private state: CombatState
 
@@ -57,6 +71,7 @@ class StateManager {
 
   getSnapshot(): StateSnapshot {
     return {
+      actionResult: this.actionResult,
       endStatus:
         this.state.status === 'lost' || this.state.status === 'won'
           ? this.state.status
@@ -79,7 +94,52 @@ class StateManager {
   }
 
   confirmBuilder(): void {
-    this.runAction(confirmBuilder)
+    const before = {
+      builderLength: this.state.builder.length,
+      enemyBurn: this.state.enemy.burn,
+      enemyHealth: this.state.enemy.health,
+      playerBlock: this.state.player.block,
+      playerEnergy: this.state.player.energy,
+      playerHealth: this.state.player.health,
+    }
+
+    confirmBuilder(this.state)
+
+    const builderResolved =
+      before.builderLength > 0 && this.state.builder.length === 0
+
+    this.actionResult = builderResolved
+      ? {
+          enemyBurnApplied: Math.max(
+            0,
+            this.state.enemy.burn - before.enemyBurn,
+          ),
+          enemyDamage: Math.max(
+            0,
+            before.enemyHealth - this.state.enemy.health,
+          ),
+          energyGained: Math.max(
+            0,
+            this.state.player.energy - before.playerEnergy,
+          ),
+          playerBlockGained: Math.max(
+            0,
+            this.state.player.block - before.playerBlock,
+          ),
+          playerHealGained: Math.max(
+            0,
+            this.state.player.health - before.playerHealth,
+          ),
+          selfDamageTaken: Math.max(
+            0,
+            before.playerHealth - this.state.player.health,
+          ),
+          type: 'confirmBuilder',
+        }
+      : undefined
+
+    this.persistProgress()
+    this.notify()
   }
 
   endTurn(): void {
@@ -105,6 +165,7 @@ class StateManager {
 
   private notify(): void {
     const snapshot = this.getSnapshot()
+    this.actionResult = undefined
 
     this.listeners.forEach((listener) => {
       listener(snapshot)
