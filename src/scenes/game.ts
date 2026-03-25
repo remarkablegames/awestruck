@@ -14,7 +14,7 @@ const ACTION_AREA_TOP_RATIO = 0.42
 const ACTION_BUTTON_OFFSET_Y = 60
 const BUILDER_PANEL_OFFSET_Y = 10
 const END_TURN_BUTTON_OFFSET_Y = -42
-const toLabel = (value: number) => String(value)
+const DEFEAT_TRANSITION_DELAY = 1
 
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
@@ -85,7 +85,7 @@ scene(SCENE.GAME, () => {
   const renderHeader = (state: CombatState) => {
     track(
       add([
-        text(`Floor ${toLabel(state.floor)}, Turn ${toLabel(state.turn)}`, {
+        text(`Floor ${String(state.floor)}, Turn ${String(state.turn)}`, {
           size: 26,
         }),
         color(247, 232, 179),
@@ -96,7 +96,7 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `Player HP ${toLabel(state.player.health)}/${toLabel(state.player.maxHealth)}`,
+          `Player HP ${String(state.player.health)}/${String(state.player.maxHealth)}`,
           {
             size: 20,
           },
@@ -109,7 +109,7 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `Block ${toLabel(state.player.block)}, Energy ${toLabel(state.player.energy)}/${toLabel(state.player.maxEnergy)}`,
+          `Block ${String(state.player.block)}, Energy ${String(state.player.energy)}/${String(state.player.maxEnergy)}`,
           {
             size: 20,
           },
@@ -122,7 +122,7 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `Draw ${toLabel(state.drawPile.length)}, Discard ${toLabel(state.discardPile.length)}, Deck ${getDeckCountLabel(state)}`,
+          `Draw ${String(state.drawPile.length)}, Discard ${String(state.discardPile.length)}, Deck ${getDeckCountLabel(state)}`,
           {
             size: 20,
           },
@@ -163,7 +163,7 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `HP ${toLabel(state.enemy.health)}/${toLabel(state.enemy.maxHealth)}`,
+          `HP ${String(state.enemy.health)}/${String(state.enemy.maxHealth)}`,
           {
             size: 20,
             width: textWidth,
@@ -177,7 +177,7 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `Block ${toLabel(state.enemy.block)}, Burn ${toLabel(state.enemy.burn)}`,
+          `Block ${String(state.enemy.block)}, Burn ${String(state.enemy.burn)}`,
           {
             size: 18,
             width: textWidth,
@@ -442,21 +442,10 @@ scene(SCENE.GAME, () => {
 
   const unsubscribe = stateManager.subscribe(
     ({ actionResult, endStatus, scene, state }) => {
+      const hitDamage =
+        actionResult?.type === 'confirmBuilder' ? actionResult.enemyDamage : 0
+
       switch (scene) {
-        case SCENE.REWARD:
-          wait(0, () => {
-            go(SCENE.REWARD)
-          })
-          return
-
-        case SCENE.END:
-          if (endStatus) {
-            wait(0, () => {
-              go(SCENE.END, endStatus)
-            })
-          }
-          return
-
         case SCENE.GAME:
           wait(0, () => {
             enemyDisplay.sync(state.enemy)
@@ -471,6 +460,46 @@ scene(SCENE.GAME, () => {
 
             renderUI(state)
           })
+          return
+
+        case SCENE.REWARD:
+          if (hitDamage > 0) {
+            wait(0, () => {
+              enemyDisplay.sync(state.enemy)
+              renderUI(state)
+              enemyDisplay.playHit(hitDamage)
+            })
+
+            wait(DEFEAT_TRANSITION_DELAY, () => {
+              go(SCENE.REWARD)
+            })
+            return
+          }
+
+          wait(0, () => {
+            go(SCENE.REWARD)
+          })
+          return
+
+        case SCENE.END:
+          if (endStatus) {
+            if (hitDamage > 0) {
+              wait(0, () => {
+                enemyDisplay.sync(state.enemy)
+                renderUI(state)
+                enemyDisplay.playHit(hitDamage)
+              })
+
+              wait(DEFEAT_TRANSITION_DELAY, () => {
+                go(SCENE.END, endStatus)
+              })
+              return
+            }
+
+            wait(0, () => {
+              go(SCENE.END, endStatus)
+            })
+          }
           return
       }
     },

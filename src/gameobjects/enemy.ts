@@ -9,14 +9,9 @@ const BOX_Y = 32
 const FRAME_PADDING = 10
 const HIT_SHAKE_DISTANCE = 16
 const HIT_DURATION = 0.1
+const DAMAGE_DURATION = 0.5
 
-interface EnemyDisplay {
-  destroy(): void
-  playHit(damage: number): void
-  sync(enemy: EnemyState): void
-}
-
-export function addEnemy(enemy: EnemyState): EnemyDisplay {
+export function addEnemy(enemy: EnemyState) {
   const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(1)])
 
   root.add([
@@ -131,7 +126,7 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
         }),
         color(255, 216, 216),
         opacity(1),
-        lifespan(0.5, { fade: 0.1 }),
+        lifespan(DAMAGE_DURATION, { fade: 0.1 }),
         pos(width() / 2, BOX_Y + 90),
         anchor('center'),
         z(3),
