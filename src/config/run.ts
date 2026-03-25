@@ -1,4 +1,4 @@
-import { CARDS, COMBAT } from '../constants'
+import { CARDS, COMBAT, FLOORS } from '../constants'
 
 export interface RunConfig {
   startingDeck: string[]
@@ -68,7 +68,7 @@ function parseFloor(floor: string | null): number | null {
 
   const parsedFloor = Number.parseInt(floor, 10)
 
-  if (parsedFloor < 1 || parsedFloor > COMBAT.MAX_FLOOR) {
+  if (parsedFloor < 1 || parsedFloor > FLOORS.MAX_FLOOR) {
     return null
   }
 

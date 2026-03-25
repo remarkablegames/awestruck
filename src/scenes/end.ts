@@ -1,4 +1,4 @@
-import { SCENE, SOUND, THEME } from '../constants'
+import { FLOORS, SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 
@@ -10,7 +10,7 @@ scene(SCENE.END, (status: EndStatus) => {
   const title = status === 'won' ? 'Run Complete' : 'Run Lost'
   const subtitle =
     status === 'won'
-      ? 'You cleared all three floors and preserved the lexicon.'
+      ? `You cleared all ${String(FLOORS.MAX_FLOOR)} floors and preserved the lexicon.`
       : 'The Archivist won this run. Start again and tune the deck.'
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])

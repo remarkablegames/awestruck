@@ -559,7 +559,7 @@ function hasPayloadCard(builder: CardInstance[]): boolean {
 }
 
 function handleEnemyDefeat(state: CombatState): void {
-  if (state.floor >= COMBAT.MAX_FLOOR) {
+  if (state.floor >= FLOORS.MAX_FLOOR) {
     state.status = 'won'
     state.message = 'The final Archivist falls. Your lexicon holds.'
     return
