@@ -7,9 +7,8 @@ const BOX_WIDTH = 300
 const BOX_HEIGHT = 240
 const BOX_Y = 32
 const FRAME_PADDING = 10
-const HIT_FLASH_OPACITY = 0.3
 const HIT_SHAKE_DISTANCE = 16
-const HIT_DURATION = 0.08
+const HIT_DURATION = 0.1
 
 interface EnemyDisplay {
   destroy(): void
@@ -26,7 +25,6 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
     }),
     color(58, 42, 61),
     outline(2, rgb(221, 178, 160)),
-    opacity(0.95),
     pos(-FRAME_PADDING, -FRAME_PADDING),
   ])
 
@@ -83,8 +81,6 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
       resetHitVisuals()
       play(SOUND.HIT)
 
-      flash.opacity = HIT_FLASH_OPACITY
-
       if (spriteObject) {
         spriteObject.color = rgb(255, 208, 208)
       }
@@ -98,7 +94,6 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
         HIT_DURATION,
         (value) => {
           root.pos = vec2(basePos.x - offsetX * value, basePos.y)
-          flash.opacity = HIT_FLASH_OPACITY * (1 - value * 0.45)
         },
         easings.easeOutQuad,
       ).onEnd(() => {
@@ -108,7 +103,6 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
           HIT_DURATION * 1.5,
           (value) => {
             root.pos = vec2(basePos.x + offsetX * value, basePos.y)
-            flash.opacity = HIT_FLASH_OPACITY * (1 - value)
 
             if (spriteObject) {
               const tint = Math.round(208 + (255 - 208) * value)
@@ -136,9 +130,11 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
           size: 30,
         }),
         color(255, 216, 216),
-        opacity(0.92),
-        pos(width() / 2, BOX_Y + 14),
+        opacity(1),
+        lifespan(0.5, { fade: 0.1 }),
+        pos(width() / 2, BOX_Y + 90),
         anchor('center'),
+        z(3),
       ])
 
       tween(
@@ -150,18 +146,6 @@ export function addEnemy(enemy: EnemyState): EnemyDisplay {
         },
         easings.easeOutQuad,
       )
-
-      tween(
-        0.92,
-        0,
-        0.28,
-        (value) => {
-          damageLabel.opacity = value
-        },
-        easings.easeOutQuad,
-      ).onEnd(() => {
-        damageLabel.destroy()
-      })
     },
 
     sync(nextEnemy: EnemyState) {
