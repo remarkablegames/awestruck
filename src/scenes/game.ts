@@ -1,3 +1,5 @@
+import type { GameObj } from 'kaplay'
+
 import {
   getCardDefinition,
   getChainPreview,
@@ -14,25 +16,23 @@ const BUILDER_PANEL_OFFSET_Y = 10
 const END_TURN_BUTTON_OFFSET_Y = -42
 const toLabel = (value: number) => String(value)
 
-interface Destroyable {
-  destroy(): void
-}
-
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+
   const stateManager = getStateManager()
+
   let hoverScrollDelayId: number | null = null
   let hoverScrollIntervalId: number | null = null
   let handScrollOffset = 0
 
-  const uiObjects: Destroyable[] = []
+  const uiObjects: GameObj[] = []
 
-  const track = <T extends Destroyable>(object: T): T => {
+  const track = <T extends GameObj>(object: T): T => {
     uiObjects.push(object)
     return object
   }
 
-  const trackAll = <T extends Destroyable>(objects: T[]): T[] => {
+  const trackAll = <T extends GameObj>(objects: T[]): T[] => {
     objects.forEach((object) => {
       uiObjects.push(object)
     })
@@ -40,7 +40,7 @@ scene(SCENE.GAME, () => {
     return objects
   }
 
-  const clearUi = () => {
+  const clearUI = () => {
     while (uiObjects.length) {
       uiObjects.pop()?.destroy()
     }
@@ -440,7 +440,7 @@ scene(SCENE.GAME, () => {
   }
 
   const renderUI = (state: CombatState) => {
-    clearUi()
+    clearUI()
     renderHeader(state)
     renderEnemyPanel(state)
     renderBuilderPanel(state)
@@ -507,7 +507,7 @@ scene(SCENE.GAME, () => {
   add([pos(0, 0)]).onDestroy(() => {
     unsubscribe()
     clearHoverScroll()
-    clearUi()
+    clearUI()
   })
 
   renderBackground()
