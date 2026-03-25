@@ -319,9 +319,9 @@ export const STARTER_DECK = [
   'bloom',
   'shield',
   'shield',
-  'ward',
-  'wilt',
   'quick',
+  'safe',
+  'wide',
   'focus',
 ] as const
 
