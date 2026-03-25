@@ -136,10 +136,17 @@ scene(SCENE.GAME, () => {
   const renderEnemyPanel = (state: CombatState) => {
     const panelX = width() - 300
     const panelY = 24
+    const panelWidth = 250
+    const panelHeight = 192
+    const portraitSize = 112
+    const portraitFramePadding = 8
+    const portraitX = panelX - portraitSize - 32
+    const portraitY = panelY + 30
+    const textWidth = panelWidth - 40
 
     track(
       add([
-        rect(250, 192, { radius: 22 }),
+        rect(panelWidth, panelHeight, { radius: 22 }),
         color(38, 29, 44),
         outline(4, rgb(195, 141, 138)),
         pos(panelX, panelY),
@@ -148,8 +155,33 @@ scene(SCENE.GAME, () => {
 
     track(
       add([
+        rect(
+          portraitSize + portraitFramePadding * 2,
+          portraitSize + portraitFramePadding * 2,
+          { radius: 24 },
+        ),
+        color(58, 42, 61),
+        outline(2, rgb(221, 178, 160)),
+        pos(portraitX - portraitFramePadding, portraitY - portraitFramePadding),
+        opacity(0.95),
+      ]),
+    )
+
+    track(
+      add([
+        sprite(state.enemy.sprite, {
+          height: portraitSize,
+          width: portraitSize,
+        }),
+        pos(portraitX, portraitY),
+      ]),
+    )
+
+    track(
+      add([
         text(state.enemy.label, {
           size: 28,
+          width: textWidth,
         }),
         color(255, 226, 216),
         pos(panelX + 20, panelY + 22),
@@ -162,6 +194,7 @@ scene(SCENE.GAME, () => {
           `HP ${toLabel(state.enemy.health)}/${toLabel(state.enemy.maxHealth)}`,
           {
             size: 20,
+            width: textWidth,
           },
         ),
         color(251, 214, 198),
@@ -175,6 +208,7 @@ scene(SCENE.GAME, () => {
           `Block ${toLabel(state.enemy.block)}, Burn ${toLabel(state.enemy.burn)}`,
           {
             size: 18,
+            width: textWidth,
           },
         ),
         color(255, 183, 120),
@@ -188,6 +222,7 @@ scene(SCENE.GAME, () => {
       add([
         text(`Intent: ${intent.label}`, {
           size: 18,
+          width: textWidth,
         }),
         color(174, 208, 255),
         pos(panelX + 20, panelY + 118),
@@ -198,7 +233,7 @@ scene(SCENE.GAME, () => {
       add([
         text(intent.description, {
           size: 18,
-          width: 220,
+          width: textWidth,
         }),
         color(214, 224, 250),
         pos(panelX + 20, panelY + 142),

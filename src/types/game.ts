@@ -61,6 +61,7 @@ export interface EnemyState {
   intents: EnemyIntent[]
   label: string
   maxHealth: number
+  sprite: string
 }
 
 export interface PlayerState {

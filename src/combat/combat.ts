@@ -1,5 +1,5 @@
 import type { RunConfig } from '../config'
-import { CARDS, COMBAT } from '../constants'
+import { CARDS, COMBAT, SPRITE } from '../constants'
 import type {
   CardDefinition,
   CardEffect,
@@ -451,6 +451,8 @@ function createEnemyState(floor: number): EnemyState {
   const healthByFloor = [24, 32, 40]
   const intentIndex = Math.min(floor - 1, intentSets.length - 1)
   const maxHealth = healthByFloor[intentIndex]
+  const sprite =
+    floor === 1 ? SPRITE.SOLDIER : floor === 2 ? SPRITE.ARCHER : SPRITE.REAVER
 
   return {
     block: 0,
@@ -460,6 +462,7 @@ function createEnemyState(floor: number): EnemyState {
     intents: intentSets[intentIndex],
     label: `Archivist ${toLabel(floor)}`,
     maxHealth,
+    sprite,
   }
 }
 
