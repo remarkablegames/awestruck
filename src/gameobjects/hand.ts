@@ -45,13 +45,14 @@ export function addHand({
     const disabledReason = getCardCommitDisabledReason(state, card)
 
     const cardObjects = addCard({
-      card,
       definition: getCardDefinition(card.cardId),
       disabled: Boolean(disabledReason),
       disabledReason,
       interactiveLeft: cardLayout.interactiveLeft,
       interactiveWidth: cardLayout.interactiveWidth,
-      onClick: onCardClick,
+      onClick: () => {
+        onCardClick(card)
+      },
       parent: hand,
       scale: cardLayout.scale,
       x: cardLayout.x,

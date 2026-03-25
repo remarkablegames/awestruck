@@ -1,18 +1,17 @@
 import type { GameObj } from 'kaplay'
 
 import { CARD, HAND, SOUND } from '../constants'
-import type { CardDefinition, CardInstance } from '../types'
+import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 
 interface CardOptions {
   angle?: number
-  card: CardInstance
   definition: CardDefinition
   disabled?: boolean
   disabledReason?: string | null
   interactiveLeft?: number
   interactiveWidth?: number
-  onClick: (card: CardInstance) => void
+  onClick: () => void
   parent?: GameObj
   scale?: number
   x: number
@@ -21,7 +20,6 @@ interface CardOptions {
 
 export function addCard({
   angle = 0,
-  card,
   definition,
   disabled = false,
   disabledReason = null,
@@ -86,7 +84,7 @@ export function addCard({
     panel.onClick(() => {
       play(SOUND.CLICK)
       setCursor('default')
-      onClick(card)
+      onClick()
     })
 
     panel.onDestroy(() => {

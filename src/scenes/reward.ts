@@ -1,6 +1,6 @@
 import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
-import { addButton, addReward } from '../gameobjects'
+import { addButton, addCard } from '../gameobjects'
 import { getStateManager } from '../state'
 
 scene(SCENE.REWARD, () => {
@@ -44,7 +44,7 @@ scene(SCENE.REWARD, () => {
     const x = center().x - 170 + index * 170
     const y = center().y + 60
 
-    addReward({
+    addCard({
       definition,
       onClick: () => {
         play(SOUND.DROP)
