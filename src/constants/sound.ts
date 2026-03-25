@@ -1,5 +1,6 @@
 export const BACK = 'back'
 export const CLICK = 'click'
 export const DROP = 'drop'
+export const HIT = 'hit'
 export const MUSIC = 'music'
 export const TICK = 'tick'
