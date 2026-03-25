@@ -138,11 +138,23 @@ scene(SCENE.GAME, () => {
     const panelY = 24
     const panelWidth = 250
     const panelHeight = 192
-    const portraitSize = 112
-    const portraitFramePadding = 8
-    const portraitX = panelX - portraitSize - 32
-    const portraitY = panelY + 30
+    const portraitMaxWidth = 220
+    const portraitMaxHeight = 180
+    const portraitFramePadding = 10
+    const portraitY = panelY + 8
     const textWidth = panelWidth - 40
+    const enemySprite = getSprite(state.enemy.sprite)
+    const spriteWidth = enemySprite?.data?.width ?? portraitMaxWidth
+    const spriteHeight = enemySprite?.data?.height ?? portraitMaxHeight
+    const portraitScale = Math.min(
+      portraitMaxWidth / spriteWidth,
+      portraitMaxHeight / spriteHeight,
+    )
+    const portraitWidth = spriteWidth * portraitScale
+    const portraitHeight = spriteHeight * portraitScale
+    const portraitFrameX = width() / 2 - portraitMaxWidth / 2
+    const portraitX = width() / 2 - portraitWidth / 2
+    const portraitOffsetY = (portraitMaxHeight - portraitHeight) / 2
 
     track(
       add([
@@ -156,13 +168,16 @@ scene(SCENE.GAME, () => {
     track(
       add([
         rect(
-          portraitSize + portraitFramePadding * 2,
-          portraitSize + portraitFramePadding * 2,
+          portraitMaxWidth + portraitFramePadding * 2,
+          portraitMaxHeight + portraitFramePadding * 2,
           { radius: 24 },
         ),
         color(58, 42, 61),
         outline(2, rgb(221, 178, 160)),
-        pos(portraitX - portraitFramePadding, portraitY - portraitFramePadding),
+        pos(
+          portraitFrameX - portraitFramePadding,
+          portraitY - portraitFramePadding,
+        ),
         opacity(0.95),
       ]),
     )
@@ -170,10 +185,10 @@ scene(SCENE.GAME, () => {
     track(
       add([
         sprite(state.enemy.sprite, {
-          height: portraitSize,
-          width: portraitSize,
+          height: portraitHeight,
+          width: portraitWidth,
         }),
-        pos(portraitX, portraitY),
+        pos(portraitX, portraitY + portraitOffsetY),
       ]),
     )
 
