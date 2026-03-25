@@ -4,9 +4,7 @@ import { resetStateManager } from '../state'
 
 scene(SCENE.PRELOAD, () => {
   Object.values(SOUND).forEach((sound) => {
-    ;['ogg', 'mp3'].forEach((extension) => {
-      loadSound(sound, `sounds/${sound}.${extension}`)
-    })
+    loadSound(sound, `sounds/${sound}.mp3`)
   })
 
   const runConfig = getRunConfigFromQuery()
