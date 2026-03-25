@@ -6,7 +6,7 @@ import {
   getDeckCountLabel,
 } from '../combat'
 import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addHand } from '../gameobjects'
+import { addButton, addEnemy, addHand } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
 
@@ -24,6 +24,7 @@ scene(SCENE.GAME, () => {
   let hoverScrollDelayId: number | null = null
   let hoverScrollIntervalId: number | null = null
   let handScrollOffset = 0
+  let previousEnemyHealth: number | null = null
 
   const uiObjects: GameObj[] = []
 
@@ -138,23 +139,7 @@ scene(SCENE.GAME, () => {
     const panelY = 24
     const panelWidth = 250
     const panelHeight = 192
-    const portraitMaxWidth = 300
-    const portraitMaxHeight = 240
-    const portraitFramePadding = 10
-    const portraitY = panelY + 8
     const textWidth = panelWidth - 40
-    const enemySprite = getSprite(state.enemy.sprite)
-    const spriteWidth = enemySprite?.data?.width ?? portraitMaxWidth
-    const spriteHeight = enemySprite?.data?.height ?? portraitMaxHeight
-    const portraitScale = Math.min(
-      portraitMaxWidth / spriteWidth,
-      portraitMaxHeight / spriteHeight,
-    )
-    const portraitWidth = spriteWidth * portraitScale
-    const portraitHeight = spriteHeight * portraitScale
-    const portraitFrameX = width() / 2 - portraitMaxWidth / 2
-    const portraitX = width() / 2 - portraitWidth / 2
-    const portraitOffsetY = (portraitMaxHeight - portraitHeight) / 2
 
     track(
       add([
@@ -162,33 +147,6 @@ scene(SCENE.GAME, () => {
         color(38, 29, 44),
         outline(4, rgb(195, 141, 138)),
         pos(panelX, panelY),
-      ]),
-    )
-
-    track(
-      add([
-        rect(
-          portraitMaxWidth + portraitFramePadding * 2,
-          portraitMaxHeight + portraitFramePadding * 2,
-          { radius: 24 },
-        ),
-        color(58, 42, 61),
-        outline(2, rgb(221, 178, 160)),
-        pos(
-          portraitFrameX - portraitFramePadding,
-          portraitY - portraitFramePadding,
-        ),
-        opacity(0.95),
-      ]),
-    )
-
-    track(
-      add([
-        sprite(state.enemy.sprite, {
-          height: portraitHeight,
-          width: portraitWidth,
-        }),
-        pos(portraitX, portraitY + portraitOffsetY),
       ]),
     )
 
@@ -482,6 +440,8 @@ scene(SCENE.GAME, () => {
     scrollHand(direction > 0 ? 1 : -1, HAND.WHEEL_SCROLL_STEP)
   })
 
+  const enemyDisplay = addEnemy(stateManager.getState().enemy)
+
   const unsubscribe = stateManager.subscribe(({ endStatus, scene, state }) => {
     switch (scene) {
       case SCENE.REWARD:
@@ -498,6 +458,16 @@ scene(SCENE.GAME, () => {
         return
       case SCENE.GAME:
         wait(0, () => {
+          enemyDisplay.sync(state.enemy)
+
+          if (
+            previousEnemyHealth !== null &&
+            state.enemy.health < previousEnemyHealth
+          ) {
+            enemyDisplay.playHit(previousEnemyHealth - state.enemy.health)
+          }
+
+          previousEnemyHealth = state.enemy.health
           renderUI(state)
         })
         return
@@ -506,12 +476,14 @@ scene(SCENE.GAME, () => {
 
   add([pos(0, 0)]).onDestroy(() => {
     unsubscribe()
+    enemyDisplay.destroy()
     clearHoverScroll()
     clearUI()
   })
 
   renderBackground()
   const initialSnapshot = stateManager.getSnapshot()
+  previousEnemyHealth = initialSnapshot.state.enemy.health
 
   switch (initialSnapshot.scene) {
     case SCENE.REWARD:

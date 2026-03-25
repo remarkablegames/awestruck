@@ -1,4 +1,5 @@
 export * from './button'
 export * from './card'
+export * from './enemy'
 export * from './hand'
 export * from './reward'
