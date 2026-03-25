@@ -1,12 +1,11 @@
 import type { RunConfig } from '../config'
-import { CARDS, COMBAT, SPRITE } from '../constants'
+import { CARDS, COMBAT, FLOORS } from '../constants'
 import type {
   CardDefinition,
   CardEffect,
   CardInstance,
   ChainPreview,
   CombatState,
-  EnemyIntent,
   EnemyState,
   ModifierKind,
 } from '../types'
@@ -386,83 +385,20 @@ function createCardInstance(cardId: string, index: number): CardInstance {
 }
 
 function createEnemyState(floor: number): EnemyState {
-  const intentSets: EnemyIntent[][] = [
-    [
-      {
-        attack: 6,
-        description: 'Strike for 6 damage.',
-        id: 'jab',
-        label: 'JAB',
-      },
-      {
-        block: 5,
-        description: 'Gain 5 block.',
-        id: 'brace',
-        label: 'BRACE',
-      },
-      {
-        attack: 8,
-        description: 'Strike for 8 damage.',
-        id: 'slam',
-        label: 'SLAM',
-      },
-    ],
-    [
-      {
-        attack: 8,
-        description: 'Strike for 8 damage.',
-        id: 'lunge',
-        label: 'LUNGE',
-      },
-      {
-        block: 7,
-        description: 'Gain 7 block.',
-        id: 'fortify',
-        label: 'FORTIFY',
-      },
-      {
-        attack: 10,
-        description: 'Strike for 10 damage.',
-        id: 'crack',
-        label: 'CRACK',
-      },
-    ],
-    [
-      {
-        attack: 10,
-        description: 'Strike for 10 damage.',
-        id: 'cleave',
-        label: 'CLEAVE',
-      },
-      {
-        block: 8,
-        description: 'Gain 8 block.',
-        id: 'shell',
-        label: 'SHELL',
-      },
-      {
-        attack: 12,
-        description: 'Strike for 12 damage.',
-        id: 'ruin',
-        label: 'RUIN',
-      },
-    ],
-  ]
-  const healthByFloor = [24, 32, 40]
-  const intentIndex = Math.min(floor - 1, intentSets.length - 1)
-  const maxHealth = healthByFloor[intentIndex]
-  const sprite =
-    floor === 1 ? SPRITE.SOLDIER : floor === 2 ? SPRITE.ARCHER : SPRITE.REAVER
+  const floorDefinition =
+    FLOORS.FLOOR_DEFINITIONS[
+      Math.min(floor - 1, FLOORS.FLOOR_DEFINITIONS.length - 1)
+    ]
 
   return {
     block: 0,
     burn: 0,
-    health: maxHealth,
+    health: floorDefinition.enemyMaxHealth,
     intentCursor: 0,
-    intents: intentSets[intentIndex],
+    intents: floorDefinition.enemyIntents,
     label: `Archivist ${toLabel(floor)}`,
-    maxHealth,
-    sprite,
+    maxHealth: floorDefinition.enemyMaxHealth,
+    sprite: floorDefinition.enemySprite,
   }
 }
 
