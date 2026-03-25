@@ -41,7 +41,7 @@ export type StateActionResult = ConfirmBuilderActionResult
 
 type StateListener = (snapshot: StateSnapshot) => void
 
-class StateManager {
+export class StateManager {
   private actionResult?: StateActionResult
   private listeners = new Set<StateListener>()
   private state: CombatState
@@ -191,15 +191,4 @@ class StateManager {
         return SCENE.GAME
     }
   }
-}
-
-let stateManager = new StateManager()
-
-export function getStateManager(): StateManager {
-  return stateManager
-}
-
-export function resetStateManager(runConfig?: RunConfig): StateManager {
-  stateManager = new StateManager(undefined, runConfig)
-  return stateManager
 }
