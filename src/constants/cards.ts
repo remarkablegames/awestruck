@@ -113,7 +113,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
 
   heavy: {
     accent: [143, 125, 102],
-    cost: 1,
+    cost: 2,
     description: 'Make the next payload much heavier.',
     effect: {},
     id: 'heavy',
@@ -127,7 +127,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
 
   leech: {
     accent: [145, 209, 164],
-    cost: 1,
+    cost: 2,
     description: 'The next damaging payload also heals you.',
     effect: {},
     id: 'leech',
@@ -141,7 +141,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
 
   pierce: {
     accent: [198, 217, 255],
-    cost: 1,
+    cost: 2,
     description: 'The next damaging payload ignores block.',
     effect: {},
     id: 'pierce',
