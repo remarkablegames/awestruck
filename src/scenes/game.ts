@@ -439,11 +439,22 @@ scene(SCENE.GAME, () => {
   })
 
   const enemyDisplay = addEnemy(stateManager.getState().enemy)
+  let previousPlayerHealth = stateManager.getState().player.health
 
   const unsubscribe = stateManager.subscribe(
     ({ actionResult, endStatus, scene, state }) => {
       const hitDamage =
         actionResult?.type === 'confirmBuilder' ? actionResult.enemyDamage : 0
+      const playerDamageTaken = Math.max(
+        0,
+        previousPlayerHealth - state.player.health,
+      )
+
+      previousPlayerHealth = state.player.health
+
+      if (playerDamageTaken > 0) {
+        shake(Math.min(10 + playerDamageTaken * 2, 24))
+      }
 
       switch (scene) {
         case SCENE.GAME:
