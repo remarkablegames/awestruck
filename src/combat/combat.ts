@@ -10,8 +10,6 @@ import type {
   ModifierKind,
 } from '../types'
 
-const toLabel = (value: number) => String(value)
-
 export function getCardDefinition(cardId: string): CardDefinition {
   return CARDS.CARD_DEFINITIONS[cardId]
 }
@@ -97,7 +95,7 @@ export function createInitialState(
 ): CombatState {
   const deckList = runConfig.startingDeck.map((cardId, index) => ({
     cardId,
-    instanceId: `card-${toLabel(index)}`,
+    instanceId: `card-${String(index)}`,
   }))
 
   return createFloorState({
@@ -231,7 +229,7 @@ export function chooseReward(state: CombatState, cardId: string): void {
   state.deckList.push(rewardCard)
 
   advanceFromReward(state)
-  state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${toLabel(state.floor)}.`
+  state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${String(state.floor)}.`
 }
 
 export function skipReward(state: CombatState): void {
@@ -247,7 +245,7 @@ export function getRewardDefinitions(state: CombatState): CardDefinition[] {
 }
 
 export function getDeckCountLabel(state: CombatState): string {
-  return toLabel(state.deckList.length)
+  return String(state.deckList.length)
 }
 
 function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
@@ -380,7 +378,7 @@ function cloneEffect(effect: CardEffect): CardEffect {
 function createCardInstance(cardId: string, index: number): CardInstance {
   return {
     cardId,
-    instanceId: `card-${toLabel(index)}`,
+    instanceId: `card-${String(index)}`,
   }
 }
 
@@ -425,7 +423,7 @@ function createFloorState({
     floor,
     hand: [],
     handSize,
-    message: `Floor ${toLabel(floor)} begins. Build a modifier chain or play a payload alone.`,
+    message: `Floor ${String(floor)} begins. Build a modifier chain or play a payload alone.`,
     nextInstanceId,
     player: {
       block: 0,
@@ -503,27 +501,27 @@ function formatEffect(effect: CardEffect): string {
   const parts: string[] = []
 
   if (effect.damage) {
-    parts.push(`deal ${toLabel(effect.damage)} damage`)
+    parts.push(`deal ${String(effect.damage)} damage`)
   }
 
   if (effect.burn) {
-    parts.push(`apply ${toLabel(effect.burn)} burn`)
+    parts.push(`apply ${String(effect.burn)} burn`)
   }
 
   if (effect.block) {
-    parts.push(`gain ${toLabel(effect.block)} block`)
+    parts.push(`gain ${String(effect.block)} block`)
   }
 
   if (effect.heal) {
-    parts.push(`heal ${toLabel(effect.heal)}`)
+    parts.push(`heal ${String(effect.heal)}`)
   }
 
   if (effect.draw) {
-    parts.push(`draw ${toLabel(effect.draw)}`)
+    parts.push(`draw ${String(effect.draw)}`)
   }
 
   if (effect.energy) {
-    parts.push(`gain ${toLabel(effect.energy)} energy`)
+    parts.push(`gain ${String(effect.energy)} energy`)
   }
 
   if (effect.ignoreBlock) {
@@ -531,7 +529,7 @@ function formatEffect(effect: CardEffect): string {
   }
 
   if (effect.selfDamage) {
-    parts.push(`take ${toLabel(effect.selfDamage)} damage`)
+    parts.push(`take ${String(effect.selfDamage)} damage`)
   }
 
   if (effect.selfDamageIgnoresBlock) {
