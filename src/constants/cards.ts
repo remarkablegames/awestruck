@@ -311,18 +311,18 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
 }
 
 export const STARTER_DECK = [
-  'thorn',
-  'thorn',
-  'burn',
-  'burn',
-  'surge',
   'bloom',
-  'shield',
-  'shield',
+  'burn',
+  'burn',
+  'focus',
   'quick',
   'safe',
+  'shield',
+  'shield',
+  'surge',
+  'thorn',
+  'thorn',
   'wide',
-  'focus',
 ] as const
 
 export const REWARD_POOLS = [

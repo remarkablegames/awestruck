@@ -1,9 +1,15 @@
-import { DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
+import { CARDS, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
 
-const toLabel = (value: number) => String(value)
+const TITLE_PANEL_Y_OFFSET = 0
+const TITLE_LOGO_Y_OFFSET = -140
+const TITLE_SUBTITLE_Y_OFFSET = -60
+const TITLE_STARTER_WORDS_Y_OFFSET = 10
+const TITLE_BEST_FLOOR_Y_OFFSET = 65
+const TITLE_START_BUTTON_Y_OFFSET = 135
+const TITLE_HELP_TEXT_Y_OFFSET = 270
 
 scene(SCENE.TITLE, () => {
   setBackground(rgb(...THEME.TITLE_BACKGROUND_COLOR))
@@ -11,8 +17,6 @@ scene(SCENE.TITLE, () => {
   const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
   const panelWidth = Math.min(width() - 80, 760)
   const panelHeight = 420
-  const centerX = width() / 2
-  const centerY = height() / 2
 
   const startRun = () => {
     music.startMusic()
@@ -31,16 +35,16 @@ scene(SCENE.TITLE, () => {
     rect(panelWidth, panelHeight, { radius: 24 }),
     color(25, 33, 52),
     outline(4, rgb(74, 104, 168)),
-    pos(centerX, centerY - 8),
+    pos(center().x, center().y + TITLE_PANEL_Y_OFFSET),
     anchor('center'),
   ])
 
   add([
     text('AWESTRUCK', {
-      size: 54,
+      size: 60,
     }),
     color(244, 229, 178),
-    pos(centerX, centerY - 128),
+    pos(center().x, center().y + TITLE_LOGO_Y_OFFSET),
     anchor('center'),
   ])
 
@@ -49,35 +53,35 @@ scene(SCENE.TITLE, () => {
       `Chain whole-word cards together. Modifiers shape the next payload. Survive ${String(FLOORS.MAX_FLOOR)} floors.`,
       {
         align: 'center',
-        size: 22,
+        size: 24,
         width: panelWidth - 120,
       },
     ),
     color(218, 227, 255),
-    pos(centerX, centerY - 40),
+    pos(center().x, center().y + TITLE_SUBTITLE_Y_OFFSET),
     anchor('center'),
   ])
 
   add([
     text(
-      'Starter words: DOUBLE, QUICK, WIDE, ECHO, BURN, THORN, SHIELD, BLOOM, SURGE, WARD, FOCUS, WILT',
+      `Starter words: ${CARDS.STARTER_DECK.map((card) => card.toUpperCase()).join(', ')}`,
       {
         align: 'center',
-        size: 15,
+        size: 18,
         width: panelWidth - 140,
       },
     ),
     color(164, 190, 236),
-    pos(centerX, centerY + 24),
+    pos(center().x, center().y + TITLE_STARTER_WORDS_Y_OFFSET),
     anchor('center'),
   ])
 
   add([
-    text(`Best floor reached: ${toLabel(bestFloor)}`, {
+    text(`Best floor reached: ${String(bestFloor)}`, {
       size: 20,
     }),
     color(146, 203, 145),
-    pos(centerX, centerY + 76),
+    pos(center().x, center().y + TITLE_BEST_FLOOR_Y_OFFSET),
     anchor('center'),
   ])
 
@@ -87,11 +91,11 @@ scene(SCENE.TITLE, () => {
     height: 72,
     label: 'Start Run',
     labelComps: [color(248, 250, 255)],
-    labelSize: 26,
+    labelSize: 28,
     onClick: startRun,
     width: 260,
-    x: centerX,
-    y: centerY + 142,
+    x: center().x,
+    y: center().y + TITLE_START_BUTTON_Y_OFFSET,
   })
 
   add([
@@ -99,12 +103,12 @@ scene(SCENE.TITLE, () => {
       'Build modifier chains left to right. Payloads work alone, and invalid chains are blocked before confirm.',
       {
         align: 'center',
-        size: 16,
+        size: 20,
         width: panelWidth - 140,
       },
     ),
     color(171, 182, 210),
-    pos(centerX, centerY + 284),
+    pos(center().x, center().y + TITLE_HELP_TEXT_Y_OFFSET),
     anchor('center'),
   ])
 
