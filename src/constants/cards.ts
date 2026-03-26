@@ -326,7 +326,7 @@ export const STARTER_DECK = [
 ] as const
 
 export const REWARD_POOLS = [
-  ['charge', 'rage', 'sear', 'pierce', 'safe', 'surge', 'ward'],
-  ['bastion', 'heavy', 'leech', 'risky', 'embered'],
-  ['bastion', 'heavy', 'leech', 'risky', 'embered'],
+  ['charge', 'sear', 'pierce', 'ward', 'wilt'],
+  ['bastion', 'heavy', 'embered', 'leech', 'double'],
+  ['rage', 'risky', 'echo', 'double', 'leech'],
 ] as const
