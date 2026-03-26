@@ -11,7 +11,7 @@ scene(SCENE.END, (status: EndStatus) => {
   const subtitle =
     status === 'won'
       ? `You cleared all ${String(FLOORS.MAX_FLOOR)} floors and preserved the lexicon.`
-      : 'The Archivist won this run. Start again and tune the deck.'
+      : 'The enemy won this run. Start again and tune the deck.'
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.72), pos(0, 0)])
 

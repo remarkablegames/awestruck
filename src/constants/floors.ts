@@ -2,6 +2,7 @@ import type { EnemyIntent } from '../types'
 import * as SPRITE from './sprite'
 
 interface FloorDefinition {
+  enemyName: string
   enemyIntents: EnemyIntent[]
   enemyMaxHealth: number
   enemySprite: string
@@ -10,24 +11,25 @@ interface FloorDefinition {
 export const FLOOR_DEFINITIONS: FloorDefinition[] = [
   // floor 1
   {
+    enemyName: 'Soldier',
     enemyIntents: [
       {
         attack: 7,
-        description: 'Strike for 7 damage.',
-        id: 'jab',
-        label: 'JAB',
+        description: 'Bite for 7 damage.',
+        id: 'bite',
+        label: 'ATTACK',
       },
       {
         block: 6,
-        description: 'Gain 6 block.',
+        description: 'Brace for 6 block.',
         id: 'brace',
-        label: 'BRACE',
+        label: 'DEFEND',
       },
       {
         attack: 9,
-        description: 'Strike for 9 damage.',
-        id: 'slam',
-        label: 'SLAM',
+        description: 'Crush for 9 damage.',
+        id: 'crush',
+        label: 'ATTACK',
       },
     ],
     enemyMaxHealth: 28,
@@ -36,24 +38,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
 
   // floor 2
   {
+    enemyName: 'Archer',
     enemyIntents: [
       {
         attack: 10,
-        description: 'Strike for 10 damage.',
-        id: 'lunge',
-        label: 'LUNGE',
+        description: 'Spray acid for 10 damage.',
+        id: 'acid-spray',
+        label: 'ATTACK',
       },
       {
         block: 8,
-        description: 'Gain 8 block.',
-        id: 'fortify',
-        label: 'FORTIFY',
+        description: 'Guard for 8 block.',
+        id: 'guard',
+        label: 'DEFEND',
       },
       {
         attack: 12,
-        description: 'Strike for 12 damage.',
-        id: 'crack',
-        label: 'CRACK',
+        description: 'Discharge a corrosive volley for 12 damage.',
+        id: 'discharge',
+        label: 'ATTACK',
       },
     ],
     enemyMaxHealth: 36,
@@ -62,24 +65,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
 
   // floor 3
   {
+    enemyName: 'Hatchling',
     enemyIntents: [
       {
         attack: 11,
-        description: 'Strike for 11 damage.',
-        id: 'snap',
-        label: 'SNAP',
+        description: 'Tackle for 11 damage.',
+        id: 'tackle',
+        label: 'ATTACK',
       },
       {
         block: 9,
-        description: 'Gain 9 block.',
-        id: 'molt',
-        label: 'MOLT',
+        description: 'Harden and gain 9 block.',
+        id: 'harden',
+        label: 'DEFEND',
       },
       {
         attack: 13,
-        description: 'Strike for 13 damage.',
-        id: 'talon',
-        label: 'TALON',
+        description: 'Slam for 13 damage.',
+        id: 'slam',
+        label: 'ATTACK',
       },
     ],
     enemyMaxHealth: 42,
@@ -88,24 +92,25 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
 
   // floor 4
   {
+    enemyName: 'Reaver',
     enemyIntents: [
       {
         attack: 14,
-        description: 'Strike for 14 damage.',
-        id: 'cleave',
-        label: 'CLEAVE',
+        description: 'Slice for 14 damage.',
+        id: 'slice',
+        label: 'ATTACK',
       },
       {
         block: 12,
-        description: 'Gain 12 block.',
-        id: 'shell',
-        label: 'SHELL',
+        description: 'Shield and gain 12 block.',
+        id: 'shield',
+        label: 'DEFEND',
       },
       {
         attack: 16,
-        description: 'Strike for 16 damage.',
-        id: 'ruin',
-        label: 'RUIN',
+        description: 'Tear for 16 damage.',
+        id: 'tear',
+        label: 'ATTACK',
       },
     ],
     enemyMaxHealth: 54,

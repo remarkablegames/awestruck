@@ -1,4 +1,4 @@
-import { DATA, SCENE, SOUND, THEME } from '../constants'
+import { DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
 import { addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
@@ -46,7 +46,7 @@ scene(SCENE.TITLE, () => {
 
   add([
     text(
-      'Chain whole-word cards together. Modifiers shape the next payload. Survive three Archivists.',
+      `Chain whole-word cards together. Modifiers shape the next payload. Survive ${String(FLOORS.MAX_FLOOR)} floors.`,
       {
         align: 'center',
         size: 22,

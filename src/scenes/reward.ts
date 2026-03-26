@@ -39,7 +39,7 @@ scene(SCENE.REWARD, () => {
   ])
 
   add([
-    text('Pick one new card before entering the next Archivist floor.', {
+    text('Pick one new card before entering the next floor.', {
       align: 'center',
       size: 20,
       width: 560,

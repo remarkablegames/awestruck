@@ -396,7 +396,7 @@ function createEnemyState(floor: number): EnemyState {
     health: floorDefinition.enemyMaxHealth,
     intentCursor: 0,
     intents: floorDefinition.enemyIntents,
-    label: `Archivist ${toLabel(floor)}`,
+    label: floorDefinition.enemyName,
     maxHealth: floorDefinition.enemyMaxHealth,
     sprite: floorDefinition.enemySprite,
   }
@@ -561,7 +561,7 @@ function hasPayloadCard(builder: CardInstance[]): boolean {
 function handleEnemyDefeat(state: CombatState): void {
   if (state.floor >= FLOORS.MAX_FLOOR) {
     state.status = 'won'
-    state.message = 'The final Archivist falls. Your lexicon holds.'
+    state.message = `${state.enemy.label} falls. Your lexicon holds.`
     return
   }
 
@@ -692,7 +692,7 @@ function runEnemyTurn(state: CombatState): void {
 
   if (state.player.health <= 0) {
     state.status = 'lost'
-    state.message = 'The Archivist broke your chain. Start a new run.'
+    state.message = `${state.enemy.label} broke your chain. Start a new run.`
     return
   }
 

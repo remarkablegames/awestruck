@@ -137,7 +137,7 @@ scene(SCENE.GAME, () => {
     const panelX = width() - 300
     const panelY = 24
     const panelWidth = 250
-    const panelHeight = 192
+    const panelHeight = 210
     const textWidth = panelWidth - 40
 
     track(
