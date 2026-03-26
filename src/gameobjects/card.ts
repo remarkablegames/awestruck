@@ -3,6 +3,7 @@ import type { GameObj } from 'kaplay'
 import { CARD, HAND, SOUND } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
+import { addBadge } from './badge'
 
 interface CardOptions {
   angle?: number
@@ -145,23 +146,12 @@ export function addCard({
     anchor('center'),
   ])
 
-  root.add([
-    rect(34, 34, { radius: 10 }),
-    color(28, 36, 52),
-    outline(2, rgb(245, 247, 255)),
-    pos(-CARD.WIDTH / 2 - 14, -CARD.HEIGHT / 2 - 10),
-  ])
-
-  root.add([
-    text(String(definition.cost), {
-      align: 'center',
-      size: 20,
-      width: 34,
-    }),
-    color(245, 247, 255),
-    pos(-CARD.WIDTH / 2 + 3, -CARD.HEIGHT / 2 + 7),
-    anchor('center'),
-  ])
+  addBadge({
+    label: String(definition.cost),
+    parent: root,
+    x: -CARD.WIDTH / 2 - 16,
+    y: -CARD.HEIGHT / 2 - 14,
+  })
 
   root.add([
     text(toRoleLabel(definition.type), {
