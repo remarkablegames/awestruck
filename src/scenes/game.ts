@@ -453,7 +453,8 @@ scene(SCENE.GAME, () => {
       previousPlayerHealth = state.player.health
 
       if (playerDamageTaken > 0) {
-        shake(Math.min(10 + playerDamageTaken * 2, 24))
+        play(SOUND.PUNCH)
+        shake(10)
       }
 
       switch (scene) {
