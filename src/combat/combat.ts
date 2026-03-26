@@ -104,6 +104,8 @@ export function createInitialState(
     floor: runConfig.startingFloor,
     handSize: runConfig.startingHandSize,
     nextInstanceId: deckList.length,
+    playerHealth: COMBAT.PLAYER_MAX_HEALTH,
+    playerMaxHealth: COMBAT.PLAYER_MAX_HEALTH,
   })
 }
 
@@ -406,12 +408,16 @@ function createFloorState({
   floor,
   handSize,
   nextInstanceId,
+  playerHealth,
+  playerMaxHealth,
 }: {
   bestFloor: number
   deckList: CardInstance[]
   floor: number
   handSize: number
   nextInstanceId: number
+  playerHealth: number
+  playerMaxHealth: number
 }): CombatState {
   const state: CombatState = {
     bestFloor: Math.max(bestFloor, floor),
@@ -428,9 +434,9 @@ function createFloorState({
     player: {
       block: 0,
       energy: COMBAT.MAX_ENERGY,
-      health: COMBAT.PLAYER_MAX_HEALTH,
+      health: playerHealth,
       maxEnergy: COMBAT.MAX_ENERGY,
-      maxHealth: COMBAT.PLAYER_MAX_HEALTH,
+      maxHealth: playerMaxHealth,
     },
     rewardOptions: [],
     status: 'playerTurn',
@@ -642,6 +648,8 @@ function advanceFromReward(state: CombatState): void {
     floor: nextFloor,
     handSize: state.handSize,
     nextInstanceId: state.nextInstanceId,
+    playerHealth: state.player.health,
+    playerMaxHealth: state.player.maxHealth,
   })
 
   replaceState(state, nextState)
