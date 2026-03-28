@@ -53,7 +53,7 @@ export class StateManager {
       return
     }
 
-    const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
+    const bestFloor = getData(DATA.BEST_FLOOR, 0) as number
     this.state = createInitialState(
       bestFloor,
       runConfig ?? getDefaultRunConfig(),
@@ -173,7 +173,7 @@ export class StateManager {
   }
 
   private persistProgress(): void {
-    const savedBestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
+    const savedBestFloor = getData(DATA.BEST_FLOOR, 0) as number
 
     if (this.state.bestFloor > savedBestFloor) {
       setData(DATA.BEST_FLOOR, this.state.bestFloor)
