@@ -14,7 +14,7 @@ const TITLE_HELP_TEXT_Y_OFFSET = 270
 scene(SCENE.TITLE, () => {
   setBackground(rgb(...THEME.TITLE_BACKGROUND_COLOR))
 
-  const bestFloor = getData<number>(DATA.BEST_FLOOR, 0) ?? 0
+  const bestFloor = getData(DATA.BEST_FLOOR, 0)
   const panelWidth = Math.min(width() - 80, 760)
   const panelHeight = 420
 
