@@ -4,6 +4,7 @@ import { CARD, HAND, SOUND } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 import { addBadge } from './badge'
+import { addTooltip } from './tooltip'
 
 interface CardOptions {
   angle?: number
@@ -94,44 +95,26 @@ export function addCard({
       root.pos = basePos
     })
   } else if (disabledReason) {
-    let disabledHintBackground: GameObj | null = null
-    let disabledHintText: GameObj | null = null
+    const disabledTooltip = addTooltip({
+      message: disabledReason,
+      parent: root,
+      x: 0,
+      y: -CARD.HEIGHT / 2 - 46,
+    })
 
     panel.onHover(() => {
-      disabledHintBackground ??= add([
-        rect(CARD.WIDTH + 88, 90, { radius: 14 }),
-        color(10, 14, 22),
-        outline(2, rgb(214, 224, 247)),
-        pos(root.pos.x, root.pos.y - (CARD.HEIGHT * root.scale.y) / 2 - 46),
-        anchor('center'),
-      ])
-
-      disabledHintText ??= add([
-        text(disabledReason, {
-          align: 'center',
-          size: 18,
-          width: CARD.WIDTH + 60,
-        }),
-        color(240, 243, 255),
-        pos(root.pos.x, root.pos.y - (CARD.HEIGHT * root.scale.y) / 2 - 46),
-        anchor('center'),
-      ])
-
+      disabledTooltip.show()
       setCursor('not-allowed')
     })
 
     panel.onHoverEnd(() => {
       setCursor('default')
-      disabledHintBackground?.destroy()
-      disabledHintText?.destroy()
-      disabledHintBackground = null
-      disabledHintText = null
+      disabledTooltip.hide()
     })
 
     panel.onDestroy(() => {
       setCursor('default')
-      disabledHintBackground?.destroy()
-      disabledHintText?.destroy()
+      disabledTooltip.hide()
     })
   }
 
