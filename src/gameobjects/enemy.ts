@@ -1,6 +1,6 @@
 import type { ColorComp, GameObj, PosComp } from 'kaplay'
 
-import { SOUND } from '../constants'
+import { LAYER, SOUND } from '../constants'
 import type { EnemyState } from '../types'
 
 const BOX_WIDTH = 300
@@ -12,7 +12,7 @@ const HIT_DURATION = 0.1
 const DAMAGE_DURATION = 0.5
 
 export function addEnemy(enemy: EnemyState) {
-  const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(1)])
+  const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(LAYER.ENEMY)])
 
   root.add([
     rect(BOX_WIDTH + FRAME_PADDING * 2, BOX_HEIGHT + FRAME_PADDING * 2, {
@@ -129,7 +129,7 @@ export function addEnemy(enemy: EnemyState) {
         lifespan(DAMAGE_DURATION, { fade: 0.1 }),
         pos(width() / 2, BOX_Y + 90),
         anchor('center'),
-        z(3),
+        z(LAYER.ENEMY),
       ])
 
       tween(

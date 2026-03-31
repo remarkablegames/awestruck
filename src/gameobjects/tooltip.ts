@@ -1,5 +1,7 @@
 import type { GameObj } from 'kaplay'
 
+import { LAYER } from '../constants'
+
 const WIDTH = 238
 const HEIGHT = 90
 
@@ -14,7 +16,7 @@ export function addTooltip({
   x: number
   y: number
 }) {
-  const root = parent.add([pos(x, y), z(2)])
+  const root = parent.add([pos(x, y), z(LAYER.TOOLTIP)])
   root.hidden = true
 
   root.add([

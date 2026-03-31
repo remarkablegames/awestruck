@@ -1,6 +1,6 @@
 import type { GameObj } from 'kaplay'
 
-import { CARD, HAND, SOUND } from '../constants'
+import { CARD, HAND, LAYER, SOUND } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 import { addBadge } from './badge'
@@ -33,9 +33,14 @@ export function addCard({
   x,
   y,
 }: CardOptions) {
-  const root = parent
-    ? parent.add([pos(x, y), rotate(angle), scale(initialScale), z(0)])
-    : add([pos(x, y), rotate(angle), scale(initialScale), z(0)])
+  const addFn = parent ? parent.add.bind(parent) : add
+
+  const root = addFn([
+    pos(x, y),
+    rotate(angle),
+    scale(initialScale),
+    z(LAYER.CARD),
+  ])
 
   const panel = root.add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
