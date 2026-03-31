@@ -59,7 +59,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   double: {
     accent: [255, 212, 92],
     cost: 2,
-    description: 'Double the next payload.',
+    description: "Double the payload's effects.",
     effect: {},
     id: 'double',
     label: 'DOUBLE',
@@ -73,7 +73,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   echo: {
     accent: [171, 153, 255],
     cost: 1,
-    description: 'Repeat half the current result on the next payload.',
+    description: 'Payload repeats half its effects.',
     effect: {},
     id: 'echo',
     label: 'ECHO',
@@ -87,7 +87,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   embered: {
     accent: [255, 143, 88],
     cost: 1,
-    description: 'The next payload also applies burn.',
+    description: 'Payload applies 3 burn.',
     effect: {},
     id: 'embered',
     label: 'EMBERED',
@@ -114,7 +114,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   heavy: {
     accent: [143, 125, 102],
     cost: 2,
-    description: 'Make the next payload much heavier.',
+    description: 'Payload gains heavy bonuses.',
     effect: {},
     id: 'heavy',
     label: 'HEAVY',
@@ -128,7 +128,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   leech: {
     accent: [145, 209, 164],
     cost: 2,
-    description: 'The next damaging payload also heals you.',
+    description: 'Damaging payload heals half its damage.',
     effect: {},
     id: 'leech',
     label: 'LEECH',
@@ -142,7 +142,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   pierce: {
     accent: [198, 217, 255],
     cost: 2,
-    description: 'The next damaging payload ignores block.',
+    description: 'Payload damage bypasses block.',
     effect: {},
     id: 'pierce',
     label: 'PIERCE',
@@ -156,7 +156,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   quick: {
     accent: [115, 220, 255],
     cost: 1,
-    description: 'Add tempo: draw 1, then sharpen the next payload.',
+    description: 'Payload gains 1 draw and a small boost.',
     effect: {
       draw: 1,
     },
@@ -187,7 +187,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   risky: {
     accent: [255, 156, 142],
     cost: 1,
-    description: 'Push the next payload harder, but take 2 damage.',
+    description: 'Payload gains bonuses, but you take 2 damage.',
     effect: {},
     id: 'risky',
     label: 'RISKY',
@@ -201,7 +201,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   safe: {
     accent: [167, 221, 202],
     cost: 1,
-    description: 'The next payload also grants a little block.',
+    description: 'Payload gains 3 block.',
     effect: {},
     id: 'safe',
     label: 'SAFE',
@@ -282,7 +282,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   wide: {
     accent: [153, 215, 96],
     cost: 1,
-    description: 'Broaden the next payload with extra side effects.',
+    description: 'Payload adds a small side effect.',
     effect: {
       block: 2,
     },
