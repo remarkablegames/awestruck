@@ -190,24 +190,24 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     })
   })
 
-  for (let index = 0; index < 14; index += 1) {
+  for (let index = 0; index < 24; index += 1) {
     const particle = add([
-      circle(rand(1.5, 3.8)),
+      circle(rand(2.5, 5.2)),
       color(...THEME.BACKDROP_DUST_COLOR),
-      opacity(rand(0.04, 0.14)),
-      pos(rand(28, sceneWidth - 28), rand(28, actionAreaTop + 120)),
+      opacity(rand(0.12, 0.28)),
+      pos(rand(28, sceneWidth - 28), rand(18, actionAreaTop + 80)),
       z(DUST_LAYER_Z + index),
     ])
 
-    const driftSpeed = rand(5, 12)
-    const sway = rand(8, 28)
+    const driftSpeed = rand(8, 18)
+    const sway = rand(12, 36)
     const phase = rand(0, Math.PI * 2)
 
     particle.onUpdate(() => {
       particle.pos.y += driftSpeed * dt()
-      particle.pos.x += Math.sin(time() + phase) * sway * dt() * 0.18
+      particle.pos.x += Math.sin(time() * 0.9 + phase) * sway * dt() * 0.24
 
-      if (particle.pos.y > actionAreaTop + 160) {
+      if (particle.pos.y > actionAreaTop + 120) {
         particle.pos.y = rand(-40, 0)
         particle.pos.x = rand(28, sceneWidth - 28)
       }
