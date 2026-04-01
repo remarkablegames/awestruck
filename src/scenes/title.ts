@@ -1,5 +1,5 @@
 import { CARDS, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addDungeonBackdrop } from '../gameobjects'
+import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
 
@@ -25,7 +25,7 @@ scene(SCENE.TITLE, () => {
     go(SCENE.GAME)
   }
 
-  addDungeonBackdrop({
+  addBackdrop({
     actionAreaTop: height() * 0.46,
     overlayOpacity: 0.04,
   })

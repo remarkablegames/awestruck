@@ -1,5 +1,5 @@
 import { FLOORS, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addDungeonBackdrop } from '../gameobjects'
+import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 
 type EndStatus = 'lost' | 'won'
@@ -13,7 +13,7 @@ scene(SCENE.END, (status: EndStatus) => {
       ? `You cleared all ${String(FLOORS.MAX_FLOOR)} floors and preserved the lexicon.`
       : 'The enemy won this run. Start again and tune the deck.'
 
-  addDungeonBackdrop({
+  addBackdrop({
     actionAreaTop: height() * 0.48,
     overlayOpacity: 0.08,
   })

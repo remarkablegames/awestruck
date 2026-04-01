@@ -1,11 +1,11 @@
 import { LAYER, THEME } from '../constants'
 
-interface DungeonBackdropOptions {
+interface BackdropOptions {
   actionAreaTop?: number
   overlayOpacity?: number
 }
 
-export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
+export function addBackdrop(options: BackdropOptions = {}) {
   const sceneWidth = width()
   const sceneHeight = height()
   const actionAreaTop = options.actionAreaTop ?? Math.round(sceneHeight * 0.42)

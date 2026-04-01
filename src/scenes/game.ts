@@ -7,8 +7,8 @@ import {
 } from '../combat'
 import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
 import {
+  addBackdrop,
   addButton,
-  addDungeonBackdrop,
   addEnemy,
   addFlash,
   addHand,
@@ -67,7 +67,7 @@ scene(SCENE.GAME, () => {
   const renderBackground = () => {
     const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
 
-    addDungeonBackdrop({ actionAreaTop })
+    addBackdrop({ actionAreaTop })
   }
 
   const playerDamageFlash = addFlash()

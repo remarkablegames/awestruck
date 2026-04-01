@@ -1,6 +1,6 @@
 import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
-import { addButton, addCard, addDungeonBackdrop } from '../gameobjects'
+import { addBackdrop, addButton, addCard } from '../gameobjects'
 import { getStateManager } from '../state'
 
 const REWARD_CONTAINER_HEIGHT = 560
@@ -17,7 +17,7 @@ scene(SCENE.REWARD, () => {
   const stateManager = getStateManager()
   const state = stateManager.getState()
 
-  addDungeonBackdrop({
+  addBackdrop({
     actionAreaTop: height() * 0.48,
     overlayOpacity: 0.08,
   })
