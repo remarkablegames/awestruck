@@ -1,11 +1,6 @@
 import type { Anchor } from 'kaplay'
 
-import { THEME } from '../constants'
-
-const BACKDROP_Z = -1000
-const FOG_LAYER_Z = -970
-const DUST_LAYER_Z = -950
-const PANEL_SHADOW_Z = -5
+import { LAYER, THEME } from '../constants'
 
 interface DungeonBackdropOptions {
   actionAreaTop?: number
@@ -35,7 +30,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     rect(sceneWidth, sceneHeight),
     color(...THEME.GAME_BACKGROUND_COLOR),
     pos(0, 0),
-    z(BACKDROP_Z),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -43,7 +38,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.BACKDROP_HAZE_COLOR),
     opacity(0.62),
     pos(0, 0),
-    z(BACKDROP_Z + 1),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -51,7 +46,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.GAME_LOWER_BACKGROUND_COLOR),
     opacity(0.98),
     pos(0, actionAreaTop),
-    z(BACKDROP_Z + 1),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -60,7 +55,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     opacity(0.16),
     pos(windowCenterX, windowCenterY),
     anchor('center'),
-    z(BACKDROP_Z + 2),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -68,7 +63,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.BACKDROP_ARCH_COLOR),
     pos(windowCenterX, 32),
     anchor('top'),
-    z(BACKDROP_Z + 3),
+    z(LAYER.BACKDROP),
   ])
   ;[-54, 0, 54].forEach((offsetX) => {
     add([
@@ -77,7 +72,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       opacity(offsetX === 0 ? 0.2 : 0.12),
       pos(windowCenterX + offsetX, 50),
       anchor('top'),
-      z(BACKDROP_Z + 4),
+      z(LAYER.BACKDROP),
     ])
   })
   ;[90, 150, 210].forEach((offsetY) => {
@@ -87,7 +82,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       opacity(0.12),
       pos(windowCenterX, offsetY),
       anchor('center'),
-      z(BACKDROP_Z + 4),
+      z(LAYER.BACKDROP),
     ])
   })
 
@@ -98,7 +93,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       color(...THEME.BACKDROP_ARCH_COLOR),
       pos(columnX, -20),
       anchor('top'),
-      z(BACKDROP_Z + 5),
+      z(LAYER.BACKDROP),
     ])
 
     add([
@@ -106,7 +101,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       color(...THEME.BACKDROP_ARCH_COLOR),
       pos(columnX, actionAreaTop * 0.24),
       anchor('center'),
-      z(BACKDROP_Z + 5),
+      z(LAYER.BACKDROP),
     ])
   })
 
@@ -121,7 +116,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       opacity(0.92),
       pos(shelfX, actionAreaTop - 12),
       anchor('bot'),
-      z(BACKDROP_Z + 6),
+      z(LAYER.BACKDROP),
     ])
     ;[52, 102, 152].forEach((shelfOffset) => {
       if (shelfOffset >= shelfHeight - 20) {
@@ -134,7 +129,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
         opacity(0.08),
         pos(shelfX, actionAreaTop - shelfHeight + shelfOffset),
         anchor('center'),
-        z(BACKDROP_Z + 7),
+        z(LAYER.BACKDROP),
       ])
     })
   })
@@ -144,7 +139,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.BACKDROP_FLOOR_GLOW_COLOR),
     opacity(0.18),
     pos(0, actionAreaTop - 10),
-    z(BACKDROP_Z + 8),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -152,7 +147,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.BACKDROP_FOG_COLOR),
     opacity(0.16),
     pos(0, actionAreaTop - 8),
-    z(BACKDROP_Z + 9),
+    z(LAYER.BACKDROP),
   ])
   ;[
     { duration: 6.2, width: sceneWidth * 0.72, y: actionAreaTop * 0.24 },
@@ -163,7 +158,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       color(...THEME.BACKDROP_FOG_COLOR),
       opacity(0.08 - index * 0.02),
       pos(sceneWidth * 0.18 + index * 80, fog.y),
-      z(FOG_LAYER_Z + index),
+      z(LAYER.BACKDROP),
     ])
 
     const startX = fogStrip.pos.x
@@ -174,14 +169,14 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
   ;[
     { pulse: 1.8, radius: 170, x: 80, y: actionAreaTop - 28 },
     { pulse: 2.2, radius: 150, x: sceneWidth - 88, y: actionAreaTop - 36 },
-  ].forEach((glow, index) => {
+  ].forEach((glow) => {
     const glowOrb = add([
       circle(glow.radius),
       color(...THEME.BACKDROP_CANDLELIGHT_COLOR),
       opacity(0.075),
       pos(glow.x, glow.y),
       anchor('center'),
-      z(FOG_LAYER_Z + 4 + index),
+      z(LAYER.BACKDROP),
     ])
 
     const baseOpacity = glowOrb.opacity
@@ -196,7 +191,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
       color(...THEME.BACKDROP_DUST_COLOR),
       opacity(rand(0.12, 0.28)),
       pos(rand(28, sceneWidth - 28), rand(18, actionAreaTop + 80)),
-      z(DUST_LAYER_Z + index),
+      z(LAYER.BACKDROP),
     ])
 
     const driftSpeed = rand(8, 18)
@@ -219,7 +214,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.18 + overlayOpacity),
     pos(0, 0),
-    z(FOG_LAYER_Z + 20),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -227,7 +222,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.2 + overlayOpacity),
     pos(0, sceneHeight - 200),
-    z(FOG_LAYER_Z + 20),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -235,7 +230,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.16 + overlayOpacity),
     pos(0, 0),
-    z(FOG_LAYER_Z + 20),
+    z(LAYER.BACKDROP),
   ])
 
   add([
@@ -243,7 +238,7 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.16 + overlayOpacity),
     pos(sceneWidth - 120, 0),
-    z(FOG_LAYER_Z + 20),
+    z(LAYER.BACKDROP),
   ])
 }
 
@@ -265,6 +260,6 @@ export function addPanelShadow(options: PanelShadowOptions) {
     opacity(shadowOpacity),
     pos(x + offsetX, y + offsetY),
     ...(panelAnchor ? [anchor(panelAnchor)] : []),
-    z(PANEL_SHADOW_Z),
+    z(LAYER.PANEL_SHADOW),
   ])
 }

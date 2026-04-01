@@ -1,9 +1,9 @@
+import { LAYER } from '../constants'
+
 const FLASH_DURATION = 0.18
 const FLASH_FADE_DURATION = 0.22
 const FLASH_OVERLAY_OPACITY = 0.14
 const FLASH_TOP_OPACITY = 0.22
-const FLASH_OVERLAY_Z = 900
-const FLASH_TOP_Z = 901
 
 export function addFlash() {
   const overlay = add([
@@ -11,7 +11,7 @@ export function addFlash() {
     color(255, 134, 118),
     opacity(0),
     pos(0, 0),
-    z(FLASH_OVERLAY_Z),
+    z(LAYER.FLASH),
   ])
 
   const topOverlay = add([
@@ -19,7 +19,7 @@ export function addFlash() {
     color(255, 148, 126),
     opacity(0),
     pos(0, 0),
-    z(FLASH_TOP_Z),
+    z(LAYER.FLASH),
   ])
 
   return {
