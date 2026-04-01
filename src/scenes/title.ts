@@ -1,5 +1,5 @@
 import { CARDS, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addDungeonBackdrop, addPanelShadow } from '../gameobjects'
+import { addButton, addDungeonBackdrop } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
 
@@ -28,15 +28,6 @@ scene(SCENE.TITLE, () => {
   addDungeonBackdrop({
     actionAreaTop: height() * 0.46,
     overlayOpacity: 0.04,
-  })
-
-  addPanelShadow({
-    anchor: 'center',
-    height: panelHeight,
-    opacity: 0.42,
-    width: panelWidth,
-    x: center().x,
-    y: center().y + TITLE_PANEL_Y_OFFSET,
   })
 
   add([

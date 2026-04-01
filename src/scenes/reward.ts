@@ -1,11 +1,6 @@
 import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
-import {
-  addButton,
-  addCard,
-  addDungeonBackdrop,
-  addPanelShadow,
-} from '../gameobjects'
+import { addButton, addCard, addDungeonBackdrop } from '../gameobjects'
 import { getStateManager } from '../state'
 
 const REWARD_CONTAINER_HEIGHT = 560
@@ -28,15 +23,6 @@ scene(SCENE.REWARD, () => {
   })
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.62)])
-
-  addPanelShadow({
-    anchor: 'center',
-    height: REWARD_CONTAINER_HEIGHT,
-    opacity: 0.48,
-    width: REWARD_CONTAINER_WIDTH,
-    x: center().x,
-    y: center().y,
-  })
 
   add([
     rect(REWARD_CONTAINER_WIDTH, REWARD_CONTAINER_HEIGHT, { radius: 26 }),

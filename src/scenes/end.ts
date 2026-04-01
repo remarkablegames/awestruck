@@ -1,5 +1,5 @@
 import { FLOORS, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addDungeonBackdrop, addPanelShadow } from '../gameobjects'
+import { addButton, addDungeonBackdrop } from '../gameobjects'
 import { resetStateManager } from '../state'
 
 type EndStatus = 'lost' | 'won'
@@ -19,15 +19,6 @@ scene(SCENE.END, (status: EndStatus) => {
   })
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.62), pos(0, 0)])
-
-  addPanelShadow({
-    anchor: 'center',
-    height: 400,
-    opacity: 0.48,
-    width: 680,
-    x: width() / 2,
-    y: height() / 2,
-  })
 
   add([
     rect(680, 400, { radius: 26 }),

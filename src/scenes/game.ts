@@ -12,7 +12,6 @@ import {
   addEnemy,
   addFlash,
   addHand,
-  addPanelShadow,
 } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
@@ -131,13 +130,6 @@ scene(SCENE.GAME, () => {
     const panelHeight = 210
     const textWidth = panelWidth - 40
 
-    addPanelShadow({
-      height: panelHeight,
-      width: panelWidth,
-      x: panelX,
-      y: panelY,
-    })
-
     track(
       add([
         rect(panelWidth, panelHeight, { radius: 22 }),
@@ -222,13 +214,6 @@ scene(SCENE.GAME, () => {
       .map((card) => getCardDefinition(card.cardId).label)
       .join(' + ')
     const previewText = preview.previewText
-
-    addPanelShadow({
-      height: panelHeight,
-      width: width() - 80,
-      x: panelX,
-      y: panelY,
-    })
 
     track(
       add([

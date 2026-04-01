@@ -1,21 +1,8 @@
-import type { Anchor } from 'kaplay'
-
 import { LAYER, THEME } from '../constants'
 
 interface DungeonBackdropOptions {
   actionAreaTop?: number
   overlayOpacity?: number
-}
-
-interface PanelShadowOptions {
-  anchor?: Anchor
-  height: number
-  offsetX?: number
-  offsetY?: number
-  opacity?: number
-  width: number
-  x: number
-  y: number
 }
 
 export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
@@ -239,27 +226,5 @@ export function addDungeonBackdrop(options: DungeonBackdropOptions = {}) {
     opacity(0.16 + overlayOpacity),
     pos(sceneWidth - 120, 0),
     z(LAYER.BACKDROP),
-  ])
-}
-
-export function addPanelShadow(options: PanelShadowOptions) {
-  const {
-    anchor: panelAnchor,
-    height,
-    offsetX = 0,
-    offsetY = 10,
-    opacity: shadowOpacity = 0.34,
-    width: panelWidth,
-    x,
-    y,
-  } = options
-
-  add([
-    rect(panelWidth, height, { radius: 28 }),
-    color(...THEME.PANEL_SHADOW_COLOR),
-    opacity(shadowOpacity),
-    pos(x + offsetX, y + offsetY),
-    ...(panelAnchor ? [anchor(panelAnchor)] : []),
-    z(LAYER.PANEL_SHADOW),
   ])
 }

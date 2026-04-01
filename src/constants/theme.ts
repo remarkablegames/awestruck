@@ -11,4 +11,3 @@ export const BACKDROP_MOONLIGHT_COLOR = [109, 138, 194] as const
 export const BACKDROP_CANDLELIGHT_COLOR = [214, 160, 95] as const
 export const BACKDROP_DUST_COLOR = [216, 225, 250] as const
 export const VIGNETTE_COLOR = [5, 8, 12] as const
-export const PANEL_SHADOW_COLOR = [6, 10, 18] as const
