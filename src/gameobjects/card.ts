@@ -6,6 +6,15 @@ import { sound } from '../utils'
 import { addBadge } from './badge'
 import { addTooltip } from './tooltip'
 
+const TITLE_Y = -CARD.HEIGHT / 2 + 30
+const IMAGE_FRAME_WIDTH = CARD.WIDTH - 14
+const IMAGE_FRAME_HEIGHT = 82
+const IMAGE_FRAME_Y = -CARD.HEIGHT / 2 + 88
+const ROLE_PILL_WIDTH = 88
+const ROLE_PILL_HEIGHT = 20
+const ROLE_PILL_Y = -CARD.HEIGHT / 2 + 129
+const DESCRIPTION_Y = -CARD.HEIGHT / 2 + 148
+
 interface CardOptions {
   angle?: number
   definition: CardDefinition
@@ -34,6 +43,7 @@ export function addCard({
   y,
 }: CardOptions) {
   const addFn = parent ? parent.add.bind(parent) : add
+  let isDestroyed = false
 
   const root = addFn([
     pos(x, y),
@@ -55,6 +65,8 @@ export function addCard({
     outline(3, rgb(229, 233, 246)),
     pos(-CARD.WIDTH / 2, -CARD.HEIGHT / 2),
   ])
+
+  const roleLabel = toRoleLabel(definition.type)
 
   if (!disabled) {
     const playTick = sound.createTickPlayer()
@@ -95,6 +107,7 @@ export function addCard({
     })
 
     panel.onDestroy(() => {
+      isDestroyed = true
       setCursor('default')
       root.scaleTo(initialScale)
       root.pos = basePos
@@ -118,19 +131,24 @@ export function addCard({
     })
 
     panel.onDestroy(() => {
+      isDestroyed = true
       setCursor('default')
       disabledTooltip.hide()
+    })
+  } else {
+    panel.onDestroy(() => {
+      isDestroyed = true
     })
   }
 
   root.add([
     text(definition.label, {
       align: 'center',
-      size: 30,
+      size: 24,
       width: CARD.WIDTH - 18,
     }),
     color(15, 20, 28),
-    pos(0, -CARD.HEIGHT / 2 + 34),
+    pos(0, TITLE_Y),
     anchor('center'),
   ])
 
@@ -141,16 +159,45 @@ export function addCard({
     y: -CARD.HEIGHT / 2 - 14,
   })
 
-  root.add([
-    text(toRoleLabel(definition.type), {
-      align: 'center',
-      size: 18,
-      width: CARD.WIDTH - 18,
-    }),
-    color(32, 44, 62),
-    pos(0, -CARD.HEIGHT / 2 + 78),
-    anchor('center'),
-  ])
+  if (hasCardImage(definition.id)) {
+    getSprite(definition.id)?.then((data) => {
+      if (isDestroyed) {
+        return
+      }
+
+      const scale = Math.min(
+        IMAGE_FRAME_WIDTH / data.width,
+        IMAGE_FRAME_HEIGHT / data.height,
+      )
+
+      root.add([
+        sprite(definition.id, {
+          height: data.height * scale,
+          width: data.width * scale,
+        }),
+        pos(0, IMAGE_FRAME_Y),
+        anchor('center'),
+      ])
+    })
+
+    addRolePill({
+      label: roleLabel,
+      parent: root,
+      x: 0,
+      y: ROLE_PILL_Y,
+    })
+  } else {
+    root.add([
+      text(roleLabel, {
+        align: 'center',
+        size: 18,
+        width: CARD.WIDTH - 18,
+      }),
+      color(32, 44, 62),
+      pos(0, IMAGE_FRAME_Y),
+      anchor('center'),
+    ])
+  }
 
   root.add([
     text(definition.description, {
@@ -158,7 +205,7 @@ export function addCard({
       width: CARD.WIDTH - 24,
     }),
     color(27, 35, 48),
-    pos(-CARD.WIDTH / 2 + 14, -CARD.HEIGHT / 2 + 118),
+    pos(-CARD.WIDTH / 2 + 14, DESCRIPTION_Y),
   ])
 
   return {
@@ -174,4 +221,42 @@ function toRoleLabel(type: 'modifier' | 'payload') {
     case 'payload':
       return 'Payload'
   }
+}
+
+function hasCardImage(cardId: string) {
+  return ['bastion', 'bloom', 'pierce', 'surge', 'thorn', 'wilt'].includes(
+    cardId,
+  )
+}
+
+function addRolePill({
+  label,
+  parent,
+  x,
+  y,
+}: {
+  label: string
+  parent: GameObj
+  x: number
+  y: number
+}) {
+  const pill = parent.add([
+    rect(ROLE_PILL_WIDTH, ROLE_PILL_HEIGHT, { radius: 999 }),
+    color(24, 31, 46),
+    opacity(0.88),
+    outline(2, rgb(245, 247, 255)),
+    pos(x, y),
+    anchor('center'),
+  ])
+
+  pill.add([
+    text(label, {
+      align: 'center',
+      size: 14,
+      width: ROLE_PILL_WIDTH - 8,
+    }),
+    color(245, 247, 255),
+    pos(0, 0),
+    anchor('center'),
+  ])
 }
