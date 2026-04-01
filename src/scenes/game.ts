@@ -10,6 +10,7 @@ import {
   addButton,
   addDungeonBackdrop,
   addEnemy,
+  addFlash,
   addHand,
   addPanelShadow,
 } from '../gameobjects'
@@ -21,10 +22,6 @@ const ACTION_BUTTON_OFFSET_Y = 60
 const BUILDER_PANEL_OFFSET_Y = 10
 const END_TURN_BUTTON_OFFSET_Y = -42
 const DEFEAT_TRANSITION_DELAY = 1
-const PLAYER_FLASH_DURATION = 0.18
-const PLAYER_FLASH_FADE_DURATION = 0.22
-const PLAYER_FLASH_OVERLAY_OPACITY = 0.14
-const PLAYER_FLASH_TOP_OPACITY = 0.22
 
 scene(SCENE.GAME, () => {
   setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
@@ -74,46 +71,7 @@ scene(SCENE.GAME, () => {
     addDungeonBackdrop({ actionAreaTop })
   }
 
-  const playerDamageFlash = add([
-    rect(width(), height()),
-    color(255, 134, 118),
-    opacity(0),
-    pos(0, 0),
-    z(900),
-  ])
-
-  const playerDamageFlashTop = add([
-    rect(width(), height() * 0.48),
-    color(255, 148, 126),
-    opacity(0),
-    pos(0, 0),
-    z(901),
-  ])
-
-  const playPlayerDamageFlash = () => {
-    playerDamageFlash.opacity = PLAYER_FLASH_OVERLAY_OPACITY
-    playerDamageFlashTop.opacity = PLAYER_FLASH_TOP_OPACITY
-
-    tween(
-      PLAYER_FLASH_OVERLAY_OPACITY,
-      0,
-      PLAYER_FLASH_DURATION + PLAYER_FLASH_FADE_DURATION,
-      (value) => {
-        playerDamageFlash.opacity = value
-      },
-      easings.easeOutCubic,
-    )
-
-    tween(
-      PLAYER_FLASH_TOP_OPACITY,
-      0,
-      PLAYER_FLASH_DURATION + PLAYER_FLASH_FADE_DURATION,
-      (value) => {
-        playerDamageFlashTop.opacity = value
-      },
-      easings.easeOutCubic,
-    )
-  }
+  const playerDamageFlash = addFlash()
 
   const renderHeader = (state: CombatState) => {
     track(
@@ -501,7 +459,7 @@ scene(SCENE.GAME, () => {
 
       if (playerDamageTaken > 0) {
         play(SOUND.PUNCH)
-        playPlayerDamageFlash()
+        playerDamageFlash.play()
         shake(10)
       }
 
