@@ -247,6 +247,7 @@ function addRolePill({
     outline(2, rgb(245, 247, 255)),
     pos(x, y),
     anchor('center'),
+    z(LAYER.CARD_PILL),
   ])
 
   pill.add([
