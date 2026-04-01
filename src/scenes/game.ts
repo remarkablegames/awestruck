@@ -6,7 +6,13 @@ import {
   getDeckCountLabel,
 } from '../combat'
 import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
-import { addButton, addEnemy, addHand } from '../gameobjects'
+import {
+  addButton,
+  addDungeonBackdrop,
+  addEnemy,
+  addHand,
+  addPanelShadow,
+} from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
 
@@ -61,25 +67,7 @@ scene(SCENE.GAME, () => {
   const renderBackground = () => {
     const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
 
-    add([
-      rect(width(), height()),
-      color(...THEME.GAME_BACKGROUND_COLOR),
-      pos(0, 0),
-    ])
-
-    add([
-      rect(width(), actionAreaTop),
-      color(...THEME.GAME_BACKGROUND_COLOR),
-      pos(0, 0),
-      opacity(0.9),
-    ])
-
-    add([
-      rect(width(), height() - actionAreaTop),
-      color(...THEME.GAME_LOWER_BACKGROUND_COLOR),
-      pos(0, actionAreaTop),
-      opacity(0.95),
-    ])
+    addDungeonBackdrop({ actionAreaTop })
   }
 
   const renderHeader = (state: CombatState) => {
@@ -139,6 +127,13 @@ scene(SCENE.GAME, () => {
     const panelWidth = 250
     const panelHeight = 210
     const textWidth = panelWidth - 40
+
+    addPanelShadow({
+      height: panelHeight,
+      width: panelWidth,
+      x: panelX,
+      y: panelY,
+    })
 
     track(
       add([
@@ -224,6 +219,13 @@ scene(SCENE.GAME, () => {
       .map((card) => getCardDefinition(card.cardId).label)
       .join(' + ')
     const previewText = preview.previewText
+
+    addPanelShadow({
+      height: panelHeight,
+      width: width() - 80,
+      x: panelX,
+      y: panelY,
+    })
 
     track(
       add([
