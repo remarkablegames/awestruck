@@ -156,7 +156,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   quick: {
     accent: [115, 220, 255],
     cost: 1,
-    description: 'Payload gains 1 draw and a small boost.',
+    description: 'Payload gains a small boost and draw 1.',
     effect: {
       draw: 1,
     },
@@ -187,7 +187,7 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
   risky: {
     accent: [255, 156, 142],
     cost: 1,
-    description: 'Payload gains bonuses, but you take 2 damage.',
+    description: 'Payload gains bonuses. You take 2 damage.',
     effect: {},
     id: 'risky',
     label: 'RISKY',
