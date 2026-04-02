@@ -428,11 +428,14 @@ scene(SCENE.GAME, () => {
 
         case SCENE.END:
           if (endStatus) {
-            if (hitDamage > 0) {
+            if (hitDamage > 0 || playerDamageTaken > 0) {
               wait(0, () => {
                 enemyDisplay.sync(state.enemy)
                 renderUI(state)
-                enemyDisplay.playHit(hitDamage)
+
+                if (hitDamage > 0) {
+                  enemyDisplay.playHit(hitDamage)
+                }
               })
 
               wait(DEFEAT_TRANSITION_DELAY, () => {
