@@ -1,10 +1,6 @@
 import type { GameObj } from 'kaplay'
 
-import {
-  getCardDefinition,
-  getChainPreview,
-  getDeckCountLabel,
-} from '../combat'
+import { getCardDefinition, getChainPreview } from '../combat'
 import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
 import {
   addBackdrop,
@@ -12,6 +8,7 @@ import {
   addEnemy,
   addFlash,
   addHand,
+  addStatus,
 } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
@@ -65,57 +62,6 @@ scene(SCENE.GAME, () => {
   }
 
   const playerDamageFlash = addFlash()
-
-  const renderHeader = (state: CombatState) => {
-    track(
-      add([
-        text(`Floor ${String(state.floor)}, Turn ${String(state.turn)}`, {
-          size: 26,
-        }),
-        color(247, 232, 179),
-        pos(40, 28),
-      ]),
-    )
-
-    track(
-      add([
-        text(
-          `Player HP ${String(state.player.health)}/${String(state.player.maxHealth)}`,
-          {
-            size: 20,
-          },
-        ),
-        color(227, 239, 255),
-        pos(40, 66),
-      ]),
-    )
-
-    track(
-      add([
-        text(
-          `Block ${String(state.player.block)}, Energy ${String(state.player.energy)}/${String(state.player.maxEnergy)}`,
-          {
-            size: 20,
-          },
-        ),
-        color(171, 198, 255),
-        pos(40, 94),
-      ]),
-    )
-
-    track(
-      add([
-        text(
-          `Draw ${String(state.drawPile.length)}, Discard ${String(state.discardPile.length)}, Deck ${getDeckCountLabel(state)}`,
-          {
-            size: 20,
-          },
-        ),
-        color(155, 166, 196),
-        pos(40, 124),
-      ]),
-    )
-  }
 
   const renderEnemyPanel = (state: CombatState) => {
     const panelX = width() - 300
@@ -381,7 +327,13 @@ scene(SCENE.GAME, () => {
 
   const renderUI = (state: CombatState) => {
     clearUI()
-    renderHeader(state)
+    trackAll(
+      addStatus({
+        state,
+        x: 40,
+        y: 28,
+      }),
+    )
     renderEnemyPanel(state)
     renderBuilderPanel(state)
     renderActionButtons(state)
