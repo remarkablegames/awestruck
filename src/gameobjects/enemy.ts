@@ -12,7 +12,7 @@ const HIT_SHAKE_DISTANCE = 16
 const HIT_DURATION = 0.1
 const DAMAGE_DURATION = 0.5
 const HEALTH_BAR_WIDTH = BOX_WIDTH + FRAME_PADDING * 2
-const HEALTH_BAR_HEIGHT = 18
+const HEALTH_BAR_HEIGHT = 30
 const HEALTH_BAR_Y = BOX_HEIGHT + 24
 
 export function addEnemy(enemy: EnemyState) {
@@ -24,7 +24,7 @@ export function addEnemy(enemy: EnemyState) {
     }),
     color(58, 42, 61),
     outline(2, rgb(221, 178, 160)),
-    pos(-FRAME_PADDING, -FRAME_PADDING),
+    pos(-FRAME_PADDING),
   ])
 
   const flash = addFlash({
@@ -46,6 +46,20 @@ export function addEnemy(enemy: EnemyState) {
     x: -FRAME_PADDING,
     y: HEALTH_BAR_Y,
   })
+
+  const healthText = root.add([
+    text(getHealthTextLabel(enemy.health, enemy.maxHealth), {
+      align: 'center',
+      size: 18,
+      width: HEALTH_BAR_WIDTH,
+    }),
+    color(251, 214, 198),
+    pos(
+      -FRAME_PADDING + HEALTH_BAR_WIDTH / 2,
+      HEALTH_BAR_Y + 1 + HEALTH_BAR_HEIGHT / 2,
+    ),
+    anchor('center'),
+  ])
 
   let spriteObject: GameObj<ColorComp | PosComp> | null = null
   let spriteName = ''
@@ -163,9 +177,18 @@ export function addEnemy(enemy: EnemyState) {
     sync(nextEnemy: EnemyState) {
       healthBar.sync(nextEnemy.health, nextEnemy.maxHealth)
 
+      healthText.text = getHealthTextLabel(
+        nextEnemy.health,
+        nextEnemy.maxHealth,
+      )
+
       if (nextEnemy.sprite !== spriteName) {
         renderSprite(nextEnemy.sprite)
       }
     },
   }
+}
+
+function getHealthTextLabel(health: number, maxHealth: number) {
+  return [health, maxHealth].join('/')
 }

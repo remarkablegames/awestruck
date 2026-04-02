@@ -93,20 +93,6 @@ scene(SCENE.GAME, () => {
     track(
       add([
         text(
-          `HP ${String(state.enemy.health)}/${String(state.enemy.maxHealth)}`,
-          {
-            size: 20,
-            width: textWidth,
-          },
-        ),
-        color(251, 214, 198),
-        pos(panelX + 20, panelY + 66),
-      ]),
-    )
-
-    track(
-      add([
-        text(
           `Block ${String(state.enemy.block)}, Burn ${String(state.enemy.burn)}`,
           {
             size: 18,
@@ -114,7 +100,7 @@ scene(SCENE.GAME, () => {
           },
         ),
         color(255, 183, 120),
-        pos(panelX + 20, panelY + 94),
+        pos(panelX + 20, panelY + 66),
       ]),
     )
 
@@ -127,7 +113,7 @@ scene(SCENE.GAME, () => {
           width: textWidth,
         }),
         color(174, 208, 255),
-        pos(panelX + 20, panelY + 118),
+        pos(panelX + 20, panelY + 96),
       ]),
     )
 
@@ -138,7 +124,7 @@ scene(SCENE.GAME, () => {
           width: textWidth,
         }),
         color(214, 224, 250),
-        pos(panelX + 20, panelY + 142),
+        pos(panelX + 20, panelY + 120),
       ]),
     )
   }

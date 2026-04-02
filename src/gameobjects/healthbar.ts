@@ -13,7 +13,7 @@ interface HealthBarOptions {
   y: number
 }
 
-const BAR_PADDING = 4
+const BAR_PADDING = 2
 const DEFAULT_FILL_COLOR: [number, number, number] = [186, 88, 90]
 const DEFAULT_OUTLINE_COLOR: [number, number, number] = [221, 178, 160]
 const DEFAULT_TRACK_COLOR: [number, number, number] = [52, 37, 44]
