@@ -35,7 +35,7 @@ export function addHand({
   state,
 }: AddHandOptions): HandRenderResult {
   const objects: GameObj[] = []
-  const hand = add([pos()])
+  const hand = add([])
   objects.push(hand)
 
   const layout = getHandLayout(state.hand.length, scrollOffset)

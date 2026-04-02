@@ -257,7 +257,6 @@ function addRolePill({
       width: ROLE_PILL_WIDTH - 8,
     }),
     color(245, 247, 255),
-    pos(0, 0),
     anchor('center'),
   ])
 }

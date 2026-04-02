@@ -16,7 +16,6 @@ export function addBackdrop(options: BackdropOptions = {}) {
   add([
     rect(sceneWidth, sceneHeight),
     color(...THEME.GAME_BACKGROUND_COLOR),
-    pos(0, 0),
     z(LAYER.BACKDROP),
   ])
 
@@ -24,7 +23,6 @@ export function addBackdrop(options: BackdropOptions = {}) {
     rect(sceneWidth, actionAreaTop),
     color(...THEME.BACKDROP_HAZE_COLOR),
     opacity(0.62),
-    pos(0, 0),
     z(LAYER.BACKDROP),
   ])
 
@@ -200,7 +198,6 @@ export function addBackdrop(options: BackdropOptions = {}) {
     rect(sceneWidth, 120),
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.18 + overlayOpacity),
-    pos(0, 0),
     z(LAYER.BACKDROP),
   ])
 
@@ -216,7 +213,6 @@ export function addBackdrop(options: BackdropOptions = {}) {
     rect(120, sceneHeight),
     color(...THEME.VIGNETTE_COLOR),
     opacity(0.16 + overlayOpacity),
-    pos(0, 0),
     z(LAYER.BACKDROP),
   ])
 

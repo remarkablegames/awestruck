@@ -14,45 +14,39 @@ interface HealthBarOptions {
 }
 
 const BAR_PADDING = 4
-const DEFAULT_FILL_COLOR = [186, 88, 90] as const
-const DEFAULT_OUTLINE_COLOR = [221, 178, 160] as const
-const DEFAULT_TRACK_COLOR = [52, 37, 44] as const
+const DEFAULT_FILL_COLOR: [number, number, number] = [186, 88, 90]
+const DEFAULT_OUTLINE_COLOR: [number, number, number] = [221, 178, 160]
+const DEFAULT_TRACK_COLOR: [number, number, number] = [52, 37, 44]
 
-export function addHealthBar(options: HealthBarOptions) {
-  const {
-    current,
-    fillColor = [...DEFAULT_FILL_COLOR],
-    height,
-    max,
-    outlineColor = [...DEFAULT_OUTLINE_COLOR],
-    parent,
-    trackColor = [...DEFAULT_TRACK_COLOR],
-    width,
-    x,
-    y,
-  } = options
-
+export function addHealthBar({
+  current,
+  fillColor = DEFAULT_FILL_COLOR,
+  height,
+  max,
+  outlineColor = DEFAULT_OUTLINE_COLOR,
+  parent,
+  trackColor = DEFAULT_TRACK_COLOR,
+  width,
+  x,
+  y,
+}: HealthBarOptions) {
   const addTo = parent ? parent.add.bind(parent) : add
   const root = addTo([pos(x, y)])
   const innerWidth = Math.max(0, width - BAR_PADDING * 2)
   const innerHeight = Math.max(0, height - BAR_PADDING * 2)
 
-  root.add([
-    rect(width, height, { radius: height / 2 }),
-    color(...outlineColor),
-    pos(0, 0),
-  ])
+  root.add([rect(width, height, { radius: height / 2 }), color(outlineColor)])
 
   root.add([
     rect(innerWidth, innerHeight, { radius: innerHeight / 2 }),
-    color(...trackColor),
-    pos(BAR_PADDING, BAR_PADDING),
+    color(trackColor),
+    pos(BAR_PADDING),
   ])
 
   const fill = root.add([
     rect(0, innerHeight, { radius: innerHeight / 2 }),
-    color(...fillColor),
-    pos(BAR_PADDING, BAR_PADDING),
+    color(fillColor),
+    pos(BAR_PADDING),
   ])
 
   const sync = (nextCurrent: number, nextMax: number) => {

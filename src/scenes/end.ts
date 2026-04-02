@@ -18,7 +18,7 @@ scene(SCENE.END, (status: EndStatus) => {
     overlayOpacity: 0.08,
   })
 
-  add([rect(width(), height()), color(5, 8, 12), opacity(0.62), pos(0, 0)])
+  add([rect(width(), height()), color(5, 8, 12), opacity(0.62)])
 
   add([
     rect(680, 400, { radius: 26 }),

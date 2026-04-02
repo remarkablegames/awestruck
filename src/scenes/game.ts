@@ -64,12 +64,6 @@ scene(SCENE.GAME, () => {
     }
   }
 
-  const renderBackground = () => {
-    const actionAreaTop = height() * ACTION_AREA_TOP_RATIO
-
-    addBackdrop({ actionAreaTop })
-  }
-
   const playerDamageFlash = addFlash()
 
   const renderHeader = (state: CombatState) => {
@@ -396,10 +390,6 @@ scene(SCENE.GAME, () => {
     renderFooter(state)
   }
 
-  onKeyPress('escape', () => {
-    go(SCENE.TITLE)
-  })
-
   const scrollHand = (direction: -1 | 1, step: number) => {
     const state = stateManager.getState()
 
@@ -421,7 +411,7 @@ scene(SCENE.GAME, () => {
 
     const direction = delta.y === 0 ? delta.x : delta.y
 
-    if (direction === 0) {
+    if (!direction) {
       return
     }
 
@@ -508,27 +498,28 @@ scene(SCENE.GAME, () => {
     },
   )
 
-  add([pos(0, 0)]).onDestroy(() => {
+  add([]).onDestroy(() => {
     unsubscribe()
     enemyDisplay.destroy()
     clearHoverScroll()
     clearUI()
   })
 
-  renderBackground()
-  const initialSnapshot = stateManager.getSnapshot()
+  addBackdrop({ actionAreaTop: height() * ACTION_AREA_TOP_RATIO })
 
-  switch (initialSnapshot.scene) {
+  const snapshot = stateManager.getSnapshot()
+
+  switch (snapshot.scene) {
     case SCENE.REWARD:
       go(SCENE.REWARD)
       return
     case SCENE.END:
-      if (initialSnapshot.endStatus) {
-        go(SCENE.END, initialSnapshot.endStatus)
+      if (snapshot.endStatus) {
+        go(SCENE.END, snapshot.endStatus)
       }
       return
     case SCENE.GAME:
-      renderUI(initialSnapshot.state)
+      renderUI(snapshot.state)
       return
   }
 })
