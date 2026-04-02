@@ -2,6 +2,7 @@ import type { GameObj } from 'kaplay'
 
 import { getDeckCountLabel } from '../combat'
 import type { CombatState } from '../types'
+import { addHealthBar } from '.'
 
 interface StatusOptions {
   state: CombatState
@@ -11,8 +12,14 @@ interface StatusOptions {
 
 const FLOOR_ROW_OFFSET_Y = 0
 const PLAYER_HP_ROW_OFFSET_Y = 38
-const RESOURCE_ROW_OFFSET_Y = 66
-const DECK_ROW_OFFSET_Y = 96
+const PLAYER_HP_BAR_OFFSET_Y = 66
+const RESOURCE_ROW_OFFSET_Y = 98
+const DECK_ROW_OFFSET_Y = 128
+const PLAYER_HP_BAR_WIDTH = 220
+const PLAYER_HP_BAR_HEIGHT = 16
+const PLAYER_HP_BAR_FILL_COLOR: [number, number, number] = [103, 142, 217]
+const PLAYER_HP_BAR_TRACK_COLOR: [number, number, number] = [30, 41, 64]
+const PLAYER_HP_BAR_OUTLINE_COLOR: [number, number, number] = [191, 214, 255]
 
 export function addStatus({ state, x, y }: StatusOptions): GameObj[] {
   const floorText = add([
@@ -33,6 +40,18 @@ export function addStatus({ state, x, y }: StatusOptions): GameObj[] {
     color(227, 239, 255),
     pos(x, y + PLAYER_HP_ROW_OFFSET_Y),
   ])
+
+  const playerHealthBar = addHealthBar({
+    current: state.player.health,
+    fillColor: PLAYER_HP_BAR_FILL_COLOR,
+    height: PLAYER_HP_BAR_HEIGHT,
+    max: state.player.maxHealth,
+    outlineColor: PLAYER_HP_BAR_OUTLINE_COLOR,
+    trackColor: PLAYER_HP_BAR_TRACK_COLOR,
+    width: PLAYER_HP_BAR_WIDTH,
+    x,
+    y: y + PLAYER_HP_BAR_OFFSET_Y,
+  })
 
   const resourceText = add([
     text(
@@ -56,5 +75,11 @@ export function addStatus({ state, x, y }: StatusOptions): GameObj[] {
     pos(x, y + DECK_ROW_OFFSET_Y),
   ])
 
-  return [floorText, playerHealthText, resourceText, deckText]
+  return [
+    floorText,
+    playerHealthText,
+    playerHealthBar.root,
+    resourceText,
+    deckText,
+  ]
 }

@@ -62,6 +62,7 @@ export function addHealthBar({
     destroy() {
       root.destroy()
     },
+    root,
     sync,
   }
 }
