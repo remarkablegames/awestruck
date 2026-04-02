@@ -2,6 +2,7 @@ import type { ColorComp, GameObj, PosComp } from 'kaplay'
 
 import { LAYER, SOUND } from '../constants'
 import type { EnemyState } from '../types'
+import { addHealthBar } from '.'
 
 const BOX_WIDTH = 300
 const BOX_HEIGHT = 240
@@ -10,6 +11,9 @@ const FRAME_PADDING = 10
 const HIT_SHAKE_DISTANCE = 16
 const HIT_DURATION = 0.1
 const DAMAGE_DURATION = 0.5
+const HEALTH_BAR_WIDTH = BOX_WIDTH + FRAME_PADDING * 2
+const HEALTH_BAR_HEIGHT = 18
+const HEALTH_BAR_Y = BOX_HEIGHT + 24
 
 export function addEnemy(enemy: EnemyState) {
   const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(LAYER.ENEMY)])
@@ -29,6 +33,16 @@ export function addEnemy(enemy: EnemyState) {
     opacity(0),
     pos(0, 0),
   ])
+
+  const healthBar = addHealthBar({
+    current: enemy.health,
+    height: HEALTH_BAR_HEIGHT,
+    max: enemy.maxHealth,
+    parent: root,
+    width: HEALTH_BAR_WIDTH,
+    x: -FRAME_PADDING,
+    y: HEALTH_BAR_Y,
+  })
 
   let spriteObject: GameObj<ColorComp | PosComp> | null = null
   let spriteName = ''
@@ -144,6 +158,8 @@ export function addEnemy(enemy: EnemyState) {
     },
 
     sync(nextEnemy: EnemyState) {
+      healthBar.sync(nextEnemy.health, nextEnemy.maxHealth)
+
       if (nextEnemy.sprite !== spriteName) {
         renderSprite(nextEnemy.sprite)
       }
