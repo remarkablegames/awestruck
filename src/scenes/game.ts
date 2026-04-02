@@ -313,12 +313,12 @@ scene(SCENE.GAME, () => {
 
   const renderUI = (state: CombatState) => {
     clearUI()
-    trackAll(
+    track(
       addStatus({
         state,
         x: 40,
         y: 28,
-      }),
+      }).root,
     )
     renderEnemyPanel(state)
     renderBuilderPanel(state)
