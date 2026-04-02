@@ -2,7 +2,7 @@ import type { ColorComp, GameObj, PosComp } from 'kaplay'
 
 import { LAYER, SOUND } from '../constants'
 import type { EnemyState } from '../types'
-import { addHealthBar } from '.'
+import { addFlash, addHealthBar } from '.'
 
 const BOX_WIDTH = 300
 const BOX_HEIGHT = 240
@@ -27,12 +27,15 @@ export function addEnemy(enemy: EnemyState) {
     pos(-FRAME_PADDING, -FRAME_PADDING),
   ])
 
-  const flash = root.add([
-    rect(BOX_WIDTH, BOX_HEIGHT, { radius: 18 }),
-    color(255, 214, 214),
-    opacity(0),
-    pos(0, 0),
-  ])
+  const flash = addFlash({
+    color: [255, 214, 214],
+    height: BOX_HEIGHT + FRAME_PADDING * 2,
+    opacity: 0.24,
+    parent: root,
+    width: BOX_WIDTH + FRAME_PADDING * 2,
+    x: -FRAME_PADDING,
+    y: -FRAME_PADDING,
+  })
 
   const healthBar = addHealthBar({
     current: enemy.health,
@@ -72,7 +75,6 @@ export function addEnemy(enemy: EnemyState) {
 
   const resetHitVisuals = () => {
     root.pos = vec2(width() / 2 - BOX_WIDTH / 2, BOX_Y)
-    flash.opacity = 0
 
     if (spriteObject) {
       spriteObject.color = rgb(255, 255, 255)
@@ -89,6 +91,7 @@ export function addEnemy(enemy: EnemyState) {
     playHit(damage: number) {
       resetHitVisuals()
       play(SOUND.HIT)
+      flash.play()
 
       if (spriteObject) {
         spriteObject.color = rgb(255, 208, 208)

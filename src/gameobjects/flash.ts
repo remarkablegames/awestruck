@@ -1,48 +1,49 @@
+import type { GameObj } from 'kaplay'
+
 import { LAYER } from '../constants'
 
 const FLASH_DURATION = 0.18
 const FLASH_FADE_DURATION = 0.22
-const FLASH_OVERLAY_OPACITY = 0.14
-const FLASH_TOP_OPACITY = 0.22
+const FLASH_OPACITY = 0.18
 
-export function addFlash() {
-  const overlay = add([
-    rect(width(), height()),
-    color(255, 134, 118),
-    opacity(0),
-    pos(0, 0),
-    z(LAYER.FLASH),
-  ])
+interface FlashOptions {
+  color?: [number, number, number]
+  height?: number
+  opacity?: number
+  parent?: GameObj
+  width?: number
+  x?: number
+  y?: number
+}
 
-  const topOverlay = add([
-    rect(width(), height() * 0.48),
-    color(255, 148, 126),
+export function addFlash({
+  color: flashColor = [255, 142, 122],
+  height: flashHeight = height(),
+  opacity: flashOpacity = FLASH_OPACITY,
+  parent,
+  width: flashWidth = width(),
+  x = 0,
+  y = 0,
+}: FlashOptions = {}) {
+  const addTo = parent ? parent.add.bind(parent) : add
+  const overlay = addTo([
+    rect(flashWidth, flashHeight, { radius: 18 }),
+    color(...flashColor),
     opacity(0),
-    pos(0, 0),
-    z(LAYER.FLASH),
+    pos(x, y),
+    ...(parent ? [] : [z(LAYER.FLASH)]),
   ])
 
   return {
     play() {
-      overlay.opacity = FLASH_OVERLAY_OPACITY
-      topOverlay.opacity = FLASH_TOP_OPACITY
+      overlay.opacity = flashOpacity
 
       tween(
-        FLASH_OVERLAY_OPACITY,
+        flashOpacity,
         0,
         FLASH_DURATION + FLASH_FADE_DURATION,
         (value) => {
           overlay.opacity = value
-        },
-        easings.easeOutCubic,
-      )
-
-      tween(
-        FLASH_TOP_OPACITY,
-        0,
-        FLASH_DURATION + FLASH_FADE_DURATION,
-        (value) => {
-          topOverlay.opacity = value
         },
         easings.easeOutCubic,
       )
