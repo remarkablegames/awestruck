@@ -29,7 +29,7 @@ export function addPill({ height, label, parent, width, x, y }: PillOptions) {
     z(LAYER.CARD_PILL),
   ])
 
-  root.add([
+  const labelText = root.add([
     text(label, {
       align: 'center',
       size: DEFAULT_TEXT_SIZE,
@@ -39,5 +39,8 @@ export function addPill({ height, label, parent, width, x, y }: PillOptions) {
     anchor('center'),
   ])
 
-  return { root }
+  return {
+    labelText,
+    root,
+  }
 }

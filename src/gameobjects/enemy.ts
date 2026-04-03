@@ -1,8 +1,8 @@
 import type { ColorComp, GameObj, PosComp } from 'kaplay'
 
 import { LAYER, SOUND } from '../constants'
-import type { EnemyState } from '../types'
-import { addFlash, addHealthBar } from '.'
+import type { EnemyIntent, EnemyState } from '../types'
+import { addFlash, addHealthBar, addPill } from '.'
 
 const BOX_WIDTH = 300
 const BOX_HEIGHT = 240
@@ -14,6 +14,9 @@ const DAMAGE_DURATION = 0.5
 const HEALTH_BAR_WIDTH = BOX_WIDTH + FRAME_PADDING * 2
 const HEALTH_BAR_HEIGHT = 30
 const HEALTH_BAR_Y = BOX_HEIGHT + 24
+const INTENT_PILL_WIDTH = 200
+const INTENT_PILL_HEIGHT = 24
+const INTENT_PILL_Y = HEALTH_BAR_Y - 18
 
 export function addEnemy(enemy: EnemyState) {
   const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(LAYER.ENEMY)])
@@ -45,6 +48,15 @@ export function addEnemy(enemy: EnemyState) {
     width: HEALTH_BAR_WIDTH,
     x: -FRAME_PADDING,
     y: HEALTH_BAR_Y,
+  })
+
+  const intentPill = addPill({
+    height: INTENT_PILL_HEIGHT,
+    label: getIntentLabel(enemy.intents[enemy.intentCursor]),
+    parent: root,
+    width: INTENT_PILL_WIDTH,
+    x: BOX_WIDTH / 2,
+    y: INTENT_PILL_Y,
   })
 
   const healthText = root.add([
@@ -176,6 +188,9 @@ export function addEnemy(enemy: EnemyState) {
 
     sync(nextEnemy: EnemyState) {
       healthBar.sync(nextEnemy.health, nextEnemy.maxHealth)
+      intentPill.labelText.text = getIntentLabel(
+        nextEnemy.intents[nextEnemy.intentCursor],
+      )
 
       healthText.text = getHealthTextLabel(
         nextEnemy.health,
@@ -191,4 +206,18 @@ export function addEnemy(enemy: EnemyState) {
 
 function getHealthTextLabel(health: number, maxHealth: number) {
   return [health, maxHealth].join('/')
+}
+
+function getIntentLabel(intent: EnemyIntent) {
+  const labels: string[] = []
+
+  if (intent.attack) {
+    labels.push(`Attack ${String(intent.attack)}`)
+  }
+
+  if (intent.block) {
+    labels.push(`Block ${String(intent.block)}`)
+  }
+
+  return labels.join(', ')
 }

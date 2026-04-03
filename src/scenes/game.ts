@@ -108,23 +108,12 @@ scene(SCENE.GAME, () => {
 
     track(
       add([
-        text(`Intent: ${intent.label}`, {
-          size: 18,
-          width: textWidth,
-        }),
-        color(174, 208, 255),
-        pos(panelX + 20, panelY + 96),
-      ]),
-    )
-
-    track(
-      add([
         text(intent.description, {
           size: 18,
           width: textWidth,
         }),
         color(214, 224, 250),
-        pos(panelX + 20, panelY + 120),
+        pos(panelX + 20, panelY + 96),
       ]),
     )
   }
