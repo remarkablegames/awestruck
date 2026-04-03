@@ -4,6 +4,7 @@ import { CARD, HAND, LAYER, SOUND } from '../constants'
 import type { CardDefinition } from '../types'
 import { sound } from '../utils'
 import { addBadge } from './badge'
+import { addPill } from './pill'
 import { addTooltip } from './tooltip'
 
 const TITLE_Y = -CARD.HEIGHT / 2 + 30
@@ -180,9 +181,11 @@ export function addCard({
       ])
     })
 
-    addRolePill({
+    addPill({
+      height: ROLE_PILL_HEIGHT,
       label: roleLabel,
       parent: root,
+      width: ROLE_PILL_WIDTH,
       x: 0,
       y: ROLE_PILL_Y,
     })
@@ -227,36 +230,4 @@ function hasCardImage(cardId: string) {
   return ['bastion', 'bloom', 'pierce', 'surge', 'thorn', 'wilt'].includes(
     cardId,
   )
-}
-
-function addRolePill({
-  label,
-  parent,
-  x,
-  y,
-}: {
-  label: string
-  parent: GameObj
-  x: number
-  y: number
-}) {
-  const pill = parent.add([
-    rect(ROLE_PILL_WIDTH, ROLE_PILL_HEIGHT, { radius: 999 }),
-    color(24, 31, 46),
-    opacity(0.88),
-    outline(2, rgb(245, 247, 255)),
-    pos(x, y),
-    anchor('center'),
-    z(LAYER.CARD_PILL),
-  ])
-
-  pill.add([
-    text(label, {
-      align: 'center',
-      size: 14,
-      width: ROLE_PILL_WIDTH - 8,
-    }),
-    color(245, 247, 255),
-    anchor('center'),
-  ])
 }
