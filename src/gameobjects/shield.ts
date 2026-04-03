@@ -16,11 +16,8 @@ const SHIELD_OUTLINE_COLOR: Color = [196, 207, 221]
 const SHIELD_TEXT_COLOR: Color = [244, 247, 255]
 
 export function addShield({ parent, value, x, y }: ShieldOptions) {
-  const root = parent.add([
-    pos(x, y),
-    anchor('center'),
-    opacity(value > 0 ? 1 : 0),
-  ])
+  const root = parent.add([pos(x, y), anchor('center')])
+  root.hidden = value <= 0
 
   root.add([
     polygon([

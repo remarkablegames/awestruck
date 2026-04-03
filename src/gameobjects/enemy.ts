@@ -200,7 +200,7 @@ export function addEnemy(enemy: EnemyState) {
       intentPill.labelText.text = getIntentLabel(
         nextEnemy.intents[nextEnemy.intentCursor],
       )
-      shield.root.opacity = nextEnemy.block > 0 ? 1 : 0
+      shield.root.hidden = nextEnemy.block <= 0
       shield.valueText.text = String(nextEnemy.block)
 
       healthText.text = getHealthTextLabel(
