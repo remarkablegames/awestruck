@@ -17,7 +17,7 @@ const HEALTH_BAR_Y = BOX_HEIGHT + 24
 const INTENT_PILL_WIDTH = 200
 const INTENT_PILL_HEIGHT = 24
 const INTENT_PILL_Y = HEALTH_BAR_Y - 18
-const SHIELD_X = BOX_WIDTH + FRAME_PADDING - 12
+const SHIELD_X = BOX_WIDTH + FRAME_PADDING
 const SHIELD_Y = 6
 
 export function addEnemy(enemy: EnemyState) {

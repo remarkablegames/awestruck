@@ -9,10 +9,10 @@ interface ShieldOptions {
   y: number
 }
 
-const SHIELD_WIDTH = 46
+const SHIELD_WIDTH = 50
 const SHIELD_TEXT_SIZE = 18
-const SHIELD_FILL_COLOR: Color = [52, 62, 78]
-const SHIELD_OUTLINE_COLOR: Color = [214, 223, 235]
+const SHIELD_FILL_COLOR: Color = [68, 79, 97]
+const SHIELD_OUTLINE_COLOR: Color = [196, 207, 221]
 const SHIELD_TEXT_COLOR: Color = [244, 247, 255]
 
 export function addShield({ parent, value, x, y }: ShieldOptions) {
@@ -24,12 +24,12 @@ export function addShield({ parent, value, x, y }: ShieldOptions) {
 
   root.add([
     polygon([
-      vec2(-18, -22),
-      vec2(18, -22),
+      vec2(-19, -22),
+      vec2(19, -22),
       vec2(22, -8),
-      vec2(16, 10),
+      vec2(17, 10),
       vec2(0, 24),
-      vec2(-16, 10),
+      vec2(-17, 10),
       vec2(-22, -8),
     ]),
     color(SHIELD_FILL_COLOR),
