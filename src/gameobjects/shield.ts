@@ -1,5 +1,7 @@
 import type { GameObj } from 'kaplay'
 
+import type { Color } from '../types'
+
 interface ShieldOptions {
   parent: GameObj
   value: number
@@ -9,9 +11,9 @@ interface ShieldOptions {
 
 const SHIELD_WIDTH = 46
 const SHIELD_TEXT_SIZE = 18
-const SHIELD_FILL_COLOR: [number, number, number] = [52, 62, 78]
-const SHIELD_OUTLINE_COLOR: [number, number, number] = [214, 223, 235]
-const SHIELD_TEXT_COLOR: [number, number, number] = [244, 247, 255]
+const SHIELD_FILL_COLOR: Color = [52, 62, 78]
+const SHIELD_OUTLINE_COLOR: Color = [214, 223, 235]
+const SHIELD_TEXT_COLOR: Color = [244, 247, 255]
 
 export function addShield({ parent, value, x, y }: ShieldOptions) {
   const root = parent.add([

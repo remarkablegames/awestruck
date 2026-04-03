@@ -1,3 +1,5 @@
+import type { Color } from '.'
+
 export interface CardEffect {
   block?: number
   burn?: number
@@ -29,7 +31,7 @@ export interface ModifierDefinition {
 }
 
 export interface CardDefinition {
-  accent: [number, number, number]
+  accent: Color
   cost: number
   description: string
   effect: CardEffect

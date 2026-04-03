@@ -1,22 +1,24 @@
 import type { GameObj } from 'kaplay'
 
+import type { Color } from '../types'
+
 interface HealthBarOptions {
   current: number
-  fillColor?: [number, number, number]
+  fillColor?: Color
   height: number
   max: number
-  outlineColor?: [number, number, number]
+  outlineColor?: Color
   parent?: GameObj
-  trackColor?: [number, number, number]
+  trackColor?: Color
   width: number
   x: number
   y: number
 }
 
 const BAR_PADDING = 2
-const DEFAULT_FILL_COLOR: [number, number, number] = [186, 88, 90]
-const DEFAULT_OUTLINE_COLOR: [number, number, number] = [221, 178, 160]
-const DEFAULT_TRACK_COLOR: [number, number, number] = [52, 37, 44]
+const DEFAULT_FILL_COLOR: Color = [186, 88, 90]
+const DEFAULT_OUTLINE_COLOR: Color = [221, 178, 160]
+const DEFAULT_TRACK_COLOR: Color = [52, 37, 44]
 
 export function addHealthBar({
   current,

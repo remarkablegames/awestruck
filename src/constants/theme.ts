@@ -1,13 +1,15 @@
-export const GAME_BACKGROUND_COLOR = [19, 28, 48] as const
-export const GAME_LOWER_BACKGROUND_COLOR = [17, 24, 38] as const
-export const PAGE_BACKGROUND_COLOR = [10, 14, 24] as const
-export const TITLE_BACKGROUND_COLOR = [10, 14, 24] as const
-export const BACKDROP_HAZE_COLOR = [24, 34, 57] as const
-export const BACKDROP_FOG_COLOR = [71, 90, 126] as const
-export const BACKDROP_SHELF_COLOR = [15, 19, 31] as const
-export const BACKDROP_ARCH_COLOR = [21, 26, 41] as const
-export const BACKDROP_FLOOR_GLOW_COLOR = [43, 53, 80] as const
-export const BACKDROP_MOONLIGHT_COLOR = [109, 138, 194] as const
-export const BACKDROP_CANDLELIGHT_COLOR = [214, 160, 95] as const
-export const BACKDROP_DUST_COLOR = [216, 225, 250] as const
-export const VIGNETTE_COLOR = [5, 8, 12] as const
+import type { Color } from '../types'
+
+export const GAME_BACKGROUND_COLOR: Color = [19, 28, 48]
+export const GAME_LOWER_BACKGROUND_COLOR: Color = [17, 24, 38]
+export const PAGE_BACKGROUND_COLOR: Color = [10, 14, 24]
+export const TITLE_BACKGROUND_COLOR: Color = [10, 14, 24]
+export const BACKDROP_HAZE_COLOR: Color = [24, 34, 57]
+export const BACKDROP_FOG_COLOR: Color = [71, 90, 126]
+export const BACKDROP_SHELF_COLOR: Color = [15, 19, 31]
+export const BACKDROP_ARCH_COLOR: Color = [21, 26, 41]
+export const BACKDROP_FLOOR_GLOW_COLOR: Color = [43, 53, 80]
+export const BACKDROP_MOONLIGHT_COLOR: Color = [109, 138, 194]
+export const BACKDROP_CANDLELIGHT_COLOR: Color = [214, 160, 95]
+export const BACKDROP_DUST_COLOR: Color = [216, 225, 250]
+export const VIGNETTE_COLOR: Color = [5, 8, 12]

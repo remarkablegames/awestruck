@@ -1,13 +1,14 @@
 import type { GameObj } from 'kaplay'
 
 import { LAYER } from '../constants'
+import type { Color } from '../types'
 
 const FLASH_DURATION = 0.18
 const FLASH_FADE_DURATION = 0.22
 const FLASH_OPACITY = 0.18
 
 interface FlashOptions {
-  color?: [number, number, number]
+  color?: Color
   height?: number
   opacity?: number
   parent?: GameObj

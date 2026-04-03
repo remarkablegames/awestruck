@@ -1,11 +1,12 @@
 import type { AreaComp, ColorComp, Comp, GameObj, PosComp, ZComp } from 'kaplay'
 
+import type { Color } from '../types'
 import { sound } from '../utils'
 
 interface ButtonOptions {
   buttonComps?: Comp[]
   disabled?: boolean
-  fillColor: [number, number, number]
+  fillColor: Color
   height: number
   label: string
   labelComps?: Comp[]

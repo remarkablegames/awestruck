@@ -1,6 +1,7 @@
 import type { GameObj } from 'kaplay'
 
 import { LAYER } from '../constants'
+import type { Color } from '../types'
 
 interface PillOptions {
   height: number
@@ -11,9 +12,9 @@ interface PillOptions {
   y: number
 }
 
-const DEFAULT_FILL_COLOR: [number, number, number] = [24, 31, 46]
-const DEFAULT_OUTLINE_COLOR: [number, number, number] = [245, 247, 255]
-const DEFAULT_TEXT_COLOR: [number, number, number] = [245, 247, 255]
+const DEFAULT_FILL_COLOR: Color = [24, 31, 46]
+const DEFAULT_OUTLINE_COLOR: Color = [245, 247, 255]
+const DEFAULT_TEXT_COLOR: Color = [245, 247, 255]
 const DEFAULT_TEXT_SIZE = 14
 const DEFAULT_TEXT_WIDTH_PADDING = 8
 const DEFAULT_OPACITY = 0.88
