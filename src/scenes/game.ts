@@ -51,12 +51,12 @@ scene(SCENE.GAME, () => {
 
   const clearHoverScroll = () => {
     if (hoverScrollDelayId !== null) {
-      window.clearTimeout(hoverScrollDelayId)
+      clearTimeout(hoverScrollDelayId)
       hoverScrollDelayId = null
     }
 
     if (hoverScrollIntervalId !== null) {
-      window.clearInterval(hoverScrollIntervalId)
+      clearInterval(hoverScrollIntervalId)
       hoverScrollIntervalId = null
     }
   }
@@ -264,8 +264,8 @@ scene(SCENE.GAME, () => {
         clearHoverScroll()
         scrollHand(direction, HAND.HOVER_SCROLL_STEP)
 
-        hoverScrollDelayId = window.setTimeout(() => {
-          hoverScrollIntervalId = window.setInterval(() => {
+        hoverScrollDelayId = setTimeout(() => {
+          hoverScrollIntervalId = setInterval(() => {
             scrollHand(direction, HAND.HOVER_SCROLL_STEP)
           }, HAND.SCROLL_HOVER_INTERVAL_MS)
         }, HAND.SCROLL_HOVER_DELAY_MS)

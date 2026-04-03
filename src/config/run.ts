@@ -15,7 +15,7 @@ export function getDefaultRunConfig(): RunConfig {
 }
 
 export function getRunConfigFromQuery(): RunConfig | null {
-  const params = new URLSearchParams(window.location.search)
+  const params = new URLSearchParams(location.search)
   const defaultConfig = getDefaultRunConfig()
 
   let hasOverride = false

@@ -22,7 +22,7 @@ const DEFAULT_OPACITY = 0.88
 export function addPill({ height, label, parent, width, x, y }: PillOptions) {
   const root = parent.add([
     rect(width, height, { radius: 999 }),
-    color(...DEFAULT_FILL_COLOR),
+    color(DEFAULT_FILL_COLOR),
     opacity(DEFAULT_OPACITY),
     outline(2, rgb(...DEFAULT_OUTLINE_COLOR)),
     pos(x, y),
@@ -36,7 +36,7 @@ export function addPill({ height, label, parent, width, x, y }: PillOptions) {
       size: DEFAULT_TEXT_SIZE,
       width: width - DEFAULT_TEXT_WIDTH_PADDING,
     }),
-    color(...DEFAULT_TEXT_COLOR),
+    color(DEFAULT_TEXT_COLOR),
     anchor('center'),
   ])
 
