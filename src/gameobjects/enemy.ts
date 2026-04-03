@@ -2,7 +2,7 @@ import type { ColorComp, GameObj, PosComp } from 'kaplay'
 
 import { LAYER, SOUND } from '../constants'
 import type { EnemyIntent, EnemyState } from '../types'
-import { addFlash, addHealthBar, addPill } from '.'
+import { addFlash, addHealthBar, addPill, addShield } from '.'
 
 const BOX_WIDTH = 300
 const BOX_HEIGHT = 240
@@ -17,6 +17,8 @@ const HEALTH_BAR_Y = BOX_HEIGHT + 24
 const INTENT_PILL_WIDTH = 200
 const INTENT_PILL_HEIGHT = 24
 const INTENT_PILL_Y = HEALTH_BAR_Y - 18
+const SHIELD_X = BOX_WIDTH + FRAME_PADDING - 12
+const SHIELD_Y = 6
 
 export function addEnemy(enemy: EnemyState) {
   const root = add([pos(width() / 2 - BOX_WIDTH / 2, BOX_Y), z(LAYER.ENEMY)])
@@ -57,6 +59,13 @@ export function addEnemy(enemy: EnemyState) {
     width: INTENT_PILL_WIDTH,
     x: BOX_WIDTH / 2,
     y: INTENT_PILL_Y,
+  })
+
+  const shield = addShield({
+    parent: root,
+    value: enemy.block,
+    x: SHIELD_X,
+    y: SHIELD_Y,
   })
 
   const healthText = root.add([
@@ -191,6 +200,8 @@ export function addEnemy(enemy: EnemyState) {
       intentPill.labelText.text = getIntentLabel(
         nextEnemy.intents[nextEnemy.intentCursor],
       )
+      shield.root.opacity = nextEnemy.block > 0 ? 1 : 0
+      shield.valueText.text = String(nextEnemy.block)
 
       healthText.text = getHealthTextLabel(
         nextEnemy.health,
