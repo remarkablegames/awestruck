@@ -704,6 +704,7 @@ function createHpRewardOptions(): HpRewardOption[] {
 function initializeRewardState(state: CombatState): void {
   state.status = 'reward'
   state.rewardPhase = 'hp'
+  state.player.block = 0
   state.hpRewardOptions = createHpRewardOptions()
   state.cardRewardOptions = []
   state.message = 'Choose a vitality reward before selecting a new card.'
