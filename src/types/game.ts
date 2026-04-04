@@ -50,7 +50,7 @@ export interface HpRewardOption {
   label: string
 }
 
-export type RewardPhase = 'card' | 'hp'
+export type RewardPhase = 'card' | 'hp' | 'upgrade'
 
 export type ChainPreview =
   | {
@@ -92,6 +92,7 @@ export interface CombatState {
   nextInstanceId: number
   player: PlayerState
   rewardPhase: RewardPhase
+  upgradeRewardOptions: CardInstance[]
   status: 'lost' | 'playerTurn' | 'reward' | 'won'
   turn: number
 }

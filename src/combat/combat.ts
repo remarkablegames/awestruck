@@ -251,11 +251,53 @@ export function chooseHpReward(
       break
   }
 
-  advanceToCardReward(state)
+  advanceToUpgradeReward(state)
 }
 
 export function skipHpReward(state: CombatState): void {
   if (state.status !== 'reward' || state.rewardPhase !== 'hp') {
+    return
+  }
+
+  advanceToUpgradeReward(state)
+}
+
+export function chooseUpgradeReward(
+  state: CombatState,
+  instanceId: string,
+): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'upgrade') {
+    return
+  }
+
+  const option = state.upgradeRewardOptions.find(
+    (card) => card.instanceId === instanceId,
+  )
+
+  if (!option) {
+    return
+  }
+
+  const upgradeCardId = getUpgradeCardId(option.cardId)
+
+  if (!upgradeCardId) {
+    advanceToCardReward(state)
+    return
+  }
+
+  const deckCard = state.deckList.find((card) => card.instanceId === instanceId)
+
+  if (!deckCard) {
+    advanceToCardReward(state)
+    return
+  }
+
+  deckCard.cardId = upgradeCardId
+  advanceToCardReward(state)
+}
+
+export function skipUpgradeReward(state: CombatState): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'upgrade') {
     return
   }
 
@@ -290,6 +332,26 @@ export function getCardRewardDefinitions(state: CombatState): CardDefinition[] {
 
 export function getHpRewardOptions(state: CombatState): HpRewardOption[] {
   return state.hpRewardOptions
+}
+
+export function getUpgradeRewardDefinitions(state: CombatState): {
+  definition: CardDefinition
+  instanceId: string
+}[] {
+  return state.upgradeRewardOptions.flatMap((card) => {
+    const upgradedCardId = getUpgradeCardId(card.cardId)
+
+    if (!upgradedCardId) {
+      return []
+    }
+
+    return [
+      {
+        definition: getCardDefinition(upgradedCardId),
+        instanceId: card.instanceId,
+      },
+    ]
+  })
 }
 
 export function getDeckCountLabel(state: CombatState): string {
@@ -489,6 +551,7 @@ function createFloorState({
     rewardPhase: 'card',
     status: 'playerTurn',
     turn: 1,
+    upgradeRewardOptions: [],
   }
 
   drawCards(state, state.handSize)
@@ -684,6 +747,12 @@ function drawRewardOptions(floor: number): Card[] {
   return shuffle([...rewardCards]).slice(0, 3)
 }
 
+function drawUpgradeRewardOptions(deckList: CardInstance[]): CardInstance[] {
+  return shuffle(
+    deckList.filter((card) => Boolean(getUpgradeCardId(card.cardId))),
+  ).slice(0, 3)
+}
+
 function createHpRewardOptions(): HpRewardOption[] {
   return [
     {
@@ -703,14 +772,29 @@ function initializeRewardState(state: CombatState): void {
   state.player.block = 0
   state.hpRewardOptions = createHpRewardOptions()
   state.cardRewardOptions = []
-  state.message = 'Choose a vitality reward before selecting a new card.'
+  state.upgradeRewardOptions = []
+  state.message = 'Choose a vitality reward before improving a card.'
+}
+
+function advanceToUpgradeReward(state: CombatState): void {
+  state.rewardPhase = 'upgrade'
+  state.hpRewardOptions = []
+  state.upgradeRewardOptions = drawUpgradeRewardOptions(state.deckList)
+
+  if (state.upgradeRewardOptions.length === 0) {
+    advanceToCardReward(state)
+    return
+  }
+
+  state.message = 'Choose a card from your deck to upgrade.'
 }
 
 function advanceToCardReward(state: CombatState): void {
   state.rewardPhase = 'card'
   state.hpRewardOptions = []
+  state.upgradeRewardOptions = []
   state.cardRewardOptions = drawRewardOptions(state.floor)
-  state.message = 'Choose a card reward before entering the next floor.'
+  state.message = 'Choose a new card reward before entering the next floor.'
 }
 
 function advanceFromReward(state: CombatState): void {
@@ -746,6 +830,15 @@ function replaceState(target: CombatState, source: CombatState): void {
   target.rewardPhase = source.rewardPhase
   target.status = source.status
   target.turn = source.turn
+  target.upgradeRewardOptions = source.upgradeRewardOptions
+}
+
+function getUpgradeCardId(cardId: Card): Card | null {
+  if (cardId in CARDS.UPGRADE_CARD_IDS) {
+    return CARDS.UPGRADE_CARD_IDS[cardId as keyof typeof CARDS.UPGRADE_CARD_IDS]
+  }
+
+  return null
 }
 
 function runEnemyTurn(state: CombatState): void {

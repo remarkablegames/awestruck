@@ -1,4 +1,8 @@
-import { getCardRewardDefinitions, getHpRewardOptions } from '../combat'
+import {
+  getCardRewardDefinitions,
+  getHpRewardOptions,
+  getUpgradeRewardDefinitions,
+} from '../combat'
 import { CARD, POSITION, SCENE, SOUND, THEME } from '../constants'
 import {
   addBackdrop,
@@ -54,12 +58,19 @@ scene(SCENE.REWARD, () => {
     anchor('center'),
   ])
 
-  if (state.rewardPhase === 'hp') {
-    renderHpRewardStep(state)
-    return
-  }
+  switch (state.rewardPhase) {
+    case 'hp':
+      renderHpRewardStep(state)
+      return
 
-  renderCardRewardStep(state)
+    case 'upgrade':
+      renderUpgradeRewardStep(state)
+      return
+
+    case 'card':
+      renderCardRewardStep(state)
+      return
+  }
 
   function renderHpRewardStep(currentState: CombatState) {
     add([
@@ -171,6 +182,60 @@ scene(SCENE.REWARD, () => {
         play(SOUND.BACK)
         stateManager.skipCardReward()
         go(SCENE.GAME)
+      },
+      width: 200,
+      x: centerX,
+      y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
+    })
+  }
+
+  function renderUpgradeRewardStep(currentState: CombatState) {
+    add([
+      text('Upgrade 1 Card', {
+        align: 'center',
+        size: 38,
+        width: 560,
+      }),
+      color(248, 232, 181),
+      pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    add([
+      text('Improve a card from your deck before choosing a new reward card.', {
+        align: 'center',
+        size: 24,
+        width: 560,
+      }),
+      color(222, 229, 248),
+      pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    getUpgradeRewardDefinitions(currentState).forEach((option, index) => {
+      const x = centerX - REWARD_CARD_GAP + index * REWARD_CARD_GAP
+      const y = centerY + REWARD_CARD_Y_OFFSET
+
+      addCard({
+        definition: option.definition,
+        onClick: () => {
+          play(SOUND.DROP)
+          stateManager.chooseUpgradeReward(option.instanceId)
+          go(SCENE.REWARD)
+        },
+        x,
+        y,
+      })
+    })
+
+    addButton({
+      fillColor: [124, 106, 164],
+      height: 50,
+      label: 'Skip Reward',
+      onClick: () => {
+        play(SOUND.BACK)
+        stateManager.skipUpgradeReward()
+        go(SCENE.REWARD)
       },
       width: 200,
       x: centerX,

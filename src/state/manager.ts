@@ -2,12 +2,14 @@ import {
   cancelBuilder,
   chooseCardReward,
   chooseHpReward,
+  chooseUpgradeReward,
   commitChainCard,
   confirmBuilder,
   createInitialState,
   endTurn,
   skipCardReward,
   skipHpReward,
+  skipUpgradeReward,
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
@@ -191,8 +193,16 @@ export class StateManager {
     this.runAction(chooseCardReward, cardId)
   }
 
+  chooseUpgradeReward(instanceId: string): void {
+    this.runAction(chooseUpgradeReward, instanceId)
+  }
+
   skipCardReward(): void {
     this.runAction(skipCardReward)
+  }
+
+  skipUpgradeReward(): void {
+    this.runAction(skipUpgradeReward)
   }
 
   private runAction<TArgs extends unknown[]>(
