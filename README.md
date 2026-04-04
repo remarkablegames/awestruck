@@ -95,21 +95,21 @@ Your game can be uploaded to your server, [itch.io](https://itch.io/), [newgroun
 
 The game supports a few querystring overrides for debugging/playtesting fresh runs.
 
-- `floor`: start on a specific floor from `1` to `4`
-- `reward`: start on a specific reward from `1` to `3`
+- `floor`: start on a specific floor from `1` to `8`
+- `reward`: start on a specific reward from `1` to `7`
 - `handSize`: change the opening hand size and normal turn draw size
 - `deck`: provide a comma-separated list of card IDs, or `*` to load all cards
 
-Start at floor 4:
+Start at floor 8:
 
 ```
-http://localhost:5173/?floor=4
+http://localhost:5173/?floor=8
 ```
 
-Start at reward 1:
+Start at reward 7:
 
 ```
-http://localhost:5173/?reward=1
+http://localhost:5173/?reward=7
 ```
 
 Start with all cards:
