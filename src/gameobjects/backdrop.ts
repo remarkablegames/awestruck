@@ -34,26 +34,29 @@ const DEFAULT_BACKDROP_PALETTE: BackdropPalette = {
 }
 
 const HIGH_FLOOR_BACKDROP_PALETTE: BackdropPalette = {
-  backdropArchColor: [52, 18, 22],
-  backdropCandlelightColor: [232, 118, 72],
-  backdropDustColor: [255, 214, 214],
-  backdropFloorGlowColor: [124, 42, 38],
-  backdropFogColor: [142, 66, 72],
-  backdropHazeColor: [74, 24, 30],
-  backdropMoonlightColor: [196, 88, 88],
-  backdropShelfColor: [34, 12, 16],
-  gameBackgroundColor: [48, 16, 20],
-  gameLowerBackgroundColor: [38, 12, 16],
+  backdropArchColor: [38, 14, 18],
+  backdropCandlelightColor: [172, 84, 58],
+  backdropDustColor: [210, 166, 166],
+  backdropFloorGlowColor: [82, 28, 30],
+  backdropFogColor: [96, 42, 48],
+  backdropHazeColor: [48, 18, 22],
+  backdropMoonlightColor: [138, 62, 68],
+  backdropShelfColor: [24, 9, 13],
+  gameBackgroundColor: [29, 11, 15],
+  gameLowerBackgroundColor: [23, 9, 13],
+}
+
+export function getBackdropPalette(floor?: number): BackdropPalette {
+  return floor && floor > 4
+    ? HIGH_FLOOR_BACKDROP_PALETTE
+    : DEFAULT_BACKDROP_PALETTE
 }
 
 export function addBackdrop(options: BackdropOptions = {}) {
   const sceneWidth = width()
   const sceneHeight = height()
   const actionAreaTop = options.actionAreaTop ?? Math.round(sceneHeight * 0.42)
-  const backdropPalette =
-    options.floor && options.floor >= 5
-      ? HIGH_FLOOR_BACKDROP_PALETTE
-      : DEFAULT_BACKDROP_PALETTE
+  const backdropPalette = getBackdropPalette(options.floor)
   const overlayOpacity = options.overlayOpacity ?? 0
   const windowCenterX = sceneWidth * 0.68
   const windowCenterY = sceneHeight * 0.24

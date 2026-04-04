@@ -10,6 +10,7 @@ import {
   addHand,
   addMessage,
   addStatus,
+  getBackdropPalette,
 } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
@@ -21,9 +22,15 @@ const END_TURN_BUTTON_OFFSET_Y = -42
 const DEFEAT_TRANSITION_DELAY = 1
 
 scene(SCENE.GAME, () => {
-  setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
-
   const stateManager = getStateManager()
+  const snapshot = stateManager.getSnapshot()
+
+  if (snapshot.scene === SCENE.GAME) {
+    const backdropPalette = getBackdropPalette(snapshot.state.floor)
+    setBackground(rgb(...backdropPalette.gameBackgroundColor))
+  } else {
+    setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+  }
 
   let hoverScrollDelayId: number | null = null
   let hoverScrollIntervalId: number | null = null
@@ -460,8 +467,6 @@ scene(SCENE.GAME, () => {
     clearHoverScroll()
     clearUI()
   })
-
-  const snapshot = stateManager.getSnapshot()
 
   switch (snapshot.scene) {
     case SCENE.REWARD:
