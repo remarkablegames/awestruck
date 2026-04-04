@@ -101,7 +101,7 @@ export function createInitialState(
     instanceId: `card-${String(index)}`,
   }))
 
-  return createFloorState({
+  const state = createFloorState({
     bestFloor,
     deckList,
     floor: runConfig.startingFloor,
@@ -110,6 +110,12 @@ export function createInitialState(
     playerHealth: COMBAT.PLAYER_MAX_HEALTH,
     playerMaxHealth: COMBAT.PLAYER_MAX_HEALTH,
   })
+
+  if (runConfig.startingRewardFloor) {
+    initializeRewardState(state)
+  }
+
+  return state
 }
 
 export function commitChainCard(state: CombatState, instanceId: string): void {
@@ -614,11 +620,7 @@ function handleEnemyDefeat(state: CombatState): void {
     return
   }
 
-  state.status = 'reward'
-  state.rewardPhase = 'hp'
-  state.hpRewardOptions = createHpRewardOptions()
-  state.cardRewardOptions = []
-  state.message = 'Choose a vitality reward before selecting a new card.'
+  initializeRewardState(state)
 }
 
 function hasOffense(effect: CardEffect): boolean {
@@ -697,6 +699,14 @@ function createHpRewardOptions(): HpRewardOption[] {
       label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
     },
   ]
+}
+
+function initializeRewardState(state: CombatState): void {
+  state.status = 'reward'
+  state.rewardPhase = 'hp'
+  state.hpRewardOptions = createHpRewardOptions()
+  state.cardRewardOptions = []
+  state.message = 'Choose a vitality reward before selecting a new card.'
 }
 
 function advanceToCardReward(state: CombatState): void {

@@ -1,10 +1,11 @@
-import { CARDS, COMBAT, FLOORS } from '../constants'
+import { CARDS, COMBAT, FLOORS, REWARDS } from '../constants'
 import type { Card } from '../types'
 
 export interface RunConfig {
   startingDeck: Card[]
   startingFloor: number
   startingHandSize: number
+  startingRewardFloor?: number
 }
 
 export function getDefaultRunConfig(): RunConfig {
@@ -25,6 +26,14 @@ export function getRunConfigFromQuery(): RunConfig | null {
 
   if (startingFloor !== null) {
     defaultConfig.startingFloor = startingFloor
+    hasOverride = true
+  }
+
+  const startingRewardFloor = parseRewardFloor(params.get('reward'))
+
+  if (startingRewardFloor !== null) {
+    defaultConfig.startingFloor = startingRewardFloor
+    defaultConfig.startingRewardFloor = startingRewardFloor
     hasOverride = true
   }
 
@@ -67,7 +76,7 @@ function parseFloor(floor: string | null): number | null {
     return null
   }
 
-  const parsedFloor = Number.parseInt(floor, 10)
+  const parsedFloor = parseInt(floor, 10)
 
   if (parsedFloor < 1 || parsedFloor > FLOORS.MAX_FLOOR) {
     return null
@@ -81,11 +90,25 @@ function parseHandSize(handSize: string | null): number | null {
     return null
   }
 
-  const parsedHandSize = Number.parseInt(handSize, 10)
+  const parsedHandSize = parseInt(handSize, 10)
 
   if (parsedHandSize < 1) {
     return null
   }
 
   return parsedHandSize
+}
+
+function parseRewardFloor(reward: string | null): number | null {
+  if (!reward || !/^\d+$/.test(reward)) {
+    return null
+  }
+
+  const parsedRewardFloor = parseInt(reward, 10)
+
+  if (parsedRewardFloor < 1 || parsedRewardFloor > REWARDS.MAX_REWARD_FLOOR) {
+    return null
+  }
+
+  return parsedRewardFloor
 }

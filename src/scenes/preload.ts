@@ -15,7 +15,7 @@ scene(SCENE.PRELOAD, () => {
 
   if (runConfig) {
     resetStateManager(runConfig)
-    go(SCENE.GAME)
+    go(runConfig.startingRewardFloor ? SCENE.REWARD : SCENE.GAME)
     return
   }
 
