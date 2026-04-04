@@ -21,4 +21,6 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
   },
 ]
 
+export const FULL_HEAL = 'fullHeal'
+export const MAX_HP_INCREASE = 5
 export const MAX_REWARD_FLOOR = REWARD_DEFINITIONS.length

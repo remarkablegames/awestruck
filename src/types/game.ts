@@ -43,6 +43,15 @@ export interface PlayerState {
   maxHealth: number
 }
 
+export type HpRewardKind = 'fullHeal' | 'maxHP'
+
+export interface HpRewardOption {
+  kind: HpRewardKind
+  label: string
+}
+
+export type RewardPhase = 'card' | 'hp'
+
 export type ChainPreview =
   | {
       cost: number
@@ -70,6 +79,7 @@ export type ChainPreview =
 export interface CombatState {
   bestFloor: number
   builder: CardInstance[]
+  cardRewardOptions: Card[]
   deckList: CardInstance[]
   discardPile: CardInstance[]
   drawPile: CardInstance[]
@@ -77,10 +87,11 @@ export interface CombatState {
   floor: number
   hand: CardInstance[]
   handSize: number
+  hpRewardOptions: HpRewardOption[]
   message: string
   nextInstanceId: number
   player: PlayerState
-  rewardOptions: Card[]
+  rewardPhase: RewardPhase
   status: 'lost' | 'playerTurn' | 'reward' | 'won'
   turn: number
 }

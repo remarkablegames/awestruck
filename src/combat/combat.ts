@@ -8,6 +8,8 @@ import type {
   ChainPreview,
   CombatState,
   EnemyState,
+  HpRewardKind,
+  HpRewardOption,
   ModifierKind,
 } from '../types'
 
@@ -222,8 +224,43 @@ export function endTurn(state: CombatState): void {
   runEnemyTurn(state)
 }
 
-export function chooseReward(state: CombatState, cardId: Card): void {
-  if (state.status !== 'reward') {
+export function chooseHpReward(
+  state: CombatState,
+  rewardKind: HpRewardKind,
+): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'hp') {
+    return
+  }
+
+  switch (rewardKind) {
+    case REWARDS.FULL_HEAL:
+      state.player.health = state.player.maxHealth
+      state.message = 'You restored to full health.'
+      break
+    case 'maxHP':
+      state.player.maxHealth += REWARDS.MAX_HP_INCREASE
+      state.player.health = Math.min(
+        state.player.maxHealth,
+        state.player.health + REWARDS.MAX_HP_INCREASE,
+      )
+      state.message = `Max HP increased by ${String(REWARDS.MAX_HP_INCREASE)}.`
+      break
+  }
+
+  advanceToCardReward(state)
+}
+
+export function skipHpReward(state: CombatState): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'hp') {
+    return
+  }
+
+  state.message = 'You leave the vitality reward behind.'
+  advanceToCardReward(state)
+}
+
+export function chooseCardReward(state: CombatState, cardId: Card): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'card') {
     return
   }
 
@@ -235,16 +272,21 @@ export function chooseReward(state: CombatState, cardId: Card): void {
   state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${String(state.floor)}.`
 }
 
-export function skipReward(state: CombatState): void {
-  if (state.status !== 'reward') {
+export function skipCardReward(state: CombatState): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'card') {
     return
   }
 
+  state.message = 'You decline the card reward.'
   advanceFromReward(state)
 }
 
-export function getRewardDefinitions(state: CombatState): CardDefinition[] {
-  return state.rewardOptions.map((cardId) => getCardDefinition(cardId))
+export function getCardRewardDefinitions(state: CombatState): CardDefinition[] {
+  return state.cardRewardOptions.map((cardId) => getCardDefinition(cardId))
+}
+
+export function getHpRewardOptions(state: CombatState): HpRewardOption[] {
+  return state.hpRewardOptions
 }
 
 export function getDeckCountLabel(state: CombatState): string {
@@ -423,6 +465,7 @@ function createFloorState({
   const state: CombatState = {
     bestFloor: Math.max(bestFloor, floor),
     builder: [],
+    cardRewardOptions: [],
     deckList,
     discardPile: [],
     drawPile: shuffle([...deckList]),
@@ -430,6 +473,7 @@ function createFloorState({
     floor,
     hand: [],
     handSize,
+    hpRewardOptions: [],
     message: `Floor ${String(floor)} begins. Build a modifier chain or play a payload alone.`,
     nextInstanceId,
     player: {
@@ -439,7 +483,7 @@ function createFloorState({
       maxEnergy: COMBAT.MAX_ENERGY,
       maxHealth: playerMaxHealth,
     },
-    rewardOptions: [],
+    rewardPhase: 'card',
     status: 'playerTurn',
     turn: 1,
   }
@@ -571,9 +615,10 @@ function handleEnemyDefeat(state: CombatState): void {
   }
 
   state.status = 'reward'
-  state.rewardOptions = drawRewardOptions(state.floor)
-  state.message =
-    'Choose one new word to strengthen the next modifier or payload chain.'
+  state.rewardPhase = 'hp'
+  state.hpRewardOptions = createHpRewardOptions()
+  state.cardRewardOptions = []
+  state.message = 'Choose a vitality reward before selecting a new card.'
 }
 
 function hasOffense(effect: CardEffect): boolean {
@@ -641,6 +686,25 @@ function drawRewardOptions(floor: number): Card[] {
   return shuffle([...rewardCards]).slice(0, 3)
 }
 
+function createHpRewardOptions(): HpRewardOption[] {
+  return [
+    {
+      kind: REWARDS.FULL_HEAL,
+      label: 'Full Heal',
+    },
+    {
+      kind: 'maxHP',
+      label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
+    },
+  ]
+}
+
+function advanceToCardReward(state: CombatState): void {
+  state.rewardPhase = 'card'
+  state.hpRewardOptions = []
+  state.cardRewardOptions = drawRewardOptions(state.floor)
+}
+
 function advanceFromReward(state: CombatState): void {
   const nextFloor = state.floor + 1
   const nextState = createFloorState({
@@ -659,6 +723,7 @@ function advanceFromReward(state: CombatState): void {
 function replaceState(target: CombatState, source: CombatState): void {
   target.bestFloor = source.bestFloor
   target.builder = source.builder
+  target.cardRewardOptions = source.cardRewardOptions
   target.deckList = source.deckList
   target.discardPile = source.discardPile
   target.drawPile = source.drawPile
@@ -666,10 +731,11 @@ function replaceState(target: CombatState, source: CombatState): void {
   target.floor = source.floor
   target.hand = source.hand
   target.handSize = source.handSize
+  target.hpRewardOptions = source.hpRewardOptions
   target.message = source.message
   target.nextInstanceId = source.nextInstanceId
   target.player = source.player
-  target.rewardOptions = source.rewardOptions
+  target.rewardPhase = source.rewardPhase
   target.status = source.status
   target.turn = source.turn
 }

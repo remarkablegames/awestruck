@@ -1,15 +1,17 @@
 import {
   cancelBuilder,
-  chooseReward,
+  chooseCardReward,
+  chooseHpReward,
   commitChainCard,
   confirmBuilder,
   createInitialState,
   endTurn,
-  skipReward,
+  skipCardReward,
+  skipHpReward,
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { Card, CombatState } from '../types'
+import type { Card, CombatState, HpRewardKind } from '../types'
 
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
@@ -177,12 +179,20 @@ export class StateManager {
     this.notify()
   }
 
-  chooseReward(cardId: Card): void {
-    this.runAction(chooseReward, cardId)
+  chooseHpReward(rewardKind: HpRewardKind): void {
+    this.runAction(chooseHpReward, rewardKind)
   }
 
-  skipReward(): void {
-    this.runAction(skipReward)
+  skipHpReward(): void {
+    this.runAction(skipHpReward)
+  }
+
+  chooseCardReward(cardId: Card): void {
+    this.runAction(chooseCardReward, cardId)
+  }
+
+  skipCardReward(): void {
+    this.runAction(skipCardReward)
   }
 
   private runAction<TArgs extends unknown[]>(
