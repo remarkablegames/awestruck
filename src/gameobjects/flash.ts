@@ -18,7 +18,7 @@ interface FlashOptions {
 }
 
 export function addFlash({
-  color: flashColor = [255, 142, 122],
+  color: flashColor = [255, 255, 255],
   height: flashHeight = height(),
   opacity: flashOpacity = FLASH_OPACITY,
   parent,
@@ -27,6 +27,7 @@ export function addFlash({
   y = 0,
 }: FlashOptions = {}) {
   const addTo = parent ? parent.add.bind(parent) : add
+
   const overlay = addTo([
     rect(flashWidth, flashHeight, { radius: 18 }),
     color(flashColor),

@@ -1,5 +1,6 @@
 export * as CARD from './card'
 export * as CARDS from './cards'
+export * as COLOR from './color'
 export * as COMBAT from './combat'
 export * as DATA from './data'
 export * as FLOORS from './floors'

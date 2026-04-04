@@ -1,7 +1,7 @@
 import type { GameObj } from 'kaplay'
 
 import { getCardDefinition, getChainPreview } from '../combat'
-import { CARD, HAND, SCENE, SOUND, THEME } from '../constants'
+import { CARD, COLOR, HAND, SCENE, SOUND, THEME } from '../constants'
 import {
   addBackdrop,
   addButton,
@@ -61,7 +61,8 @@ scene(SCENE.GAME, () => {
     }
   }
 
-  const playerDamageFlash = addFlash()
+  const flashDamage = addFlash({ color: COLOR.FLASH_DAMAGE })
+  const flashHeal = addFlash({ color: COLOR.FLASH_HEAL })
 
   const renderEnemyPanel = (state: CombatState) => {
     const panelX = width() - 300
@@ -350,19 +351,27 @@ scene(SCENE.GAME, () => {
 
   const unsubscribe = stateManager.subscribe(
     ({ actionResult, endStatus, scene, state }) => {
-      const hitDamage =
-        actionResult?.type === 'confirmBuilder' ? actionResult.enemyDamage : 0
-      const playerDamageTaken = Math.max(
+      const isConfirmBuilder = actionResult?.type === 'confirmBuilder'
+
+      const enemyDamage = isConfirmBuilder ? actionResult.enemyDamage : 0
+
+      const playerHeal = isConfirmBuilder ? actionResult.playerHealGained : 0
+
+      const playerDamage = Math.max(
         0,
         previousPlayerHealth - state.player.health,
       )
 
       previousPlayerHealth = state.player.health
 
-      if (playerDamageTaken > 0) {
+      if (playerDamage > 0) {
         play(SOUND.PUNCH)
-        playerDamageFlash.play()
+        flashDamage.play()
         shake(10)
+      }
+
+      if (playerHeal > 0) {
+        flashHeal.play()
       }
 
       switch (scene) {
@@ -383,11 +392,11 @@ scene(SCENE.GAME, () => {
           return
 
         case SCENE.REWARD:
-          if (hitDamage > 0) {
+          if (enemyDamage > 0) {
             wait(0, () => {
               enemyDisplay.sync(state.enemy)
               renderUI(state)
-              enemyDisplay.playHit(hitDamage)
+              enemyDisplay.playHit(enemyDamage)
             })
 
             wait(DEFEAT_TRANSITION_DELAY, () => {
@@ -403,13 +412,13 @@ scene(SCENE.GAME, () => {
 
         case SCENE.END:
           if (endStatus) {
-            if (hitDamage > 0 || playerDamageTaken > 0) {
+            if (enemyDamage > 0 || playerDamage > 0) {
               wait(0, () => {
                 enemyDisplay.sync(state.enemy)
                 renderUI(state)
 
-                if (hitDamage > 0) {
-                  enemyDisplay.playHit(hitDamage)
+                if (enemyDamage > 0) {
+                  enemyDisplay.playHit(enemyDamage)
                 }
               })
 
