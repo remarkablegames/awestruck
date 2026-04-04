@@ -2,7 +2,7 @@ import type { GameObj } from 'kaplay'
 
 import { getDeckCountLabel } from '../combat'
 import type { Color, CombatState } from '../types'
-import { addHealthBar } from '.'
+import { addHealthBar, addShield } from '.'
 
 interface StatusOptions {
   state: CombatState
@@ -16,6 +16,7 @@ const RESOURCE_ROW_OFFSET_Y = 116
 const DECK_ROW_OFFSET_Y = 146
 const PLAYER_HP_BAR_WIDTH = 300
 const PLAYER_HP_BAR_HEIGHT = 30
+const PLAYER_SHIELD_OFFSET_X = 30
 const PLAYER_HP_BAR_FILL_COLOR: Color = [103, 142, 217]
 const PLAYER_HP_BAR_TRACK_COLOR: Color = [30, 41, 64]
 const PLAYER_HP_BAR_OUTLINE_COLOR: Color = [191, 214, 255]
@@ -47,6 +48,13 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     width: PLAYER_HP_BAR_WIDTH,
     x: 0,
     y: PLAYER_HP_BAR_OFFSET_Y,
+  })
+
+  addShield({
+    parent: root,
+    value: state.player.block,
+    x: PLAYER_HP_BAR_WIDTH + PLAYER_SHIELD_OFFSET_X,
+    y: PLAYER_HP_BAR_OFFSET_Y + PLAYER_HP_BAR_HEIGHT / 2,
   })
 
   root.add([
