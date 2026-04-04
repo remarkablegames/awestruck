@@ -160,47 +160,34 @@ export function addCard({
     y: -CARD.HEIGHT / 2 - 14,
   })
 
-  if (hasCardImage(definition.id)) {
-    getSprite(definition.id)?.then((data) => {
-      if (isDestroyed) {
-        return
-      }
+  getSprite(definition.id)?.then((data) => {
+    if (isDestroyed) {
+      return
+    }
 
-      const scale = Math.min(
-        IMAGE_FRAME_WIDTH / data.width,
-        IMAGE_FRAME_HEIGHT / data.height,
-      )
+    const scale = Math.min(
+      IMAGE_FRAME_WIDTH / data.width,
+      IMAGE_FRAME_HEIGHT / data.height,
+    )
 
-      root.add([
-        sprite(definition.id, {
-          height: data.height * scale,
-          width: data.width * scale,
-        }),
-        pos(0, IMAGE_FRAME_Y),
-        anchor('center'),
-      ])
-    })
-
-    addPill({
-      height: ROLE_PILL_HEIGHT,
-      label: roleLabel,
-      parent: root,
-      width: ROLE_PILL_WIDTH,
-      x: 0,
-      y: ROLE_PILL_Y,
-    })
-  } else {
     root.add([
-      text(roleLabel, {
-        align: 'center',
-        size: 18,
-        width: CARD.WIDTH - 18,
+      sprite(definition.id, {
+        height: data.height * scale,
+        width: data.width * scale,
       }),
-      color(32, 44, 62),
       pos(0, IMAGE_FRAME_Y),
       anchor('center'),
     ])
-  }
+  })
+
+  addPill({
+    height: ROLE_PILL_HEIGHT,
+    label: roleLabel,
+    parent: root,
+    width: ROLE_PILL_WIDTH,
+    x: 0,
+    y: ROLE_PILL_Y,
+  })
 
   root.add([
     text(definition.description, {
@@ -224,10 +211,4 @@ function toRoleLabel(type: 'modifier' | 'payload') {
     case 'payload':
       return 'Payload'
   }
-}
-
-function hasCardImage(cardId: string) {
-  return ['bastion', 'bloom', 'pierce', 'surge', 'thorn', 'wilt'].includes(
-    cardId,
-  )
 }
