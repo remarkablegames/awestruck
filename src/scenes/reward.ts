@@ -3,13 +3,14 @@ import {
   getHpRewardOptions,
   getUpgradeRewardDefinitions,
 } from '../combat'
-import { CARD, POSITION, SCENE, SOUND, THEME } from '../constants'
+import { CARD, POSITION, SCENE, SOUND } from '../constants'
 import {
   addBackdrop,
   addButton,
   addCard,
   addMessage,
   addStatus,
+  getBackdropPalette,
 } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { Card, CombatState } from '../types'
@@ -27,13 +28,16 @@ const HP_REWARD_BUTTON_WIDTH = CARD.WIDTH + 20
 const HP_REWARD_BUTTON_HEIGHT = CARD.HEIGHT - 80
 
 scene(SCENE.REWARD, () => {
-  setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
   const stateManager = getStateManager()
   const state = stateManager.getState()
+  const backdropPalette = getBackdropPalette(state.floor)
   const { x: centerX, y: centerY } = center()
+
+  setBackground(rgb(...backdropPalette.gameBackgroundColor))
 
   addBackdrop({
     actionAreaTop: height() * 0.48,
+    floor: state.floor,
     overlayOpacity: 0.08,
   })
 
