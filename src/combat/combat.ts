@@ -638,7 +638,7 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
 
 function drawRewardOptions(floor: number): Card[] {
   const rewardPool = REWARDS.REWARD_DEFINITIONS[floor - 1]?.rewardPool ?? []
-  return shuffle([...rewardPool]).slice(0, 3) as Card[]
+  return shuffle([...rewardPool]).slice(0, 3)
 }
 
 function advanceFromReward(state: CombatState): void {

@@ -1,5 +1,7 @@
+import type { Card } from '../types'
+
 interface RewardDefinition {
-  rewardPool: string[]
+  rewardPool: Card[]
 }
 
 export const REWARD_DEFINITIONS: RewardDefinition[] = [
