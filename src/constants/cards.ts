@@ -350,7 +350,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'quick',
     },
-    sprite: 'quick' as Sprite,
+    sprite: 'surge',
     tags: [],
     type: 'modifier',
     upgrade: 'quick2',
@@ -368,7 +368,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'quick',
     },
-    sprite: 'quick' as Sprite,
+    sprite: 'surge',
     tags: [],
     type: 'modifier',
   },
