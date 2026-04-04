@@ -3,7 +3,7 @@ import type { Card, CardDefinition, CardEffect, CardInstance, Sprite } from '.'
 export type ModifierKind =
   | 'double'
   | 'echo'
-  | 'embered'
+  | 'heat'
   | 'heavy'
   | 'leech'
   | 'pierce'

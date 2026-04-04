@@ -12,7 +12,7 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
 
   // floor 2
   {
-    cards: ['bastion1', 'heavy1', 'embered1', 'leech1', 'double1'],
+    cards: ['bastion1', 'heavy1', 'heat1', 'leech1', 'double1'],
   },
 
   // floor 3
@@ -32,7 +32,7 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
 
   // floor 6
   {
-    cards: ['bastion2', 'heavy2', 'leech2', 'double2', 'embered2'],
+    cards: ['bastion2', 'heavy2', 'leech2', 'double2', 'heat2'],
   },
 
   // floor 7

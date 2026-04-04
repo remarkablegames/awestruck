@@ -185,31 +185,31 @@ export const CARD_DEFINITIONS = {
     type: 'modifier',
   },
 
-  embered1: {
+  heat1: {
     accent: [255, 143, 88],
     cost: 1,
     description: 'Payload applies 3 burn.',
     effect: {},
-    id: 'embered1',
-    label: 'EMBERED',
+    id: 'heat1',
+    label: 'HEAT',
     modifier: {
-      kind: 'embered',
+      kind: 'heat',
     },
     sprite: 'burn',
     tags: [],
     type: 'modifier',
-    upgrade: 'embered2',
+    upgrade: 'heat2',
   },
 
-  embered2: {
+  heat2: {
     accent: [255, 143, 88],
     cost: 0,
     description: 'Payload applies 3 burn.',
     effect: {},
-    id: 'embered2',
-    label: 'EMBERED+',
+    id: 'heat2',
+    label: 'HEAT+',
     modifier: {
-      kind: 'embered',
+      kind: 'heat',
     },
     sprite: 'burn',
     tags: [],

@@ -416,7 +416,7 @@ function applyModifier(
         effect,
         mapEffect(effect, (value) => Math.floor(value / 2)),
       )
-    case 'embered':
+    case 'heat':
       return mergeEffects(effect, {
         burn: 3,
       })
