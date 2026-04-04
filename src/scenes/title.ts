@@ -63,7 +63,7 @@ scene(SCENE.TITLE, () => {
 
   add([
     text(
-      `Starter words: ${CARDS.STARTER_DECK.map((card) => card.toUpperCase()).join(', ')}`,
+      `Starter words: ${CARDS.STARTER_DECK.map((card) => CARDS.CARD_DEFINITIONS[card].label).join(', ')}`,
       {
         align: 'center',
         size: 18,

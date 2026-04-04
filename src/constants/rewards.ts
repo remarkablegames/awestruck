@@ -7,17 +7,17 @@ interface RewardDefinition {
 export const REWARD_DEFINITIONS: RewardDefinition[] = [
   // floor 1
   {
-    cards: ['sear', 'pierce', 'ward', 'wilt'],
+    cards: ['sear1', 'pierce1', 'ward1', 'wilt1'],
   },
 
   // floor 2
   {
-    cards: ['bastion', 'heavy', 'embered', 'leech', 'double'],
+    cards: ['bastion1', 'heavy1', 'embered1', 'leech1', 'double1'],
   },
 
   // floor 3
   {
-    cards: ['rage', 'risky', 'echo', 'charge'],
+    cards: ['rage1', 'risky1', 'echo1', 'charge1'],
   },
 ]
 

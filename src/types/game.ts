@@ -1,4 +1,4 @@
-import type { Card, CardDefinition, CardEffect, CardInstance } from '.'
+import type { Card, CardDefinition, CardEffect, CardInstance, Sprite } from '.'
 
 export type ModifierKind =
   | 'double'
@@ -32,7 +32,7 @@ export interface EnemyState {
   intents: EnemyIntent[]
   label: string
   maxHealth: number
-  sprite: string
+  sprite: Sprite
 }
 
 export interface PlayerState {

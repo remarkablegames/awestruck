@@ -1,5 +1,5 @@
 import { CARDS } from '../constants'
-import type { Color, ModifierDefinition } from '.'
+import type { Color, ModifierDefinition, Sprite } from '.'
 
 export type Card = keyof typeof CARDS.CARD_DEFINITIONS
 
@@ -25,6 +25,7 @@ export interface CardDefinition {
   id: string
   label: string
   modifier?: ModifierDefinition
+  sprite: Sprite
   tags: CardTag[]
   type: 'modifier' | 'payload'
 }

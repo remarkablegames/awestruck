@@ -1,11 +1,11 @@
-import type { EnemyIntent } from '../types'
+import type { EnemyIntent, Sprite } from '../types'
 import * as SPRITE from './sprite'
 
 interface FloorDefinition {
   enemyName: string
   enemyIntents: EnemyIntent[]
   enemyMaxHealth: number
-  enemySprite: string
+  enemySprite: Sprite
 }
 
 export const FLOOR_DEFINITIONS: FloorDefinition[] = [

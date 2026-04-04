@@ -160,7 +160,7 @@ export function addCard({
     y: -CARD.HEIGHT / 2 - 14,
   })
 
-  getSprite(definition.id)?.then((data) => {
+  getSprite(definition.sprite)?.then((data) => {
     if (isDestroyed) {
       return
     }
@@ -171,7 +171,7 @@ export function addCard({
     )
 
     root.add([
-      sprite(definition.id, {
+      sprite(definition.sprite, {
         height: data.height * scale,
         width: data.width * scale,
       }),

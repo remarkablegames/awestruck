@@ -121,7 +121,7 @@ http://localhost:5173/?deck=*&handSize=30
 Start with specific cards:
 
 ```
-http://localhost:5173/?deck=burn,thorn,focus
+http://localhost:5173/?deck=burn1,thorn1,focus1
 ```
 
 Notes:
