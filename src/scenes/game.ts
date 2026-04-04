@@ -1,7 +1,7 @@
 import type { GameObj } from 'kaplay'
 
 import { getCardDefinition, getChainPreview } from '../combat'
-import { CARD, COLOR, HAND, SCENE, SOUND, THEME } from '../constants'
+import { CARD, COLOR, HAND, POSITION, SCENE, SOUND, THEME } from '../constants'
 import {
   addBackdrop,
   addButton,
@@ -306,8 +306,7 @@ scene(SCENE.GAME, () => {
     track(
       addStatus({
         state,
-        x: 40,
-        y: 28,
+        ...POSITION.STATUS,
       }).root,
     )
     renderEnemyPanel(state)

@@ -1,6 +1,6 @@
 import { getCardRewardDefinitions, getHpRewardOptions } from '../combat'
-import { CARD, SCENE, SOUND, THEME } from '../constants'
-import { addBackdrop, addButton, addCard } from '../gameobjects'
+import { CARD, POSITION, SCENE, SOUND, THEME } from '../constants'
+import { addBackdrop, addButton, addCard, addStatus } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { Card, CombatState } from '../types'
 
@@ -28,6 +28,11 @@ scene(SCENE.REWARD, () => {
   })
 
   add([rect(width(), height()), color(5, 8, 12), opacity(0.62)])
+
+  addStatus({
+    state,
+    ...POSITION.STATUS,
+  })
 
   add([
     rect(REWARD_CONTAINER_WIDTH, REWARD_CONTAINER_HEIGHT, { radius: 26 }),
