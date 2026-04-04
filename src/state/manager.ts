@@ -37,7 +37,13 @@ export interface ConfirmBuilderActionResult {
   type: 'confirmBuilder'
 }
 
-export type StateActionResult = ConfirmBuilderActionResult
+export interface EndTurnActionResult {
+  playerBlockedDamage: number
+  playerDamageTaken: number
+  type: 'endTurn'
+}
+
+export type StateActionResult = ConfirmBuilderActionResult | EndTurnActionResult
 
 type StateListener = (snapshot: StateSnapshot) => void
 
@@ -143,7 +149,33 @@ export class StateManager {
   }
 
   endTurn(): void {
-    this.runAction(endTurn)
+    const enemyIntent = this.state.enemy.intents[this.state.enemy.intentCursor]
+    const before = {
+      playerBlock: this.state.player.block,
+      playerHealth: this.state.player.health,
+      turn: this.state.turn,
+    }
+
+    endTurn(this.state)
+
+    const turnResolved = this.state.turn > before.turn
+
+    this.actionResult = turnResolved
+      ? {
+          playerBlockedDamage: Math.min(
+            before.playerBlock,
+            enemyIntent.attack ?? 0,
+          ),
+          playerDamageTaken: Math.max(
+            0,
+            before.playerHealth - this.state.player.health,
+          ),
+          type: 'endTurn',
+        }
+      : undefined
+
+    this.persistProgress()
+    this.notify()
   }
 
   chooseReward(cardId: string): void {

@@ -352,6 +352,7 @@ scene(SCENE.GAME, () => {
   const unsubscribe = stateManager.subscribe(
     ({ actionResult, endStatus, scene, state }) => {
       const isConfirmBuilder = actionResult?.type === 'confirmBuilder'
+      const isEndTurn = actionResult?.type === 'endTurn'
 
       const enemyDamage = isConfirmBuilder ? actionResult.enemyDamage : 0
 
@@ -359,26 +360,36 @@ scene(SCENE.GAME, () => {
         ? actionResult.playerBlockGained
         : 0
 
-      const playerHeal = isConfirmBuilder ? actionResult.playerHealGained : 0
+      const playerBlockedDamage = isEndTurn
+        ? actionResult.playerBlockedDamage
+        : 0
 
-      const playerDamage = Math.max(
+      const playerHealGained = isConfirmBuilder
+        ? actionResult.playerHealGained
+        : 0
+
+      const playerDamageTaken = Math.max(
         0,
         previousPlayerHealth - state.player.health,
       )
 
       previousPlayerHealth = state.player.health
 
-      if (playerDamage > 0) {
+      if (playerDamageTaken > 0) {
         play(SOUND.PUNCH)
         flashDamage.play()
         shake(10)
+      }
+
+      if (playerBlockedDamage > 0) {
+        play(SOUND.BLOCK, { detune: -100 })
       }
 
       if (playerBlockGained > 0) {
         play(SOUND.BLOCK)
       }
 
-      if (playerHeal > 0) {
+      if (playerHealGained > 0) {
         play(SOUND.HEAL)
         flashHeal.play()
       }
@@ -421,7 +432,7 @@ scene(SCENE.GAME, () => {
 
         case SCENE.END:
           if (endStatus) {
-            if (enemyDamage > 0 || playerDamage > 0) {
+            if (enemyDamage > 0 || playerDamageTaken > 0) {
               wait(0, () => {
                 enemyDisplay.sync(state.enemy)
                 renderUI(state)
