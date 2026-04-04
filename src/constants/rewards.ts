@@ -1,23 +1,23 @@
 import type { Card } from '../types'
 
 interface RewardDefinition {
-  rewardPool: Card[]
+  cards: Card[]
 }
 
 export const REWARD_DEFINITIONS: RewardDefinition[] = [
   // floor 1
   {
-    rewardPool: ['sear', 'pierce', 'ward', 'wilt'],
+    cards: ['sear', 'pierce', 'ward', 'wilt'],
   },
 
   // floor 2
   {
-    rewardPool: ['bastion', 'heavy', 'embered', 'leech', 'double'],
+    cards: ['bastion', 'heavy', 'embered', 'leech', 'double'],
   },
 
   // floor 3
   {
-    rewardPool: ['rage', 'risky', 'echo', 'charge'],
+    cards: ['rage', 'risky', 'echo', 'charge'],
   },
 ]
 
