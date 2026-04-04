@@ -1,18 +1,4 @@
-import type { Color } from '.'
-
-export interface CardEffect {
-  block?: number
-  burn?: number
-  damage?: number
-  draw?: number
-  energy?: number
-  heal?: number
-  ignoreBlock?: boolean
-  selfDamageIgnoresBlock?: boolean
-  selfDamage?: number
-}
-
-export type CardTag = 'flame' | 'growth' | 'guard' | 'thorn'
+import type { Card, CardDefinition, CardEffect, CardInstance } from '.'
 
 export type ModifierKind =
   | 'double'
@@ -28,23 +14,6 @@ export type ModifierKind =
 
 export interface ModifierDefinition {
   kind: ModifierKind
-}
-
-export interface CardDefinition {
-  accent: Color
-  cost: number
-  description: string
-  effect: CardEffect
-  id: string
-  label: string
-  modifier?: ModifierDefinition
-  tags: CardTag[]
-  type: 'modifier' | 'payload'
-}
-
-export interface CardInstance {
-  cardId: string
-  instanceId: string
 }
 
 export interface EnemyIntent {
@@ -111,7 +80,7 @@ export interface CombatState {
   message: string
   nextInstanceId: number
   player: PlayerState
-  rewardOptions: string[]
+  rewardOptions: Card[]
   status: 'lost' | 'playerTurn' | 'reward' | 'won'
   turn: number
 }

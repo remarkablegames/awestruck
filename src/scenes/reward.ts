@@ -2,6 +2,7 @@ import { getRewardDefinitions } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton, addCard } from '../gameobjects'
 import { getStateManager } from '../state'
+import type { Card } from '../types'
 
 const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
@@ -62,7 +63,7 @@ scene(SCENE.REWARD, () => {
       definition,
       onClick: () => {
         play(SOUND.DROP)
-        stateManager.chooseReward(definition.id)
+        stateManager.chooseReward(definition.id as Card)
         go(SCENE.GAME)
       },
       x,

@@ -1,6 +1,6 @@
-import type { CardDefinition } from '../types'
+import type { Card, CardDefinition } from '../types'
 
-export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
+export const CARD_DEFINITIONS = {
   bastion: {
     accent: [96, 129, 218],
     cost: 2,
@@ -308,9 +308,9 @@ export const CARD_DEFINITIONS: Record<string, CardDefinition> = {
     tags: ['growth'],
     type: 'payload',
   },
-}
+} as const satisfies Record<string, CardDefinition>
 
-export const STARTER_DECK = [
+export const STARTER_DECK: Card[] = [
   'bloom',
   'burn',
   'burn',

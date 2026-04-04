@@ -7,10 +7,9 @@ import {
   endTurn,
   skipReward,
 } from '../combat'
-import type { RunConfig } from '../config'
-import { getDefaultRunConfig } from '../config'
+import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { CombatState } from '../types'
+import type { Card, CombatState } from '../types'
 
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
@@ -178,7 +177,7 @@ export class StateManager {
     this.notify()
   }
 
-  chooseReward(cardId: string): void {
+  chooseReward(cardId: Card): void {
     this.runAction(chooseReward, cardId)
   }
 

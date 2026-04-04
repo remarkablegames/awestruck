@@ -1,7 +1,8 @@
 import { CARDS, COMBAT, FLOORS } from '../constants'
+import type { Card } from '../types'
 
 export interface RunConfig {
-  startingDeck: string[]
+  startingDeck: Card[]
   startingFloor: number
   startingHandSize: number
 }
@@ -44,19 +45,19 @@ export function getRunConfigFromQuery(): RunConfig | null {
   return hasOverride ? defaultConfig : null
 }
 
-function parseDeck(deck: string | null): string[] | null {
+function parseDeck(deck: string | null): Card[] | null {
   if (!deck) {
     return null
   }
 
   if (deck === '*') {
-    return Object.keys(CARDS.CARD_DEFINITIONS)
+    return Object.keys(CARDS.CARD_DEFINITIONS) as Card[]
   }
 
   const parsedDeck = deck
     .split(',')
     .map((cardId) => cardId.trim())
-    .filter((cardId) => cardId in CARDS.CARD_DEFINITIONS)
+    .filter((cardId) => cardId in CARDS.CARD_DEFINITIONS) as Card[]
 
   return parsedDeck.length ? parsedDeck : [...CARDS.STARTER_DECK]
 }

@@ -1,6 +1,7 @@
 import type { RunConfig } from '../config'
 import { CARDS, COMBAT, FLOORS, REWARDS } from '../constants'
 import type {
+  Card,
   CardDefinition,
   CardEffect,
   CardInstance,
@@ -10,7 +11,7 @@ import type {
   ModifierKind,
 } from '../types'
 
-export function getCardDefinition(cardId: string): CardDefinition {
+export function getCardDefinition(cardId: Card): CardDefinition {
   return CARDS.CARD_DEFINITIONS[cardId]
 }
 
@@ -221,7 +222,7 @@ export function endTurn(state: CombatState): void {
   runEnemyTurn(state)
 }
 
-export function chooseReward(state: CombatState, cardId: string): void {
+export function chooseReward(state: CombatState, cardId: Card): void {
   if (state.status !== 'reward') {
     return
   }
@@ -377,7 +378,7 @@ function cloneEffect(effect: CardEffect): CardEffect {
   }
 }
 
-function createCardInstance(cardId: string, index: number): CardInstance {
+function createCardInstance(cardId: Card, index: number): CardInstance {
   return {
     cardId,
     instanceId: `card-${String(index)}`,
@@ -635,9 +636,9 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
   }
 }
 
-function drawRewardOptions(floor: number): string[] {
-  const rewardPool = REWARDS.REWARD_POOLS[floor - 1] ?? []
-  return shuffle([...rewardPool]).slice(0, 3)
+function drawRewardOptions(floor: number): Card[] {
+  const rewardPool = REWARDS.REWARD_DEFINITIONS[floor - 1]?.rewardPool ?? []
+  return shuffle([...rewardPool]).slice(0, 3) as Card[]
 }
 
 function advanceFromReward(state: CombatState): void {
