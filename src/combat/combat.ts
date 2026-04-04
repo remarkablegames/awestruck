@@ -1,5 +1,5 @@
 import type { RunConfig } from '../config'
-import { CARDS, COMBAT, FLOORS } from '../constants'
+import { CARDS, COMBAT, FLOORS, REWARDS } from '../constants'
 import type {
   CardDefinition,
   CardEffect,
@@ -636,7 +636,7 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
 }
 
 function drawRewardOptions(floor: number): string[] {
-  const rewardPool = CARDS.REWARD_POOLS[floor - 1] ?? []
+  const rewardPool = REWARDS.REWARD_POOLS[floor - 1] ?? []
   return shuffle([...rewardPool]).slice(0, 3)
 }
 
