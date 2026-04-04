@@ -461,8 +461,6 @@ scene(SCENE.GAME, () => {
     clearUI()
   })
 
-  addBackdrop({ actionAreaTop: height() * ACTION_AREA_TOP_RATIO })
-
   const snapshot = stateManager.getSnapshot()
 
   switch (snapshot.scene) {
@@ -475,6 +473,10 @@ scene(SCENE.GAME, () => {
       }
       return
     case SCENE.GAME:
+      addBackdrop({
+        actionAreaTop: height() * ACTION_AREA_TOP_RATIO,
+        floor: snapshot.state.floor,
+      })
       renderUI(snapshot.state)
       return
   }

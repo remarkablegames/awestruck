@@ -1,34 +1,79 @@
 import { LAYER, THEME } from '../constants'
+import type { Color } from '../types'
 
 interface BackdropOptions {
   actionAreaTop?: number
+  floor?: number
   overlayOpacity?: number
+}
+
+interface BackdropPalette {
+  backdropArchColor: Color
+  backdropCandlelightColor: Color
+  backdropDustColor: Color
+  backdropFloorGlowColor: Color
+  backdropFogColor: Color
+  backdropHazeColor: Color
+  backdropMoonlightColor: Color
+  backdropShelfColor: Color
+  gameBackgroundColor: Color
+  gameLowerBackgroundColor: Color
+}
+
+const DEFAULT_BACKDROP_PALETTE: BackdropPalette = {
+  backdropArchColor: THEME.BACKDROP_ARCH_COLOR,
+  backdropCandlelightColor: THEME.BACKDROP_CANDLELIGHT_COLOR,
+  backdropDustColor: THEME.BACKDROP_DUST_COLOR,
+  backdropFloorGlowColor: THEME.BACKDROP_FLOOR_GLOW_COLOR,
+  backdropFogColor: THEME.BACKDROP_FOG_COLOR,
+  backdropHazeColor: THEME.BACKDROP_HAZE_COLOR,
+  backdropMoonlightColor: THEME.BACKDROP_MOONLIGHT_COLOR,
+  backdropShelfColor: THEME.BACKDROP_SHELF_COLOR,
+  gameBackgroundColor: THEME.GAME_BACKGROUND_COLOR,
+  gameLowerBackgroundColor: THEME.GAME_LOWER_BACKGROUND_COLOR,
+}
+
+const HIGH_FLOOR_BACKDROP_PALETTE: BackdropPalette = {
+  backdropArchColor: [52, 18, 22],
+  backdropCandlelightColor: [232, 118, 72],
+  backdropDustColor: [255, 214, 214],
+  backdropFloorGlowColor: [124, 42, 38],
+  backdropFogColor: [142, 66, 72],
+  backdropHazeColor: [74, 24, 30],
+  backdropMoonlightColor: [196, 88, 88],
+  backdropShelfColor: [34, 12, 16],
+  gameBackgroundColor: [48, 16, 20],
+  gameLowerBackgroundColor: [38, 12, 16],
 }
 
 export function addBackdrop(options: BackdropOptions = {}) {
   const sceneWidth = width()
   const sceneHeight = height()
   const actionAreaTop = options.actionAreaTop ?? Math.round(sceneHeight * 0.42)
+  const backdropPalette =
+    options.floor && options.floor >= 5
+      ? HIGH_FLOOR_BACKDROP_PALETTE
+      : DEFAULT_BACKDROP_PALETTE
   const overlayOpacity = options.overlayOpacity ?? 0
   const windowCenterX = sceneWidth * 0.68
   const windowCenterY = sceneHeight * 0.24
 
   add([
     rect(sceneWidth, sceneHeight),
-    color(THEME.GAME_BACKGROUND_COLOR),
+    color(backdropPalette.gameBackgroundColor),
     z(LAYER.BACKDROP),
   ])
 
   add([
     rect(sceneWidth, actionAreaTop),
-    color(THEME.BACKDROP_HAZE_COLOR),
+    color(backdropPalette.backdropHazeColor),
     opacity(0.62),
     z(LAYER.BACKDROP),
   ])
 
   add([
     rect(sceneWidth, sceneHeight - actionAreaTop),
-    color(THEME.GAME_LOWER_BACKGROUND_COLOR),
+    color(backdropPalette.gameLowerBackgroundColor),
     opacity(0.98),
     pos(0, actionAreaTop),
     z(LAYER.BACKDROP),
@@ -36,7 +81,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
   add([
     circle(220),
-    color(THEME.BACKDROP_MOONLIGHT_COLOR),
+    color(backdropPalette.backdropMoonlightColor),
     opacity(0.16),
     pos(windowCenterX, windowCenterY),
     anchor('center'),
@@ -45,7 +90,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
   add([
     rect(200, 260, { radius: 28 }),
-    color(THEME.BACKDROP_ARCH_COLOR),
+    color(backdropPalette.backdropArchColor),
     pos(windowCenterX, 32),
     anchor('top'),
     z(LAYER.BACKDROP),
@@ -53,7 +98,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   ;[-54, 0, 54].forEach((offsetX) => {
     add([
       rect(10, 236, { radius: 5 }),
-      color(THEME.BACKDROP_MOONLIGHT_COLOR),
+      color(backdropPalette.backdropMoonlightColor),
       opacity(offsetX === 0 ? 0.2 : 0.12),
       pos(windowCenterX + offsetX, 50),
       anchor('top'),
@@ -63,7 +108,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   ;[90, 150, 210].forEach((offsetY) => {
     add([
       rect(170, 8, { radius: 4 }),
-      color(THEME.BACKDROP_MOONLIGHT_COLOR),
+      color(backdropPalette.backdropMoonlightColor),
       opacity(0.12),
       pos(windowCenterX, offsetY),
       anchor('center'),
@@ -75,7 +120,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   columnPositions.forEach((columnX) => {
     add([
       rect(58, actionAreaTop + 140, { radius: 18 }),
-      color(THEME.BACKDROP_ARCH_COLOR),
+      color(backdropPalette.backdropArchColor),
       pos(columnX, -20),
       anchor('top'),
       z(LAYER.BACKDROP),
@@ -83,7 +128,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
     add([
       rect(104, 28, { radius: 14 }),
-      color(THEME.BACKDROP_ARCH_COLOR),
+      color(backdropPalette.backdropArchColor),
       pos(columnX, actionAreaTop * 0.24),
       anchor('center'),
       z(LAYER.BACKDROP),
@@ -97,7 +142,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
     add([
       rect(shelfWidth, shelfHeight, { radius: 20 }),
-      color(THEME.BACKDROP_SHELF_COLOR),
+      color(backdropPalette.backdropShelfColor),
       opacity(0.92),
       pos(shelfX, actionAreaTop - 12),
       anchor('bot'),
@@ -110,7 +155,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
       add([
         rect(shelfWidth - 24, 6, { radius: 3 }),
-        color(THEME.BACKDROP_FOG_COLOR),
+        color(backdropPalette.backdropFogColor),
         opacity(0.08),
         pos(shelfX, actionAreaTop - shelfHeight + shelfOffset),
         anchor('center'),
@@ -121,7 +166,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
   add([
     rect(sceneWidth, 120),
-    color(THEME.BACKDROP_FLOOR_GLOW_COLOR),
+    color(backdropPalette.backdropFloorGlowColor),
     opacity(0.18),
     pos(0, actionAreaTop - 10),
     z(LAYER.BACKDROP),
@@ -129,7 +174,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
 
   add([
     rect(sceneWidth, 18, { radius: 8 }),
-    color(THEME.BACKDROP_FOG_COLOR),
+    color(backdropPalette.backdropFogColor),
     opacity(0.16),
     pos(0, actionAreaTop - 8),
     z(LAYER.BACKDROP),
@@ -140,7 +185,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   ].forEach((fog, index) => {
     const fogStrip = add([
       rect(fog.width, 64 - index * 10, { radius: 32 }),
-      color(THEME.BACKDROP_FOG_COLOR),
+      color(backdropPalette.backdropFogColor),
       opacity(0.08 - index * 0.02),
       pos(sceneWidth * 0.18 + index * 80, fog.y),
       z(LAYER.BACKDROP),
@@ -157,7 +202,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   ].forEach((glow) => {
     const glowOrb = add([
       circle(glow.radius),
-      color(THEME.BACKDROP_CANDLELIGHT_COLOR),
+      color(backdropPalette.backdropCandlelightColor),
       opacity(0.075),
       pos(glow.x, glow.y),
       anchor('center'),
@@ -173,7 +218,7 @@ export function addBackdrop(options: BackdropOptions = {}) {
   for (let index = 0; index < 24; index += 1) {
     const particle = add([
       circle(rand(2.5, 5.2)),
-      color(THEME.BACKDROP_DUST_COLOR),
+      color(backdropPalette.backdropDustColor),
       opacity(rand(0.12, 0.28)),
       pos(rand(28, sceneWidth - 28), rand(18, actionAreaTop + 80)),
       z(LAYER.BACKDROP),
