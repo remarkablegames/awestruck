@@ -251,7 +251,7 @@ export function chooseHpReward(
       break
   }
 
-  advanceToUpgradeReward(state)
+  advanceFromHpReward(state)
 }
 
 export function skipHpReward(state: CombatState): void {
@@ -259,7 +259,7 @@ export function skipHpReward(state: CombatState): void {
     return
   }
 
-  advanceToUpgradeReward(state)
+  advanceFromHpReward(state)
 }
 
 export function chooseUpgradeReward(
@@ -776,6 +776,15 @@ function initializeRewardState(state: CombatState): void {
   state.message = 'Choose a vitality reward before improving a card.'
 }
 
+function advanceFromHpReward(state: CombatState): void {
+  if (shouldOfferUpgradeReward(state.floor)) {
+    advanceToUpgradeReward(state)
+    return
+  }
+
+  advanceToCardReward(state)
+}
+
 function advanceToUpgradeReward(state: CombatState): void {
   state.rewardPhase = 'upgrade'
   state.hpRewardOptions = []
@@ -841,6 +850,10 @@ function getUpgradeCardId(cardId: Card): Card | null {
   }
 
   return upgradeCardId as Card
+}
+
+function shouldOfferUpgradeReward(floor: number): boolean {
+  return floor % 2 === 0
 }
 
 function runEnemyTurn(state: CombatState): void {
