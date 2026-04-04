@@ -241,7 +241,6 @@ export function chooseHpReward(
   switch (rewardType) {
     case REWARDS.FULL_HEAL:
       state.player.health = state.player.maxHealth
-      state.message = 'You restored to full health.'
       break
     case 'maxHp':
       state.player.maxHealth += REWARDS.MAX_HP_INCREASE
@@ -249,7 +248,6 @@ export function chooseHpReward(
         state.player.maxHealth,
         state.player.health + REWARDS.MAX_HP_INCREASE,
       )
-      state.message = `Max HP increased by ${String(REWARDS.MAX_HP_INCREASE)}.`
       break
   }
 
@@ -261,7 +259,6 @@ export function skipHpReward(state: CombatState): void {
     return
   }
 
-  state.message = 'You leave the vitality reward behind.'
   advanceToCardReward(state)
 }
 
@@ -616,7 +613,6 @@ function hasPayloadCard(builder: CardInstance[]): boolean {
 function handleEnemyDefeat(state: CombatState): void {
   if (state.floor >= FLOORS.MAX_FLOOR) {
     state.status = 'won'
-    state.message = `${state.enemy.label} falls. Your lexicon holds.`
     return
   }
 
@@ -714,6 +710,7 @@ function advanceToCardReward(state: CombatState): void {
   state.rewardPhase = 'card'
   state.hpRewardOptions = []
   state.cardRewardOptions = drawRewardOptions(state.floor)
+  state.message = 'Choose a card reward before entering the next floor.'
 }
 
 function advanceFromReward(state: CombatState): void {
@@ -776,7 +773,6 @@ function runEnemyTurn(state: CombatState): void {
 
   if (state.player.health <= 0) {
     state.status = 'lost'
-    state.message = `${state.enemy.label} broke your chain. Start a new run.`
     return
   }
 

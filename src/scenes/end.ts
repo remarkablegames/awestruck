@@ -1,4 +1,4 @@
-import { FLOORS, SCENE, SOUND, THEME } from '../constants'
+import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 
@@ -10,8 +10,8 @@ scene(SCENE.END, (status: EndStatus) => {
   const title = status === 'won' ? 'Run Complete' : 'Run Lost'
   const subtitle =
     status === 'won'
-      ? `You cleared all ${String(FLOORS.MAX_FLOOR)} floors and preserved the lexicon.`
-      : 'The enemy won this run. Start again and tune the deck.'
+      ? `You cleared all floors.`
+      : 'You were defeated. Try again?'
 
   addBackdrop({
     actionAreaTop: height() * 0.48,
@@ -42,11 +42,11 @@ scene(SCENE.END, (status: EndStatus) => {
   add([
     text(subtitle, {
       align: 'center',
-      size: 20,
+      size: 24,
       width: 560,
     }),
     color(222, 229, 248),
-    pos(width() / 2, height() / 2 - 56),
+    pos(width() / 2, height() / 2 - 24),
     anchor('center'),
   ])
 

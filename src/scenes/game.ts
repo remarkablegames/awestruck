@@ -8,6 +8,7 @@ import {
   addEnemy,
   addFlash,
   addHand,
+  addMessage,
   addStatus,
 } from '../gameobjects'
 import { getStateManager } from '../state'
@@ -290,14 +291,11 @@ scene(SCENE.GAME, () => {
 
   const renderFooter = (state: CombatState) => {
     track(
-      add([
-        text(state.message, {
-          size: 20,
-          width: width() - 80,
-        }),
-        color(218, 226, 246),
-        pos(40, height() - 42),
-      ]),
+      addMessage({
+        message: state.message,
+        width: width() - 80,
+        ...POSITION.MESSAGE,
+      }).root,
     )
   }
 

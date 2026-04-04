@@ -1,6 +1,12 @@
 import { getCardRewardDefinitions, getHpRewardOptions } from '../combat'
 import { CARD, POSITION, SCENE, SOUND, THEME } from '../constants'
-import { addBackdrop, addButton, addCard, addStatus } from '../gameobjects'
+import {
+  addBackdrop,
+  addButton,
+  addCard,
+  addMessage,
+  addStatus,
+} from '../gameobjects'
 import { getStateManager } from '../state'
 import type { Card, CombatState } from '../types'
 
@@ -32,6 +38,12 @@ scene(SCENE.REWARD, () => {
   addStatus({
     state,
     ...POSITION.STATUS,
+  })
+
+  addMessage({
+    message: state.message,
+    width: width() - 80,
+    ...POSITION.MESSAGE,
   })
 
   add([
