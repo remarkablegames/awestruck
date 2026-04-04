@@ -13,6 +13,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'bastion',
     tags: ['guard'],
     type: 'payload',
+    upgrade: 'bastion2',
   },
 
   bastion2: {
@@ -42,6 +43,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'bloom',
     tags: ['growth'],
     type: 'payload',
+    upgrade: 'bloom2',
   },
 
   bloom2: {
@@ -72,6 +74,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'burn',
     tags: ['flame'],
     type: 'payload',
+    upgrade: 'burn2',
   },
 
   burn2: {
@@ -102,6 +105,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'charge' as Sprite,
     tags: [],
     type: 'payload',
+    upgrade: 'charge2',
   },
 
   charge2: {
@@ -132,6 +136,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'double',
     tags: [],
     type: 'modifier',
+    upgrade: 'double2',
   },
 
   double2: {
@@ -162,6 +167,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'echo' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'echo2',
   },
 
   echo2: {
@@ -192,6 +198,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'embered' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'embered2',
   },
 
   embered2: {
@@ -221,6 +228,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'focus',
     tags: [],
     type: 'payload',
+    upgrade: 'focus2',
   },
 
   focus2: {
@@ -250,6 +258,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'heavy',
     tags: [],
     type: 'modifier',
+    upgrade: 'heavy2',
   },
 
   heavy2: {
@@ -280,6 +289,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'leech',
     tags: [],
     type: 'modifier',
+    upgrade: 'leech2',
   },
 
   leech2: {
@@ -310,6 +320,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'pierce',
     tags: [],
     type: 'modifier',
+    upgrade: 'pierce2',
   },
 
   pierce2: {
@@ -342,6 +353,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'quick' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'quick2',
   },
 
   quick2: {
@@ -375,6 +387,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'rage' as Sprite,
     tags: [],
     type: 'payload',
+    upgrade: 'rage2',
   },
 
   rage2: {
@@ -406,6 +419,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'risky' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'risky2',
   },
 
   risky2: {
@@ -436,6 +450,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'safe' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'safe2',
   },
 
   safe2: {
@@ -465,6 +480,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'sear' as Sprite,
     tags: ['flame'],
     type: 'payload',
+    upgrade: 'sear2',
   },
 
   sear2: {
@@ -493,6 +509,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'shield' as Sprite,
     tags: ['guard'],
     type: 'payload',
+    upgrade: 'shield2',
   },
 
   shield2: {
@@ -522,6 +539,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'surge',
     tags: ['flame'],
     type: 'payload',
+    upgrade: 'surge2',
   },
 
   surge2: {
@@ -551,6 +569,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'thorn',
     tags: ['thorn'],
     type: 'payload',
+    upgrade: 'thorn2',
   },
 
   thorn2: {
@@ -580,6 +599,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'ward' as Sprite,
     tags: ['guard'],
     type: 'payload',
+    upgrade: 'ward2',
   },
 
   ward2: {
@@ -612,6 +632,7 @@ export const CARD_DEFINITIONS = {
     sprite: 'wide' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'wide2',
   },
 
   wide2: {
@@ -659,33 +680,9 @@ export const CARD_DEFINITIONS = {
     sprite: 'wilt',
     tags: ['growth'],
     type: 'payload',
+    upgrade: 'wilt2',
   },
 } as const satisfies Record<string, CardDefinition>
-
-export const UPGRADE_CARD_IDS = {
-  bastion1: 'bastion2',
-  bloom1: 'bloom2',
-  burn1: 'burn2',
-  charge1: 'charge2',
-  double1: 'double2',
-  echo1: 'echo2',
-  embered1: 'embered2',
-  focus1: 'focus2',
-  heavy1: 'heavy2',
-  leech1: 'leech2',
-  pierce1: 'pierce2',
-  quick1: 'quick2',
-  rage1: 'rage2',
-  risky1: 'risky2',
-  safe1: 'safe2',
-  sear1: 'sear2',
-  shield1: 'shield2',
-  surge1: 'surge2',
-  thorn1: 'thorn2',
-  ward1: 'ward2',
-  wide1: 'wide2',
-  wilt1: 'wilt2',
-} as const satisfies Partial<Record<Card, Card>>
 
 export const STARTER_DECK: Card[] = [
   'bloom1',

@@ -834,11 +834,13 @@ function replaceState(target: CombatState, source: CombatState): void {
 }
 
 function getUpgradeCardId(cardId: Card): Card | null {
-  if (cardId in CARDS.UPGRADE_CARD_IDS) {
-    return CARDS.UPGRADE_CARD_IDS[cardId as keyof typeof CARDS.UPGRADE_CARD_IDS]
+  const upgradeCardId = getCardDefinition(cardId).upgrade
+
+  if (!upgradeCardId || !(upgradeCardId in CARDS.CARD_DEFINITIONS)) {
+    return null
   }
 
-  return null
+  return upgradeCardId as Card
 }
 
 function runEnemyTurn(state: CombatState): void {

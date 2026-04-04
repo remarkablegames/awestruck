@@ -28,6 +28,7 @@ export interface CardDefinition {
   sprite: Sprite
   tags: CardTag[]
   type: 'modifier' | 'payload'
+  upgrade?: string
 }
 
 export interface CardInstance {
