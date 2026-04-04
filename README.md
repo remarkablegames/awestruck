@@ -18,6 +18,7 @@ Play the game on:
 - [AstreFone](https://soundcloud.com/astrefone) (Music)
 - [Blue_Fox](https://ko-fi.com/bluefox77551) (Art)
 - [Mark](https://github.com/remarkablemark) (Programming)
+- [Health Pickup](https://pixabay.com/sound-effects/film-special-effects-health-pickup-6860/)
 - [Kenney Interface Sounds](https://kenney.nl/assets/interface-sounds)
 - [Punch Sound Effects](https://pixabay.com/sound-effects/film-special-effects-punch-sound-effects-28649/)
 

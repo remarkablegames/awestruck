@@ -371,6 +371,7 @@ scene(SCENE.GAME, () => {
       }
 
       if (playerHeal > 0) {
+        play(SOUND.HEAL)
         flashHeal.play()
       }
 
