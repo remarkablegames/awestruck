@@ -43,10 +43,10 @@ export interface PlayerState {
   maxHealth: number
 }
 
-export type HpRewardKind = 'fullHeal' | 'maxHP'
+export type HpRewardType = 'fullHeal' | 'maxHp'
 
 export interface HpRewardOption {
-  kind: HpRewardKind
+  type: HpRewardType
   label: string
 }
 

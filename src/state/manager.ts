@@ -11,7 +11,7 @@ import {
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { Card, CombatState, HpRewardKind } from '../types'
+import type { Card, CombatState, HpRewardType } from '../types'
 
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
@@ -179,8 +179,8 @@ export class StateManager {
     this.notify()
   }
 
-  chooseHpReward(rewardKind: HpRewardKind): void {
-    this.runAction(chooseHpReward, rewardKind)
+  chooseHpReward(rewardType: HpRewardType): void {
+    this.runAction(chooseHpReward, rewardType)
   }
 
   skipHpReward(): void {

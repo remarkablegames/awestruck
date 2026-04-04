@@ -8,8 +8,8 @@ import type {
   ChainPreview,
   CombatState,
   EnemyState,
-  HpRewardKind,
   HpRewardOption,
+  HpRewardType,
   ModifierKind,
 } from '../types'
 
@@ -232,18 +232,18 @@ export function endTurn(state: CombatState): void {
 
 export function chooseHpReward(
   state: CombatState,
-  rewardKind: HpRewardKind,
+  rewardType: HpRewardType,
 ): void {
   if (state.status !== 'reward' || state.rewardPhase !== 'hp') {
     return
   }
 
-  switch (rewardKind) {
+  switch (rewardType) {
     case REWARDS.FULL_HEAL:
       state.player.health = state.player.maxHealth
       state.message = 'You restored to full health.'
       break
-    case 'maxHP':
+    case 'maxHp':
       state.player.maxHealth += REWARDS.MAX_HP_INCREASE
       state.player.health = Math.min(
         state.player.maxHealth,
@@ -691,11 +691,11 @@ function drawRewardOptions(floor: number): Card[] {
 function createHpRewardOptions(): HpRewardOption[] {
   return [
     {
-      kind: REWARDS.FULL_HEAL,
+      type: REWARDS.FULL_HEAL,
       label: 'Full Heal',
     },
     {
-      kind: 'maxHP',
+      type: 'maxHp',
       label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
     },
   ]

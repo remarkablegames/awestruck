@@ -75,13 +75,13 @@ scene(SCENE.REWARD, () => {
       addButton({
         buttonComps: [outline(4, rgb(196, 216, 255))],
         fillColor:
-          reward.kind === 'fullHeal' ? [110, 168, 101] : [92, 130, 208],
+          reward.type === 'fullHeal' ? [110, 168, 101] : [92, 130, 208],
         height: HP_REWARD_BUTTON_HEIGHT,
         label: reward.label,
         labelSize: 26,
         onClick: () => {
-          play(reward.kind === 'fullHeal' ? SOUND.HEAL : SOUND.DROP)
-          stateManager.chooseHpReward(reward.kind)
+          play(reward.type === 'fullHeal' ? SOUND.HEAL : SOUND.DROP)
+          stateManager.chooseHpReward(reward.type)
           go(SCENE.REWARD)
         },
         width: HP_REWARD_BUTTON_WIDTH,
