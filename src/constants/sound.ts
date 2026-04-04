@@ -1,4 +1,5 @@
 export const BACK = 'back'
+export const BLOCK = 'block'
 export const CLICK = 'click'
 export const DROP = 'drop'
 export const HEAL = 'heal'

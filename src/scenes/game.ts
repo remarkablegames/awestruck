@@ -355,6 +355,10 @@ scene(SCENE.GAME, () => {
 
       const enemyDamage = isConfirmBuilder ? actionResult.enemyDamage : 0
 
+      const playerBlockGained = isConfirmBuilder
+        ? actionResult.playerBlockGained
+        : 0
+
       const playerHeal = isConfirmBuilder ? actionResult.playerHealGained : 0
 
       const playerDamage = Math.max(
@@ -368,6 +372,10 @@ scene(SCENE.GAME, () => {
         play(SOUND.PUNCH)
         flashDamage.play()
         shake(10)
+      }
+
+      if (playerBlockGained > 0) {
+        play(SOUND.BLOCK)
       }
 
       if (playerHeal > 0) {
