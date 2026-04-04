@@ -4,9 +4,9 @@ export const CARD_DEFINITIONS = {
   bastion1: {
     accent: [96, 129, 218],
     cost: 2,
-    description: 'Gain 12 block.',
+    description: 'Gain 10 block.',
     effect: {
-      block: 12,
+      block: 10,
     },
     id: 'bastion1',
     label: 'BASTION',
@@ -19,9 +19,9 @@ export const CARD_DEFINITIONS = {
   bastion2: {
     accent: [96, 129, 218],
     cost: 2,
-    description: 'Gain 16 block.',
+    description: 'Gain 14 block.',
     effect: {
-      block: 16,
+      block: 14,
     },
     id: 'bastion2',
     label: 'BASTION+',
@@ -33,9 +33,9 @@ export const CARD_DEFINITIONS = {
   bloom1: {
     accent: [129, 210, 141],
     cost: 1,
-    description: 'Gain 5 block and heal 2.',
+    description: 'Gain 3 block and heal 2.',
     effect: {
-      block: 5,
+      block: 3,
       heal: 2,
     },
     id: 'bloom1',
@@ -64,10 +64,10 @@ export const CARD_DEFINITIONS = {
   burn1: {
     accent: [255, 118, 74],
     cost: 1,
-    description: 'Deal 5 damage and apply 2 burn.',
+    description: 'Deal 3 damage and apply 2 burn.',
     effect: {
       burn: 2,
-      damage: 5,
+      damage: 3,
     },
     id: 'burn1',
     label: 'BURN',
@@ -80,10 +80,10 @@ export const CARD_DEFINITIONS = {
   burn2: {
     accent: [255, 118, 74],
     cost: 1,
-    description: 'Deal 7 damage and apply 3 burn.',
+    description: 'Deal 6 damage and apply 3 burn.',
     effect: {
       burn: 3,
-      damage: 7,
+      damage: 6,
     },
     id: 'burn2',
     label: 'BURN+',
@@ -500,9 +500,9 @@ export const CARD_DEFINITIONS = {
   shield1: {
     accent: [112, 150, 255],
     cost: 1,
-    description: 'Gain 7 block.',
+    description: 'Gain 5 block.',
     effect: {
-      block: 7,
+      block: 5,
     },
     id: 'shield1',
     label: 'SHIELD',
@@ -515,9 +515,9 @@ export const CARD_DEFINITIONS = {
   shield2: {
     accent: [112, 150, 255],
     cost: 1,
-    description: 'Gain 10 block.',
+    description: 'Gain 8 block.',
     effect: {
-      block: 10,
+      block: 8,
     },
     id: 'shield2',
     label: 'SHIELD+',
@@ -529,9 +529,9 @@ export const CARD_DEFINITIONS = {
   surge1: {
     accent: [118, 205, 255],
     cost: 1,
-    description: 'Deal 4 damage and draw 1.',
+    description: 'Deal 2 damage and draw 1.',
     effect: {
-      damage: 4,
+      damage: 2,
       draw: 1,
     },
     id: 'surge1',
@@ -545,9 +545,9 @@ export const CARD_DEFINITIONS = {
   surge2: {
     accent: [118, 205, 255],
     cost: 1,
-    description: 'Deal 6 damage and draw 1.',
+    description: 'Deal 5 damage and draw 1.',
     effect: {
-      damage: 6,
+      damage: 5,
       draw: 1,
     },
     id: 'surge2',
@@ -560,9 +560,9 @@ export const CARD_DEFINITIONS = {
   thorn1: {
     accent: [255, 163, 102],
     cost: 1,
-    description: 'Deal 7 damage.',
+    description: 'Deal 5 damage.',
     effect: {
-      damage: 7,
+      damage: 5,
     },
     id: 'thorn1',
     label: 'THORN',
@@ -575,9 +575,9 @@ export const CARD_DEFINITIONS = {
   thorn2: {
     accent: [255, 163, 102],
     cost: 1,
-    description: 'Deal 10 damage.',
+    description: 'Deal 8 damage.',
     effect: {
-      damage: 10,
+      damage: 8,
     },
     id: 'thorn2',
     label: 'THORN+',
@@ -589,9 +589,9 @@ export const CARD_DEFINITIONS = {
   ward1: {
     accent: [142, 194, 255],
     cost: 1,
-    description: 'Gain 4 block and draw 1.',
+    description: 'Gain 3 block and draw 1.',
     effect: {
-      block: 4,
+      block: 3,
       draw: 1,
     },
     id: 'ward1',
@@ -655,9 +655,9 @@ export const CARD_DEFINITIONS = {
   wilt1: {
     accent: [141, 203, 118],
     cost: 1,
-    description: 'Deal 4 damage and heal 1.',
+    description: 'Deal 3 damage and heal 1.',
     effect: {
-      damage: 4,
+      damage: 3,
       heal: 1,
     },
     id: 'wilt1',
