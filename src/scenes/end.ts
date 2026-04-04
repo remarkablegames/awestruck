@@ -5,7 +5,7 @@ import { resetStateManager } from '../state'
 type EndStatus = 'lost' | 'won'
 
 scene(SCENE.END, (status: EndStatus) => {
-  setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+  setBackground(...THEME.GAME_BACKGROUND_COLOR)
 
   const title = status === 'won' ? 'Run Complete' : 'Run Lost'
   const subtitle =

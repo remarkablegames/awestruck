@@ -12,7 +12,7 @@ const TITLE_START_BUTTON_Y_OFFSET = 135
 const TITLE_HELP_TEXT_Y_OFFSET = 270
 
 scene(SCENE.TITLE, () => {
-  setBackground(rgb(...THEME.TITLE_BACKGROUND_COLOR))
+  setBackground(...THEME.TITLE_BACKGROUND_COLOR)
 
   const bestFloor = getData(DATA.BEST_FLOOR, 0)
   const panelWidth = Math.min(width() - 80, 760)

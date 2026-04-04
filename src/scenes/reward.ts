@@ -33,7 +33,7 @@ scene(SCENE.REWARD, () => {
   const backdropPalette = getBackdropPalette(state.floor)
   const { x: centerX, y: centerY } = center()
 
-  setBackground(rgb(...backdropPalette.gameBackgroundColor))
+  setBackground(...backdropPalette.gameBackgroundColor)
 
   addBackdrop({
     actionAreaTop: height() * 0.48,

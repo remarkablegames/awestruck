@@ -27,9 +27,9 @@ scene(SCENE.GAME, () => {
 
   if (snapshot.scene === SCENE.GAME) {
     const backdropPalette = getBackdropPalette(snapshot.state.floor)
-    setBackground(rgb(...backdropPalette.gameBackgroundColor))
+    setBackground(...backdropPalette.gameBackgroundColor)
   } else {
-    setBackground(rgb(...THEME.GAME_BACKGROUND_COLOR))
+    setBackground(...THEME.GAME_BACKGROUND_COLOR)
   }
 
   let hoverScrollDelayId: number | null = null
