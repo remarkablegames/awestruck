@@ -50,7 +50,7 @@ export interface HpRewardOption {
   label: string
 }
 
-export type RelicId = 'overdrive'
+export type RelicId = 'guardian' | 'overdrive'
 
 export interface RelicDefinition {
   description: string

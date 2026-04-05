@@ -14,7 +14,7 @@ import {
   getBackdropPalette,
 } from '../gameobjects'
 import { getStateManager } from '../state'
-import type { Card, CombatState } from '../types'
+import type { Card, CombatState, RelicDefinition } from '../types'
 
 const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
@@ -27,6 +27,12 @@ const REWARD_SKIP_BUTTON_Y_OFFSET = 210
 
 const HP_REWARD_BUTTON_WIDTH = CARD.WIDTH + 20
 const HP_REWARD_BUTTON_HEIGHT = CARD.HEIGHT - 80
+
+const RELIC_BUTTON_WIDTH = 220
+const RELIC_BUTTON_HEIGHT = 180
+const RELIC_BUTTON_SPACING = 20
+const RELIC_BUTTON_TITLE_OFFSET_Y = -50
+const RELIC_BUTTON_DESCRIPTION_OFFSET_Y = 24
 
 scene(SCENE.REWARD, () => {
   const stateManager = getStateManager()
@@ -203,7 +209,7 @@ scene(SCENE.REWARD, () => {
   }
 
   function renderRelicRewardStep(currentState: CombatState) {
-    const [relic] = getRelicRewardDefinitions(currentState)
+    const relics = getRelicRewardDefinitions(currentState)
 
     add([
       text('Claim 1 Relic', {
@@ -217,7 +223,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text(relic.description, {
+      text('Choose a relic that activates every turn.', {
         align: 'center',
         size: 24,
         width: 560,
@@ -227,20 +233,23 @@ scene(SCENE.REWARD, () => {
       anchor('center'),
     ])
 
-    addButton({
-      buttonComps: [outline(4, rgb(255, 186, 159))],
-      fillColor: [176, 93, 93],
-      height: HP_REWARD_BUTTON_HEIGHT,
-      label: relic.label,
-      labelSize: 26,
-      onClick: () => {
-        play(SOUND.DROP)
-        stateManager.chooseRelicReward(relic.id)
-        navigateToCurrentScene()
-      },
-      width: HP_REWARD_BUTTON_WIDTH,
-      x: centerX,
-      y: centerY + REWARD_CARD_Y_OFFSET,
+    const totalWidth =
+      relics.length * RELIC_BUTTON_WIDTH +
+      (relics.length - 1) * RELIC_BUTTON_SPACING
+
+    relics.forEach((relic, index) => {
+      const x =
+        centerX -
+        totalWidth / 2 +
+        RELIC_BUTTON_WIDTH / 2 +
+        index * (RELIC_BUTTON_WIDTH + RELIC_BUTTON_SPACING)
+      const y = centerY + REWARD_CARD_Y_OFFSET
+
+      renderRelicButton({
+        relic,
+        x,
+        y,
+      })
     })
 
     addButton({
@@ -256,6 +265,54 @@ scene(SCENE.REWARD, () => {
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })
+  }
+
+  function renderRelicButton({
+    relic,
+    x,
+    y,
+  }: {
+    relic: RelicDefinition
+    x: number
+    y: number
+  }) {
+    addButton({
+      buttonComps: [outline(4, rgb(255, 186, 159))],
+      fillColor: relic.id === 'overdrive' ? [176, 93, 93] : [94, 146, 112],
+      height: RELIC_BUTTON_HEIGHT,
+      label: '',
+      labelSize: 26,
+      onClick: () => {
+        play(SOUND.DROP)
+        stateManager.chooseRelicReward(relic.id)
+        navigateToCurrentScene()
+      },
+      width: RELIC_BUTTON_WIDTH,
+      x,
+      y,
+    })
+
+    add([
+      text(relic.label, {
+        align: 'center',
+        size: 26,
+        width: RELIC_BUTTON_WIDTH - 28,
+      }),
+      color(247, 249, 255),
+      pos(x, y + RELIC_BUTTON_TITLE_OFFSET_Y),
+      anchor('center'),
+    ])
+
+    add([
+      text(relic.description, {
+        align: 'center',
+        size: 20,
+        width: RELIC_BUTTON_WIDTH - 28,
+      }),
+      color(240, 233, 244),
+      pos(x, y + RELIC_BUTTON_DESCRIPTION_OFFSET_Y),
+      anchor('center'),
+    ])
   }
 
   function renderUpgradeRewardStep(currentState: CombatState) {
