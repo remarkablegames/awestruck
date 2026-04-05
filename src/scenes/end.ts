@@ -1,15 +1,17 @@
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
-import { getStateManager, resetStateManager } from '../state'
+import { resetStateManager } from '../state'
 
 type EndStatus = 'lost' | 'won'
 
 scene(SCENE.END, (status: EndStatus) => {
   setBackground(...THEME.GAME_BACKGROUND_COLOR)
-  const state = getStateManager().getState()
 
-  const title = status === 'won' ? 'Run Complete' : 'Run Lost'
-  const subtitle = status === 'won' ? `You cleared all floors.` : state.message
+  const isWon = status === 'won'
+  const title = isWon ? 'Run Complete' : 'Run Lost'
+  const subtitle = isWon
+    ? 'Congratulations! You cleared all floors and preserved the lexicon.'
+    : 'The enemy won this run.\nStart again and tune the deck.'
 
   addBackdrop({
     actionAreaTop: height() * 0.48,
