@@ -1,6 +1,7 @@
 import {
   getCardRewardDefinitions,
   getHpRewardOptions,
+  getRelicRewardDefinitions,
   getUpgradeRewardDefinitions,
 } from '../combat'
 import { CARD, POSITION, SCENE, SOUND } from '../constants'
@@ -71,9 +72,17 @@ scene(SCENE.REWARD, () => {
       renderUpgradeRewardStep(state)
       return
 
+    case 'relic':
+      renderRelicRewardStep(state)
+      return
+
     case 'card':
       renderCardRewardStep(state)
       return
+  }
+
+  function navigateToCurrentScene() {
+    go(stateManager.getSnapshot().scene)
   }
 
   function renderHpRewardStep(currentState: CombatState) {
@@ -116,7 +125,7 @@ scene(SCENE.REWARD, () => {
         onClick: () => {
           play(reward.type === 'fullHeal' ? SOUND.HEAL : SOUND.BLOCK)
           stateManager.chooseHpReward(reward.type)
-          go(SCENE.REWARD)
+          navigateToCurrentScene()
         },
         width: HP_REWARD_BUTTON_WIDTH,
         x,
@@ -131,7 +140,7 @@ scene(SCENE.REWARD, () => {
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipHpReward()
-        go(SCENE.REWARD)
+        navigateToCurrentScene()
       },
       width: 200,
       x: centerX,
@@ -171,7 +180,7 @@ scene(SCENE.REWARD, () => {
         onClick: () => {
           play(SOUND.DROP)
           stateManager.chooseCardReward(definition.id as Card)
-          go(SCENE.GAME)
+          navigateToCurrentScene()
         },
         x,
         y,
@@ -185,7 +194,63 @@ scene(SCENE.REWARD, () => {
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipCardReward()
-        go(SCENE.GAME)
+        navigateToCurrentScene()
+      },
+      width: 200,
+      x: centerX,
+      y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
+    })
+  }
+
+  function renderRelicRewardStep(currentState: CombatState) {
+    const [relic] = getRelicRewardDefinitions(currentState)
+
+    add([
+      text('Claim 1 Relic', {
+        align: 'center',
+        size: 38,
+        width: 560,
+      }),
+      color(248, 232, 181),
+      pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    add([
+      text(relic.description, {
+        align: 'center',
+        size: 24,
+        width: 560,
+      }),
+      color(222, 229, 248),
+      pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    addButton({
+      buttonComps: [outline(4, rgb(255, 186, 159))],
+      fillColor: [176, 93, 93],
+      height: HP_REWARD_BUTTON_HEIGHT,
+      label: relic.label,
+      labelSize: 26,
+      onClick: () => {
+        play(SOUND.DROP)
+        stateManager.chooseRelicReward(relic.id)
+        navigateToCurrentScene()
+      },
+      width: HP_REWARD_BUTTON_WIDTH,
+      x: centerX,
+      y: centerY + REWARD_CARD_Y_OFFSET,
+    })
+
+    addButton({
+      fillColor: [124, 106, 164],
+      height: 50,
+      label: 'Skip Reward',
+      onClick: () => {
+        play(SOUND.BACK)
+        stateManager.skipRelicReward()
+        navigateToCurrentScene()
       },
       width: 200,
       x: centerX,
@@ -225,7 +290,7 @@ scene(SCENE.REWARD, () => {
         onClick: () => {
           play(SOUND.DROP)
           stateManager.chooseUpgradeReward(option.instanceId)
-          go(SCENE.REWARD)
+          navigateToCurrentScene()
         },
         x,
         y,
@@ -239,7 +304,7 @@ scene(SCENE.REWARD, () => {
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipUpgradeReward()
-        go(SCENE.REWARD)
+        navigateToCurrentScene()
       },
       width: 200,
       x: centerX,

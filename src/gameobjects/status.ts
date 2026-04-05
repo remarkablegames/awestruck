@@ -1,8 +1,9 @@
 import type { GameObj } from 'kaplay'
 
 import { getDeckCountLabel } from '../combat'
+import { RELICS } from '../constants'
 import type { Color, CombatState } from '../types'
-import { addHealthBar, addShield } from '.'
+import { addHealthBar, addPill, addShield } from '.'
 
 interface StatusOptions {
   state: CombatState
@@ -14,12 +15,16 @@ const PLAYER_HP_ROW_OFFSET_Y = 38
 const PLAYER_HP_BAR_OFFSET_Y = 66
 const RESOURCE_ROW_OFFSET_Y = 116
 const DECK_ROW_OFFSET_Y = 146
+const RELIC_ROW_OFFSET_Y = 184
 const PLAYER_HP_BAR_WIDTH = 300
 const PLAYER_HP_BAR_HEIGHT = 30
 const PLAYER_SHIELD_OFFSET_X = 30
 const PLAYER_HP_BAR_FILL_COLOR: Color = [103, 142, 217]
 const PLAYER_HP_BAR_TRACK_COLOR: Color = [30, 41, 64]
 const PLAYER_HP_BAR_OUTLINE_COLOR: Color = [191, 214, 255]
+const RELIC_PILL_GAP = 12
+const RELIC_PILL_HEIGHT = 30
+const RELIC_PILL_WIDTH = 118
 
 export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
   const root = add([pos(x, y)])
@@ -92,6 +97,28 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     color(155, 166, 196),
     pos(0, DECK_ROW_OFFSET_Y),
   ])
+
+  if (state.relics.length > 0) {
+    root.add([
+      text('Relics:', { size: 20 }),
+      color(255, 210, 198),
+      pos(0, RELIC_ROW_OFFSET_Y),
+    ])
+
+    state.relics.forEach((relicId, index) => {
+      addPill({
+        height: RELIC_PILL_HEIGHT,
+        label: RELICS.RELIC_DEFINITIONS[relicId].label,
+        parent: root,
+        width: RELIC_PILL_WIDTH,
+        x:
+          92 +
+          RELIC_PILL_WIDTH / 2 +
+          index * (RELIC_PILL_WIDTH + RELIC_PILL_GAP),
+        y: RELIC_ROW_OFFSET_Y + 12,
+      })
+    })
+  }
 
   return { root }
 }

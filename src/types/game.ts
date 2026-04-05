@@ -50,7 +50,15 @@ export interface HpRewardOption {
   label: string
 }
 
-export type RewardPhase = 'card' | 'hp' | 'upgrade'
+export type RelicId = 'overdrive'
+
+export interface RelicDefinition {
+  description: string
+  id: RelicId
+  label: string
+}
+
+export type RewardPhase = 'card' | 'hp' | 'relic' | 'upgrade'
 
 export type ChainPreview =
   | {
@@ -91,6 +99,8 @@ export interface CombatState {
   message: string
   nextInstanceId: number
   player: PlayerState
+  relicRewardOptions: RelicId[]
+  relics: RelicId[]
   rewardPhase: RewardPhase
   upgradeRewardOptions: CardInstance[]
   status: 'lost' | 'playerTurn' | 'reward' | 'won'

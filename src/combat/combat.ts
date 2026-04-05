@@ -1,5 +1,5 @@
 import type { RunConfig } from '../config'
-import { CARDS, COMBAT, FLOORS, REWARDS } from '../constants'
+import { CARDS, COMBAT, FLOORS, RELICS, REWARDS } from '../constants'
 import type {
   Card,
   CardDefinition,
@@ -11,6 +11,8 @@ import type {
   HpRewardOption,
   HpRewardType,
   ModifierKind,
+  RelicDefinition,
+  RelicId,
 } from '../types'
 
 export function getCardDefinition(cardId: Card): CardDefinition {
@@ -109,6 +111,7 @@ export function createInitialState(
     nextInstanceId: deckList.length,
     playerHealth: COMBAT.PLAYER_MAX_HEALTH,
     playerMaxHealth: COMBAT.PLAYER_MAX_HEALTH,
+    relics: [],
   })
 
   if (runConfig.startingRewardFloor) {
@@ -176,7 +179,7 @@ export function getCardCommitDisabledReason(
 }
 
 export function cancelBuilder(state: CombatState): void {
-  if (state.status !== 'playerTurn' || state.builder.length === 0) {
+  if (state.status !== 'playerTurn' || !state.builder.length) {
     return
   }
 
@@ -304,6 +307,31 @@ export function skipUpgradeReward(state: CombatState): void {
   advanceToCardReward(state)
 }
 
+export function chooseRelicReward(state: CombatState, relicId: RelicId): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'relic') {
+    return
+  }
+
+  if (
+    !state.relicRewardOptions.includes(relicId) ||
+    state.relics.includes(relicId)
+  ) {
+    return
+  }
+
+  state.relics.push(relicId)
+  advanceFromRelicReward(state)
+}
+
+export function skipRelicReward(state: CombatState): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'relic') {
+    return
+  }
+
+  state.message = 'You ignore the relic reward.'
+  advanceFromRelicReward(state)
+}
+
 export function chooseCardReward(state: CombatState, cardId: Card): void {
   if (state.status !== 'reward' || state.rewardPhase !== 'card') {
     return
@@ -314,7 +342,7 @@ export function chooseCardReward(state: CombatState, cardId: Card): void {
   state.deckList.push(rewardCard)
 
   advanceFromReward(state)
-  state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${String(state.floor)}.`
+  setCardRewardArrivalMessage(state, cardId)
 }
 
 export function skipCardReward(state: CombatState): void {
@@ -332,6 +360,14 @@ export function getCardRewardDefinitions(state: CombatState): CardDefinition[] {
 
 export function getHpRewardOptions(state: CombatState): HpRewardOption[] {
   return state.hpRewardOptions
+}
+
+export function getRelicRewardDefinitions(
+  state: CombatState,
+): RelicDefinition[] {
+  return state.relicRewardOptions.map(
+    (relicId) => RELICS.RELIC_DEFINITIONS[relicId],
+  )
 }
 
 export function getUpgradeRewardDefinitions(state: CombatState): {
@@ -518,6 +554,7 @@ function createFloorState({
   nextInstanceId,
   playerHealth,
   playerMaxHealth,
+  relics,
 }: {
   bestFloor: number
   deckList: CardInstance[]
@@ -526,6 +563,7 @@ function createFloorState({
   nextInstanceId: number
   playerHealth: number
   playerMaxHealth: number
+  relics: RelicId[]
 }): CombatState {
   const state: CombatState = {
     bestFloor: Math.max(bestFloor, floor),
@@ -543,18 +581,20 @@ function createFloorState({
     nextInstanceId,
     player: {
       block: 0,
-      energy: COMBAT.MAX_ENERGY,
+      energy: 0,
       health: playerHealth,
       maxEnergy: COMBAT.MAX_ENERGY,
       maxHealth: playerMaxHealth,
     },
+    relicRewardOptions: [],
+    relics: [...relics],
     rewardPhase: 'card',
     status: 'playerTurn',
     turn: 1,
     upgradeRewardOptions: [],
   }
 
-  drawCards(state, state.handSize)
+  startPlayerTurn(state)
 
   return state
 }
@@ -595,8 +635,8 @@ function dealDamageToPlayer(
 
 function drawCards(state: CombatState, count: number): void {
   for (let index = 0; index < count; index += 1) {
-    if (state.drawPile.length === 0) {
-      if (state.discardPile.length === 0) {
+    if (!state.drawPile.length) {
+      if (!state.discardPile.length) {
         return
       }
 
@@ -653,7 +693,7 @@ function formatEffect(effect: CardEffect): string {
     parts.push('ignore your block')
   }
 
-  if (parts.length === 0) {
+  if (!parts.length) {
     return 'no effect'
   }
 
@@ -766,17 +806,31 @@ function createHpRewardOptions(): HpRewardOption[] {
   ]
 }
 
+function createRelicRewardOptions(floor: number): RelicId[] {
+  if (floor !== RELICS.RELIC_FLOOR) {
+    return []
+  }
+
+  return ['overdrive']
+}
+
 function initializeRewardState(state: CombatState): void {
   state.status = 'reward'
   state.rewardPhase = 'hp'
   state.player.block = 0
   state.hpRewardOptions = createHpRewardOptions()
   state.cardRewardOptions = []
+  state.relicRewardOptions = []
   state.upgradeRewardOptions = []
   state.message = 'Choose a vitality reward before improving a card.'
 }
 
 function advanceFromHpReward(state: CombatState): void {
+  if (shouldOfferRelicReward(state.floor)) {
+    advanceToRelicReward(state)
+    return
+  }
+
   if (shouldOfferUpgradeReward(state.floor)) {
     advanceToUpgradeReward(state)
     return
@@ -785,12 +839,38 @@ function advanceFromHpReward(state: CombatState): void {
   advanceToCardReward(state)
 }
 
+function advanceFromRelicReward(state: CombatState): void {
+  if (shouldOfferUpgradeReward(state.floor)) {
+    advanceToUpgradeReward(state)
+    return
+  }
+
+  advanceToCardReward(state)
+}
+
+function advanceToRelicReward(state: CombatState): void {
+  state.rewardPhase = 'relic'
+  state.hpRewardOptions = []
+  state.relicRewardOptions = createRelicRewardOptions(state.floor).filter(
+    (relicId) => !state.relics.includes(relicId),
+  )
+  state.upgradeRewardOptions = []
+
+  if (!state.relicRewardOptions.length) {
+    advanceFromRelicReward(state)
+    return
+  }
+
+  state.message = 'Choose a relic before improving a card.'
+}
+
 function advanceToUpgradeReward(state: CombatState): void {
   state.rewardPhase = 'upgrade'
   state.hpRewardOptions = []
+  state.relicRewardOptions = []
   state.upgradeRewardOptions = drawUpgradeRewardOptions(state.deckList)
 
-  if (state.upgradeRewardOptions.length === 0) {
+  if (!state.upgradeRewardOptions.length) {
     advanceToCardReward(state)
     return
   }
@@ -801,6 +881,7 @@ function advanceToUpgradeReward(state: CombatState): void {
 function advanceToCardReward(state: CombatState): void {
   state.rewardPhase = 'card'
   state.hpRewardOptions = []
+  state.relicRewardOptions = []
   state.upgradeRewardOptions = []
   state.cardRewardOptions = drawRewardOptions(state.floor)
   state.message = 'Choose a new card reward before entering the next floor.'
@@ -816,6 +897,7 @@ function advanceFromReward(state: CombatState): void {
     nextInstanceId: state.nextInstanceId,
     playerHealth: state.player.health,
     playerMaxHealth: state.player.maxHealth,
+    relics: state.relics,
   })
 
   replaceState(state, nextState)
@@ -836,6 +918,8 @@ function replaceState(target: CombatState, source: CombatState): void {
   target.message = source.message
   target.nextInstanceId = source.nextInstanceId
   target.player = source.player
+  target.relicRewardOptions = source.relicRewardOptions
+  target.relics = source.relics
   target.rewardPhase = source.rewardPhase
   target.status = source.status
   target.turn = source.turn
@@ -854,6 +938,10 @@ function getUpgradeCardId(cardId: Card): Card | null {
 
 function shouldOfferUpgradeReward(floor: number): boolean {
   return floor % 2 === 0
+}
+
+function shouldOfferRelicReward(floor: number): boolean {
+  return floor === RELICS.RELIC_FLOOR
 }
 
 function runEnemyTurn(state: CombatState): void {
@@ -888,10 +976,46 @@ function runEnemyTurn(state: CombatState): void {
     (state.enemy.intentCursor + 1) % state.enemy.intents.length
   state.player.block = 0
   state.builder = []
-  state.player.energy = state.player.maxEnergy
   state.turn += 1
-  drawCards(state, state.handSize)
+  startPlayerTurn(state)
+
+  if (state.status === 'lost') {
+    return
+  }
+
   state.message = `${state.enemy.label} acted. Assemble the next chain.`
+}
+
+function startPlayerTurn(state: CombatState): void {
+  if (state.relics.includes('overdrive')) {
+    dealDamageToPlayer(state, 1, true)
+
+    if (state.player.health <= 0) {
+      state.status = 'lost'
+      state.message = 'Overdrive burned through the last of your vitality.'
+      return
+    }
+  }
+
+  state.player.energy = state.player.maxEnergy + getTurnStartEnergyBonus(state)
+  drawCards(state, getTurnStartDrawCount(state))
+}
+
+function getTurnStartDrawCount(state: CombatState): number {
+  const reduction = state.relics.includes('overdrive') ? 1 : 0
+  return Math.max(0, state.handSize - reduction)
+}
+
+function getTurnStartEnergyBonus(state: CombatState): number {
+  return state.relics.includes('overdrive') ? 1 : 0
+}
+
+function setCardRewardArrivalMessage(state: CombatState, cardId: Card): void {
+  if (state.status !== 'playerTurn') {
+    return
+  }
+
+  state.message = `${CARDS.CARD_DEFINITIONS[cardId].label} joins the deck for floor ${String(state.floor)}.`
 }
 
 function shuffle<Value>(items: Value[]): Value[] {

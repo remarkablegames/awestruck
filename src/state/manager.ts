@@ -2,6 +2,7 @@ import {
   cancelBuilder,
   chooseCardReward,
   chooseHpReward,
+  chooseRelicReward,
   chooseUpgradeReward,
   commitChainCard,
   confirmBuilder,
@@ -9,11 +10,12 @@ import {
   endTurn,
   skipCardReward,
   skipHpReward,
+  skipRelicReward,
   skipUpgradeReward,
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { Card, CombatState, HpRewardType } from '../types'
+import type { Card, CombatState, HpRewardType, RelicId } from '../types'
 
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
@@ -115,7 +117,7 @@ export class StateManager {
     confirmBuilder(this.state)
 
     const builderResolved =
-      before.builderLength > 0 && this.state.builder.length === 0
+      before.builderLength > 0 && !this.state.builder.length
 
     this.actionResult = builderResolved
       ? {
@@ -195,6 +197,14 @@ export class StateManager {
 
   chooseUpgradeReward(instanceId: string): void {
     this.runAction(chooseUpgradeReward, instanceId)
+  }
+
+  chooseRelicReward(relicId: RelicId): void {
+    this.runAction(chooseRelicReward, relicId)
+  }
+
+  skipRelicReward(): void {
+    this.runAction(skipRelicReward)
   }
 
   skipCardReward(): void {
