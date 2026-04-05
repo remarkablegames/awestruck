@@ -180,7 +180,7 @@ export function initializeRewardState(state: CombatState): void {
   state.status = 'reward'
   state.rewardPhase = 'hp'
   state.player.block = 0
-  state.hpRewardOptions = createHpRewardOptions()
+  state.hpRewardOptions = createHpRewardOptions(state.floor)
   state.cardRewardOptions = []
   state.relicRewardOptions = []
   state.upgradeRewardOptions = []
@@ -198,17 +198,24 @@ function drawUpgradeRewardOptions(deckList: CardInstance[]): CardInstance[] {
   ).slice(0, 3)
 }
 
-function createHpRewardOptions(): HpRewardOption[] {
-  return [
-    {
-      type: REWARDS.FULL_HEAL,
-      label: 'Full Heal',
-    },
-    {
-      type: REWARDS.MAX_HP,
-      label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
-    },
-  ]
+function createHpRewardOptions(floor: number): HpRewardOption[] {
+  const statRewardIds = REWARDS.REWARD_DEFINITIONS[floor - 1]?.stats ?? []
+
+  return statRewardIds.map((rewardType) => {
+    switch (rewardType) {
+      case REWARDS.FULL_HEAL:
+        return {
+          label: 'Full Heal',
+          type: REWARDS.FULL_HEAL,
+        }
+
+      case REWARDS.MAX_HP:
+        return {
+          label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
+          type: REWARDS.MAX_HP,
+        }
+    }
+  })
 }
 
 function createRelicRewardOptions(floor: number): Relic[] {
@@ -294,7 +301,7 @@ function advanceFromReward(state: CombatState): void {
 }
 
 function shouldOfferUpgradeReward(floor: number): boolean {
-  return floor % 2 === 0
+  return REWARDS.REWARD_DEFINITIONS[floor - 1]?.upgrade === true
 }
 
 function setCardRewardArrivalMessage(state: CombatState, cardId: Card): void {
