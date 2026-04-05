@@ -23,7 +23,7 @@ interface CardOptions {
   disabledReason?: string | null
   interactiveLeft?: number
   interactiveWidth?: number
-  onClick: () => void
+  onClick?: () => void
   parent?: GameObj
   scale?: number
   x: number
@@ -89,11 +89,13 @@ export function addCard({
       root.z = LAYER.CARD
     })
 
-    panel.onClick(() => {
-      play(SOUND.CLICK)
-      setCursor('default')
-      onClick()
-    })
+    if (onClick) {
+      panel.onClick(() => {
+        play(SOUND.CLICK)
+        setCursor('default')
+        onClick()
+      })
+    }
 
     panel.onDestroy(() => {
       isDestroyed = true

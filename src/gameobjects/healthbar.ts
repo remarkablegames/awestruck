@@ -32,20 +32,24 @@ export function addHealthBar({
   x,
   y,
 }: HealthBarOptions) {
-  const addTo = parent ? parent.add.bind(parent) : add
-  const root = addTo([pos(x, y)])
+  const addFn = parent ? parent.add.bind(parent) : add
+  const healthbar = addFn([pos(x, y)])
+
   const innerWidth = Math.max(0, width - BAR_PADDING * 2)
   const innerHeight = Math.max(0, height - BAR_PADDING * 2)
 
-  root.add([rect(width, height, { radius: height / 2 }), color(outlineColor)])
+  healthbar.add([
+    rect(width, height, { radius: height / 2 }),
+    color(outlineColor),
+  ])
 
-  root.add([
+  healthbar.add([
     rect(innerWidth, innerHeight, { radius: innerHeight / 2 }),
     color(trackColor),
     pos(BAR_PADDING),
   ])
 
-  const fill = root.add([
+  const fill = healthbar.add([
     rect(0, innerHeight, { radius: innerHeight / 2 }),
     color(fillColor),
     pos(BAR_PADDING),
@@ -62,9 +66,9 @@ export function addHealthBar({
 
   return {
     destroy() {
-      root.destroy()
+      healthbar.destroy()
     },
-    root,
+    root: healthbar,
     sync,
   }
 }

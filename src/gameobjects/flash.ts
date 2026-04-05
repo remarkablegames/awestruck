@@ -26,9 +26,9 @@ export function addFlash({
   x = 0,
   y = 0,
 }: FlashOptions = {}) {
-  const addTo = parent ? parent.add.bind(parent) : add
+  const addFn = parent ? parent.add.bind(parent) : add
 
-  const overlay = addTo([
+  const overlay = addFn([
     rect(flashWidth, flashHeight, { radius: 18 }),
     color(flashColor),
     opacity(0),

@@ -12,6 +12,7 @@ interface ButtonOptions {
   labelComps?: Comp[]
   labelSize?: number
   onClick: () => void
+  parent?: GameObj
   width: number
   x: number
   y: number
@@ -26,11 +27,14 @@ export function addButton({
   labelComps = [],
   labelSize = 20,
   onClick,
+  parent,
   width: buttonWidth,
   x,
   y,
 }: ButtonOptions) {
-  const button = add([
+  const addFn = parent ? parent.add.bind(parent) : add
+
+  const button = addFn([
     rect(buttonWidth, height, { radius: 18 }),
     area(),
     color(
@@ -72,7 +76,7 @@ export function addButton({
     })
   }
 
-  const buttonLabel = add([
+  const buttonLabel = addFn([
     text(label, {
       align: 'center',
       size: labelSize,
