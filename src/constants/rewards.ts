@@ -1,7 +1,13 @@
-import type { Card } from '../types'
+import type { Card, HpRewardType, RelicId } from '../types'
+
+export const FULL_HEAL = 'fullHeal'
+export const MAX_HP = 'maxHp'
+export const MAX_HP_INCREASE = 5
 
 interface RewardDefinition {
   cards: Card[]
+  relics?: RelicId[]
+  stats?: HpRewardType[]
 }
 
 export const REWARD_DEFINITIONS: RewardDefinition[] = [
@@ -23,6 +29,8 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
   // floor 4
   {
     cards: ['shield2', 'surge2', 'thorn2', 'safe1', 'focus2'],
+    relics: ['aegis', 'guardian', 'overdrive'],
+    stats: [FULL_HEAL, MAX_HP],
   },
 
   // floor 5
@@ -41,6 +49,4 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
   },
 ]
 
-export const FULL_HEAL = 'fullHeal'
-export const MAX_HP_INCREASE = 5
 export const MAX_REWARD_FLOOR = REWARD_DEFINITIONS.length

@@ -4,7 +4,7 @@ import {
   getRelicRewardDefinitions,
   getUpgradeRewardDefinitions,
 } from '../combat'
-import { CARD, POSITION, SCENE, SOUND } from '../constants'
+import { CARD, POSITION, REWARDS, SCENE, SOUND } from '../constants'
 import {
   addBackdrop,
   addButton,
@@ -14,7 +14,14 @@ import {
   getBackdropPalette,
 } from '../gameobjects'
 import { getStateManager } from '../state'
-import type { Card, CombatState, RelicDefinition } from '../types'
+import type {
+  Card,
+  CombatState,
+  HpRewardOption,
+  HpRewardType,
+  RelicDefinition,
+  RelicId,
+} from '../types'
 
 const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
@@ -92,6 +99,8 @@ scene(SCENE.REWARD, () => {
   }
 
   function renderHpRewardStep(currentState: CombatState) {
+    const hpRewardOptions = getHpRewardOptions(currentState)
+
     add([
       text('Improve Your Vitality', {
         align: 'center',
@@ -114,7 +123,16 @@ scene(SCENE.REWARD, () => {
       anchor('center'),
     ])
 
-    getHpRewardOptions(currentState).forEach((reward, index) => {
+    const statRewardIds =
+      REWARDS.REWARD_DEFINITIONS[currentState.floor - 1]?.stats ?? []
+
+    statRewardIds.forEach((rewardType, index) => {
+      const reward = getHpRewardOption(hpRewardOptions, rewardType)
+
+      if (!reward) {
+        return
+      }
+
       const x =
         centerX -
         HP_REWARD_BUTTON_WIDTH / 2 +
@@ -209,7 +227,14 @@ scene(SCENE.REWARD, () => {
   }
 
   function renderRelicRewardStep(currentState: CombatState) {
-    const relics = getRelicRewardDefinitions(currentState)
+    const availableRelics = getRelicRewardDefinitions(currentState)
+    const relicIds =
+      REWARDS.REWARD_DEFINITIONS[currentState.floor - 1]?.relics ?? []
+    const relics = relicIds.flatMap((relicId) => {
+      const relic = getRelicRewardDefinition(availableRelics, relicId)
+
+      return relic ? [relic] : []
+    })
 
     add([
       text('Claim 1 Relic', {
@@ -265,6 +290,20 @@ scene(SCENE.REWARD, () => {
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })
+  }
+
+  function getHpRewardOption(
+    options: HpRewardOption[],
+    rewardType: HpRewardType,
+  ): HpRewardOption | null {
+    return options.find((option) => option.type === rewardType) ?? null
+  }
+
+  function getRelicRewardDefinition(
+    definitions: RelicDefinition[],
+    relicId: RelicId,
+  ): RelicDefinition | null {
+    return definitions.find((definition) => definition.id === relicId) ?? null
   }
 
   function renderRelicButton({
