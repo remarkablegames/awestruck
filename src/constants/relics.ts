@@ -1,7 +1,5 @@
 import type { Relic, RelicDefinition } from '../types'
 
-export const RELIC_FLOOR = 4
-
 export const RELIC_DEFINITIONS: Record<Relic, RelicDefinition> = {
   aegis: {
     description: 'Retain 50% of your block each turn.',

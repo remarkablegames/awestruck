@@ -212,15 +212,11 @@ function createHpRewardOptions(): HpRewardOption[] {
 }
 
 function createRelicRewardOptions(floor: number): Relic[] {
-  if (floor !== RELICS.RELIC_FLOOR) {
-    return []
-  }
-
   return REWARDS.REWARD_DEFINITIONS[floor - 1]?.relics ?? []
 }
 
 function advanceFromHpReward(state: CombatState): void {
-  if (shouldOfferRelicReward(state.floor)) {
+  if (createRelicRewardOptions(state.floor).length) {
     advanceToRelicReward(state)
     return
   }
@@ -299,10 +295,6 @@ function advanceFromReward(state: CombatState): void {
 
 function shouldOfferUpgradeReward(floor: number): boolean {
   return floor % 2 === 0
-}
-
-function shouldOfferRelicReward(floor: number): boolean {
-  return floor === RELICS.RELIC_FLOOR
 }
 
 function setCardRewardArrivalMessage(state: CombatState, cardId: Card): void {

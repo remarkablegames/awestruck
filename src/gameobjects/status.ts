@@ -98,7 +98,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     pos(0, DECK_ROW_OFFSET_Y),
   ])
 
-  if (state.relics.length > 0) {
+  if (state.relics.length) {
     root.add([
       text('Relics:', { size: 20 }),
       color(255, 210, 198),

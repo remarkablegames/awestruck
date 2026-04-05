@@ -116,10 +116,11 @@ export class StateManager {
 
     confirmBuilder(this.state)
 
-    const builderResolved =
-      before.builderLength > 0 && !this.state.builder.length
+    const hasBuilderResolved = Boolean(
+      before.builderLength && !this.state.builder.length,
+    )
 
-    this.actionResult = builderResolved
+    this.actionResult = hasBuilderResolved
       ? {
           enemyBurnApplied: Math.max(
             0,
