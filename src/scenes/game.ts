@@ -188,7 +188,7 @@ scene(SCENE.GAME, () => {
     const executeButton = addButton({
       disabled: state.status !== 'playerTurn' || preview.status !== 'ready',
       fillColor: [111, 168, 101],
-      height: 54,
+      height: 50,
       label: 'Execute',
       onClick: () => {
         stateManager.confirmBuilder()
@@ -203,7 +203,7 @@ scene(SCENE.GAME, () => {
     const cancelButton = addButton({
       disabled: state.status !== 'playerTurn' || !state.builder.length,
       fillColor: [176, 119, 93],
-      height: 54,
+      height: 50,
       label: 'Cancel',
       onClick: () => {
         play(SOUND.BACK)
@@ -219,7 +219,7 @@ scene(SCENE.GAME, () => {
     const endTurnButton = addButton({
       disabled: state.status !== 'playerTurn',
       fillColor: [92, 130, 208],
-      height: 52,
+      height: 50,
       label: 'End Turn',
       onClick: () => {
         play(SOUND.DROP)
@@ -335,15 +335,12 @@ scene(SCENE.GAME, () => {
   }
 
   onScroll((delta) => {
-    const state = stateManager.getState()
-
-    if (state.hand.length <= HAND.FAN_MAX_CARDS) {
-      return
-    }
-
     const direction = delta.y === 0 ? delta.x : delta.y
 
-    if (!direction) {
+    if (
+      !direction ||
+      stateManager.getState().hand.length <= HAND.FAN_MAX_CARDS
+    ) {
       return
     }
 
