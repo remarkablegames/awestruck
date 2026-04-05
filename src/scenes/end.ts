@@ -1,8 +1,7 @@
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
-
-type EndStatus = 'lost' | 'won'
+import type { EndStatus } from '../types'
 
 scene(SCENE.END, (status: EndStatus) => {
   setBackground(...THEME.GAME_BACKGROUND_COLOR)

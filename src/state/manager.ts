@@ -15,11 +15,16 @@ import {
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { Card, CombatState, HpRewardType, Relic } from '../types'
+import type {
+  Card,
+  CombatState,
+  EndStatus,
+  HpRewardType,
+  Relic,
+} from '../types'
 
-type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
+type StateScene = 'end' | 'game' | 'reward'
 
-type EndStatus = 'lost' | 'won'
 type StateAction<TArgs extends unknown[] = []> = (
   state: CombatState,
   ...args: TArgs

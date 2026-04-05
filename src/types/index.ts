@@ -1,5 +1,6 @@
 export * from './card'
 export * from './color'
+export * from './end'
 export * from './game'
 export * from './relic'
 export * from './reward'
