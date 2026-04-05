@@ -270,6 +270,11 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
     enemyName: 'Reaver',
     enemyIntents: [
       {
+        description: 'The enemy is thinking...',
+        id: 'thinking',
+        label: 'THINK',
+      },
+      {
         attack: 16,
         description: 'Slice for 16 damage.',
         id: 'slice',

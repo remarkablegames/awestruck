@@ -215,11 +215,11 @@ export function addEnemy(enemy: EnemyState) {
   }
 }
 
-function getHealthTextLabel(health: number, maxHealth: number) {
+function getHealthTextLabel(health: number, maxHealth: number): string {
   return [health, maxHealth].join('/')
 }
 
-function getIntentLabel(intent: EnemyIntent) {
+function getIntentLabel(intent: EnemyIntent): string {
   const labels: string[] = []
 
   if (intent.attack) {
@@ -230,5 +230,5 @@ function getIntentLabel(intent: EnemyIntent) {
     labels.push(`Block ${String(intent.block)}`)
   }
 
-  return labels.join(', ')
+  return labels.length ? labels.join(', ') : '...'
 }
