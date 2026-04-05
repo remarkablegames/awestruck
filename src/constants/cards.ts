@@ -350,7 +350,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'quick',
     },
-    sprite: 'surge',
+    sprite: 'quick',
     tags: [],
     type: 'modifier',
     upgrade: 'quick2',
@@ -368,7 +368,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'quick',
     },
-    sprite: 'surge',
+    sprite: 'quick',
     tags: [],
     type: 'modifier',
   },
@@ -384,7 +384,7 @@ export const CARD_DEFINITIONS = {
     },
     id: 'rage1',
     label: 'RAGE',
-    sprite: 'rage' as Sprite,
+    sprite: 'rage',
     tags: [],
     type: 'payload',
     upgrade: 'rage2',
@@ -401,7 +401,7 @@ export const CARD_DEFINITIONS = {
     },
     id: 'rage2',
     label: 'RAGE+',
-    sprite: 'rage' as Sprite,
+    sprite: 'rage',
     tags: [],
     type: 'payload',
   },
@@ -416,7 +416,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'risky',
     },
-    sprite: 'risky' as Sprite,
+    sprite: 'risky',
     tags: [],
     type: 'modifier',
     upgrade: 'risky2',
@@ -432,7 +432,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'risky',
     },
-    sprite: 'risky' as Sprite,
+    sprite: 'risky',
     tags: [],
     type: 'modifier',
   },
