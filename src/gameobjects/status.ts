@@ -1,9 +1,9 @@
 import type { GameObj } from 'kaplay'
 
 import { getDeckCountLabel } from '../combat'
-import { RELICS } from '../constants'
+import { RELICS, SCENE, SOUND } from '../constants'
 import type { Color, CombatState } from '../types'
-import { addHealthBar, addPill, addShield } from '.'
+import { addButton, addHealthBar, addPill, addShield } from '.'
 
 interface StatusOptions {
   state: CombatState
@@ -11,32 +11,38 @@ interface StatusOptions {
   y: number
 }
 
-const PLAYER_HP_ROW_OFFSET_Y = 38
-const PLAYER_HP_BAR_OFFSET_Y = 66
-const RESOURCE_ROW_OFFSET_Y = 116
-const DECK_ROW_OFFSET_Y = 146
-const RELIC_ROW_OFFSET_Y = 184
-const PLAYER_HP_BAR_WIDTH = 300
-const PLAYER_HP_BAR_HEIGHT = 30
-const PLAYER_SHIELD_OFFSET_X = 30
 const PLAYER_HP_BAR_FILL_COLOR: Color = [103, 142, 217]
-const PLAYER_HP_BAR_TRACK_COLOR: Color = [30, 41, 64]
+const PLAYER_HP_BAR_HEIGHT = 30
+const PLAYER_HP_BAR_OFFSET_Y = 66
 const PLAYER_HP_BAR_OUTLINE_COLOR: Color = [191, 214, 255]
+const PLAYER_HP_BAR_TRACK_COLOR: Color = [30, 41, 64]
+const PLAYER_HP_BAR_WIDTH = 300
+const PLAYER_HP_ROW_OFFSET_Y = 38
+const PLAYER_SHIELD_OFFSET_X = 30
+
+const RESOURCE_ROW_OFFSET_Y = PLAYER_HP_BAR_OFFSET_Y + 50 // 116
+const DECK_ROW_OFFSET_Y = RESOURCE_ROW_OFFSET_Y + 30 // 146
+
+const DECK_BUTTON_WIDTH = 100
+const DECK_BUTTON_HEIGHT = 35
+const DECK_BUTTON_OFFSET_Y = DECK_ROW_OFFSET_Y + 50 // 196
+
 const RELIC_PILL_GAP = 12
-const RELIC_PILL_HEIGHT = 30
 const RELIC_PILL_WIDTH = 118
+const RELIC_PILL_HEIGHT = 30
+const RELIC_ROW_OFFSET_Y = DECK_BUTTON_OFFSET_Y + 35 // 231
 
 export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
-  const root = add([pos(x, y)])
+  const status = add([pos(x, y)])
 
-  root.add([
+  status.add([
     text(`Floor ${String(state.floor)}, Turn ${String(state.turn)}`, {
       size: 26,
     }),
     color(247, 232, 179),
   ])
 
-  root.add([
+  status.add([
     text('Player HP:', { size: 20 }),
     color(227, 239, 255),
     pos(0, PLAYER_HP_ROW_OFFSET_Y),
@@ -48,7 +54,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     height: PLAYER_HP_BAR_HEIGHT,
     max: state.player.maxHealth,
     outlineColor: PLAYER_HP_BAR_OUTLINE_COLOR,
-    parent: root,
+    parent: status,
     trackColor: PLAYER_HP_BAR_TRACK_COLOR,
     width: PLAYER_HP_BAR_WIDTH,
     x: 0,
@@ -56,13 +62,13 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
   })
 
   addShield({
-    parent: root,
+    parent: status,
     value: state.player.block,
     x: PLAYER_HP_BAR_WIDTH + PLAYER_SHIELD_OFFSET_X,
     y: PLAYER_HP_BAR_OFFSET_Y + PLAYER_HP_BAR_HEIGHT / 2,
   })
 
-  root.add([
+  status.add([
     text(`${String(state.player.health)}/${String(state.player.maxHealth)}`, {
       align: 'center',
       size: 18,
@@ -76,7 +82,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     anchor('center'),
   ])
 
-  root.add([
+  status.add([
     text(
       `Block ${String(state.player.block)}, Energy ${String(state.player.energy)}/${String(state.player.maxEnergy)}`,
       {
@@ -87,7 +93,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     pos(0, RESOURCE_ROW_OFFSET_Y),
   ])
 
-  root.add([
+  status.add([
     text(
       `Draw ${String(state.drawPile.length)}, Discard ${String(state.discardPile.length)}, Deck ${getDeckCountLabel(state)}`,
       {
@@ -99,7 +105,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
   ])
 
   if (state.relics.length) {
-    root.add([
+    status.add([
       text('Relics:', { size: 20 }),
       color(255, 210, 198),
       pos(0, RELIC_ROW_OFFSET_Y),
@@ -109,7 +115,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
       addPill({
         height: RELIC_PILL_HEIGHT,
         label: RELICS.RELIC_DEFINITIONS[relicId].label,
-        parent: root,
+        parent: status,
         width: RELIC_PILL_WIDTH,
         x:
           92 +
@@ -120,5 +126,19 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     })
   }
 
-  return { root }
+  addButton({
+    fillColor: [124, 106, 164],
+    height: DECK_BUTTON_HEIGHT,
+    label: 'Deck',
+    onClick: () => {
+      play(SOUND.CLICK)
+      go(SCENE.DECK)
+    },
+    parent: status,
+    width: DECK_BUTTON_WIDTH,
+    x: DECK_BUTTON_WIDTH / 2,
+    y: DECK_BUTTON_OFFSET_Y,
+  })
+
+  return { root: status }
 }

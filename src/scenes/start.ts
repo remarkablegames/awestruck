@@ -1,3 +1,4 @@
+import './deck'
 import './end'
 import './game'
 import './preload'

@@ -1,3 +1,4 @@
+export const DECK = 'deck'
 export const END = 'end'
 export const GAME = 'game'
 export const PRELOAD = 'preload'
