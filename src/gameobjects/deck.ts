@@ -1,5 +1,3 @@
-import type { GameObj } from 'kaplay'
-
 import { getCardDefinition } from '../combat'
 import { CARD } from '../constants'
 import type { CardInstance } from '../types'
@@ -9,7 +7,6 @@ import { addCard } from './card'
 interface DeckOptions {
   cards: CardInstance[]
   onBack: () => void
-  scrollOffset: number
 }
 
 const HEADER_HEIGHT = 96
@@ -27,10 +24,7 @@ const GRID_PADDING_Y = 60
 const GRID_STEP_X = CARD.WIDTH + GRID_GAP
 const GRID_STEP_Y = CARD.HEIGHT + GRID_GAP
 
-export function addDeck({ cards, onBack, scrollOffset }: DeckOptions): {
-  maxScrollOffset: number
-  root: GameObj
-} {
+export function addDeck({ cards, onBack }: DeckOptions) {
   const deck = add([])
   const gridStartY = HEADER_HEIGHT + GRID_PADDING_Y + CARD.HEIGHT / 2
   const availableWidth = width() - HORIZONTAL_PADDING * 2
@@ -51,7 +45,7 @@ export function addDeck({ cards, onBack, scrollOffset }: DeckOptions): {
   const viewportHeight = height() - HEADER_HEIGHT
   const maxScrollOffset = Math.max(0, contentHeight - viewportHeight)
 
-  const content = deck.add([pos(0, -Math.min(scrollOffset, maxScrollOffset))])
+  const content = deck.add([pos()])
 
   cards.forEach((card, index) => {
     const column = index % GRID_COLUMNS
@@ -113,7 +107,7 @@ export function addDeck({ cards, onBack, scrollOffset }: DeckOptions): {
   }
 
   return {
+    content,
     maxScrollOffset,
-    root: deck,
   }
 }

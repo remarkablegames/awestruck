@@ -1,5 +1,3 @@
-import type { GameObj } from 'kaplay'
-
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addDeck, getBackdropPalette } from '../gameobjects'
 import { getStateManager } from '../state'
@@ -9,7 +7,8 @@ const SCROLL_SPEED = 72
 scene(SCENE.DECK, () => {
   const state = getStateManager().getState()
   let deckScrollOffset = 0
-  let deck: GameObj | null = null
+  let deckContent: ReturnType<typeof addDeck>['content'] | null = null
+  let maxScrollOffset = 0
 
   setBackground(...getBackdropPalette(state.floor).gameBackgroundColor)
 
@@ -25,23 +24,24 @@ scene(SCENE.DECK, () => {
     opacity(0.42),
   ])
 
-  renderDeck()
+  const deck = addDeck({
+    cards: state.deckList,
+    onBack: () => {
+      play(SOUND.BACK)
+      go(SCENE.GAME)
+    },
+  })
 
-  function renderDeck() {
-    deck?.destroy()
+  deckContent = deck.content
+  maxScrollOffset = deck.maxScrollOffset
+  syncDeckScroll()
 
-    const { root, maxScrollOffset } = addDeck({
-      cards: state.deckList,
-      onBack: () => {
-        play(SOUND.BACK)
-        go(SCENE.GAME)
-      },
-      scrollOffset: deckScrollOffset,
-    })
+  function syncDeckScroll() {
+    deckScrollOffset = Math.max(0, Math.min(deckScrollOffset, maxScrollOffset))
 
-    deck = root
-
-    deckScrollOffset = Math.min(deckScrollOffset, maxScrollOffset)
+    if (deckContent) {
+      deckContent.pos.y = -deckScrollOffset
+    }
   }
 
   background.onScroll((delta) => {
@@ -52,7 +52,6 @@ scene(SCENE.DECK, () => {
     }
 
     deckScrollOffset += direction > 0 ? SCROLL_SPEED : -SCROLL_SPEED
-    deckScrollOffset = Math.max(0, deckScrollOffset)
-    renderDeck()
+    syncDeckScroll()
   })
 })
