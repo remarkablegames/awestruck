@@ -58,11 +58,7 @@ export function addCard({
     area({
       shape: new Rect(vec2(interactiveLeft, 0), interactiveWidth, CARD.HEIGHT),
     }),
-    color(
-      disabled ? 75 : definition.accent[0],
-      disabled ? 81 : definition.accent[1],
-      disabled ? 98 : definition.accent[2],
-    ),
+    color(disabled ? [75, 81, 98] : definition.accent),
     outline(3, rgb(229, 233, 246)),
     pos(-CARD.WIDTH / 2, -CARD.HEIGHT / 2),
   ])
@@ -75,30 +71,22 @@ export function addCard({
 
     panel.onHover(() => {
       playTick()
-      setCursor('pointer')
-
       root.scaleTo(initialScale * HAND.HOVER_SCALE)
       root.pos = basePos.add(0, -HAND.HOVER_LIFT)
-      root.z = 1
+      root.z = LAYER.CARD + 1
+    })
 
-      panel.color = rgb(
-        Math.min(definition.accent[0] + 18, 255),
-        Math.min(definition.accent[1] + 18, 255),
-        Math.min(definition.accent[2] + 18, 255),
-      )
+    panel.onHoverUpdate(() => {
+      if (getCursor() !== 'pointer') {
+        setCursor('pointer')
+      }
     })
 
     panel.onHoverEnd(() => {
       setCursor('default')
       root.scaleTo(initialScale)
       root.pos = basePos
-      root.z = 0
-
-      panel.color = rgb(
-        definition.accent[0],
-        definition.accent[1],
-        definition.accent[2],
-      )
+      root.z = LAYER.CARD
     })
 
     panel.onClick(() => {
