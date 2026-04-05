@@ -75,8 +75,4 @@ scene(SCENE.END, (status: EndStatus) => {
     x: width() / 2 + 112,
     y: height() / 2 + 104,
   })
-
-  onKeyPress('escape', () => {
-    go(SCENE.TITLE)
-  })
 })
