@@ -4,7 +4,7 @@ import {
   getRelicRewardDefinitions,
   getUpgradeRewardDefinitions,
 } from '../combat'
-import { CARD, POSITION, REWARDS, SCENE, SOUND } from '../constants'
+import { CARD, COLOR, POSITION, REWARDS, SCENE, SOUND } from '../constants'
 import {
   addBackdrop,
   addButton,
@@ -142,7 +142,7 @@ scene(SCENE.REWARD, () => {
       addButton({
         buttonComps: [outline(4, rgb(196, 216, 255))],
         fillColor:
-          reward.type === 'fullHeal' ? [110, 168, 101] : [92, 130, 208],
+          reward.type === 'fullHeal' ? [110, 168, 101] : COLOR.BUTTON_PRIMARY,
         height: HP_REWARD_BUTTON_HEIGHT,
         label: reward.label,
         labelSize: 26,
@@ -158,7 +158,7 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: [124, 106, 164],
+      fillColor: COLOR.BUTTON_SECONDARY,
       height: 50,
       label: 'Skip Reward',
       onClick: () => {
@@ -212,7 +212,7 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: [92, 130, 208],
+      fillColor: COLOR.BUTTON_PRIMARY,
       height: 50,
       label: 'Skip Reward',
       onClick: () => {
@@ -278,7 +278,7 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: [124, 106, 164],
+      fillColor: COLOR.BUTTON_SECONDARY,
       height: 50,
       label: 'Skip Reward',
       onClick: () => {
@@ -399,7 +399,7 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: [124, 106, 164],
+      fillColor: COLOR.BUTTON_SECONDARY,
       height: 50,
       label: 'Skip Reward',
       onClick: () => {

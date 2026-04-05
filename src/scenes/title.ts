@@ -1,4 +1,4 @@
-import { CARDS, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
+import { CARDS, COLOR, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
@@ -86,7 +86,7 @@ scene(SCENE.TITLE, () => {
 
   addButton({
     buttonComps: [outline(4, rgb(196, 216, 255))],
-    fillColor: [74, 104, 168],
+    fillColor: COLOR.BUTTON_PRIMARY,
     height: 72,
     label: 'Start Run',
     labelComps: [color(248, 250, 255)],

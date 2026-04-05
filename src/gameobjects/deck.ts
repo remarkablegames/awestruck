@@ -1,5 +1,5 @@
 import { getCardDefinition } from '../combat'
-import { CARD } from '../constants'
+import { CARD, COLOR } from '../constants'
 import type { CardInstance } from '../types'
 import { addButton } from './button'
 import { addCard } from './card'
@@ -69,7 +69,7 @@ export function addDeck({ cards, onBack }: DeckOptions) {
   ])
 
   addButton({
-    fillColor: [92, 130, 208],
+    fillColor: COLOR.BUTTON_PRIMARY,
     height: 50,
     label: 'Back',
     onClick: onBack,

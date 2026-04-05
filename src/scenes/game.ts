@@ -224,7 +224,7 @@ scene(SCENE.GAME, () => {
 
     const endTurnButton = addButton({
       disabled: state.status !== 'playerTurn',
-      fillColor: [92, 130, 208],
+      fillColor: COLOR.BUTTON_PRIMARY,
       height: 50,
       label: 'End Turn',
       onClick: () => {

@@ -1,4 +1,4 @@
-import { SCENE, SOUND, THEME } from '../constants'
+import { COLOR, SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import type { EndStatus } from '../types'
@@ -50,7 +50,7 @@ scene(SCENE.END, (status: EndStatus) => {
   ])
 
   addButton({
-    fillColor: [92, 130, 208],
+    fillColor: COLOR.BUTTON_PRIMARY,
     height: 58,
     label: 'Restart Run',
     onClick: () => {
@@ -64,7 +64,7 @@ scene(SCENE.END, (status: EndStatus) => {
   })
 
   addButton({
-    fillColor: [124, 106, 164],
+    fillColor: COLOR.BUTTON_SECONDARY,
     height: 58,
     label: 'Back To Title',
     onClick: () => {
