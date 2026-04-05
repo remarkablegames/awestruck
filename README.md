@@ -115,7 +115,7 @@ http://localhost:5173/?reward=7
 Start with all cards:
 
 ```
-http://localhost:5173/?deck=*&handSize=30
+http://localhost:5173/?deck=*&handSize=44
 ```
 
 Start with specific cards:
