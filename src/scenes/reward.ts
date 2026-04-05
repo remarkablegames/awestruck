@@ -19,8 +19,8 @@ import type {
   CombatState,
   HpRewardOption,
   HpRewardType,
+  Relic,
   RelicDefinition,
-  RelicId,
 } from '../types'
 
 const REWARD_CONTAINER_HEIGHT = 560
@@ -301,7 +301,7 @@ scene(SCENE.REWARD, () => {
 
   function getRelicRewardDefinition(
     definitions: RelicDefinition[],
-    relicId: RelicId,
+    relicId: Relic,
   ): RelicDefinition | null {
     return definitions.find((definition) => definition.id === relicId) ?? null
   }

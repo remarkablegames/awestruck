@@ -6,8 +6,8 @@ import type {
   CombatState,
   HpRewardOption,
   HpRewardType,
+  Relic,
   RelicDefinition,
-  RelicId,
 } from '../types'
 import {
   createCardInstance,
@@ -93,7 +93,7 @@ export function skipUpgradeReward(state: CombatState): void {
   advanceToCardReward(state)
 }
 
-export function chooseRelicReward(state: CombatState, relicId: RelicId): void {
+export function chooseRelicReward(state: CombatState, relicId: Relic): void {
   if (state.status !== 'reward' || state.rewardPhase !== 'relic') {
     return
   }
@@ -211,7 +211,7 @@ function createHpRewardOptions(): HpRewardOption[] {
   ]
 }
 
-function createRelicRewardOptions(floor: number): RelicId[] {
+function createRelicRewardOptions(floor: number): Relic[] {
   if (floor !== RELICS.RELIC_FLOOR) {
     return []
   }

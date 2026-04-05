@@ -4,6 +4,7 @@ import type {
   CardEffect,
   CardInstance,
   HpRewardOption,
+  Relic,
   RewardPhase,
   Sprite,
 } from '.'
@@ -51,14 +52,6 @@ export interface PlayerState {
   maxHealth: number
 }
 
-export type RelicId = 'aegis' | 'guardian' | 'overdrive'
-
-export interface RelicDefinition {
-  description: string
-  id: RelicId
-  label: string
-}
-
 export type ChainPreview =
   | {
       cost: number
@@ -98,8 +91,8 @@ export interface CombatState {
   message: string
   nextInstanceId: number
   player: PlayerState
-  relicRewardOptions: RelicId[]
-  relics: RelicId[]
+  relicRewardOptions: Relic[]
+  relics: Relic[]
   rewardPhase: RewardPhase
   upgradeRewardOptions: CardInstance[]
   status: 'lost' | 'playerTurn' | 'reward' | 'won'

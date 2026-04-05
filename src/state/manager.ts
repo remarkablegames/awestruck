@@ -15,7 +15,7 @@ import {
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
 import { DATA, SCENE } from '../constants'
-import type { Card, CombatState, HpRewardType, RelicId } from '../types'
+import type { Card, CombatState, HpRewardType, Relic } from '../types'
 
 type StateScene = typeof SCENE.END | typeof SCENE.GAME | typeof SCENE.REWARD
 
@@ -199,7 +199,7 @@ export class StateManager {
     this.runAction(chooseUpgradeReward, instanceId)
   }
 
-  chooseRelicReward(relicId: RelicId): void {
+  chooseRelicReward(relicId: Relic): void {
     this.runAction(chooseRelicReward, relicId)
   }
 

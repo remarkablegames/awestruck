@@ -5,7 +5,7 @@ import type {
   CardInstance,
   CombatState,
   EnemyState,
-  RelicId,
+  Relic,
 } from '../types'
 
 export function getCardDefinition(cardId: Card): CardDefinition {
@@ -36,7 +36,7 @@ export function createFloorState({
   nextInstanceId: number
   playerHealth: number
   playerMaxHealth: number
-  relics: RelicId[]
+  relics: Relic[]
 }): CombatState {
   const state: CombatState = {
     bestFloor: Math.max(bestFloor, floor),
