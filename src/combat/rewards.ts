@@ -215,7 +215,7 @@ function createRelicRewardOptions(floor: number): RelicId[] {
     return []
   }
 
-  return ['guardian', 'overdrive']
+  return ['guardian', 'overdrive', 'aegis']
 }
 
 function advanceFromHpReward(state: CombatState): void {

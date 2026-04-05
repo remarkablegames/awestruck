@@ -28,9 +28,9 @@ const REWARD_SKIP_BUTTON_Y_OFFSET = 210
 const HP_REWARD_BUTTON_WIDTH = CARD.WIDTH + 20
 const HP_REWARD_BUTTON_HEIGHT = CARD.HEIGHT - 80
 
-const RELIC_BUTTON_WIDTH = 220
+const RELIC_BUTTON_WIDTH = 180
 const RELIC_BUTTON_HEIGHT = 180
-const RELIC_BUTTON_SPACING = 20
+const RELIC_BUTTON_SPACING = 16
 const RELIC_BUTTON_TITLE_OFFSET_Y = -50
 const RELIC_BUTTON_DESCRIPTION_OFFSET_Y = 24
 
@@ -104,7 +104,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Recover full health or increase your maximum HP.', {
+      text('Recover to full health or increase your maximum HP.', {
         align: 'center',
         size: 24,
         width: 560,
@@ -223,7 +223,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Choose a relic that activates every turn.', {
+      text('Select a relic that triggers at the start of every turn.', {
         align: 'center',
         size: 24,
         width: 560,
@@ -278,7 +278,12 @@ scene(SCENE.REWARD, () => {
   }) {
     addButton({
       buttonComps: [outline(4, rgb(255, 186, 159))],
-      fillColor: relic.id === 'overdrive' ? [176, 93, 93] : [94, 146, 112],
+      fillColor:
+        relic.id === 'overdrive'
+          ? [176, 93, 93]
+          : relic.id === 'aegis'
+            ? [92, 124, 192]
+            : [94, 146, 112],
       height: RELIC_BUTTON_HEIGHT,
       label: '',
       labelSize: 26,
@@ -295,7 +300,7 @@ scene(SCENE.REWARD, () => {
     add([
       text(relic.label, {
         align: 'center',
-        size: 26,
+        size: 24,
         width: RELIC_BUTTON_WIDTH - 28,
       }),
       color(247, 249, 255),
@@ -306,7 +311,7 @@ scene(SCENE.REWARD, () => {
     add([
       text(relic.description, {
         align: 'center',
-        size: 20,
+        size: 18,
         width: RELIC_BUTTON_WIDTH - 28,
       }),
       color(240, 233, 244),

@@ -536,7 +536,9 @@ function runEnemyTurn(state: CombatState): void {
 
   state.enemy.intentCursor =
     (state.enemy.intentCursor + 1) % state.enemy.intents.length
-  state.player.block = 0
+  state.player.block = state.relics.includes('aegis')
+    ? Math.floor(state.player.block / 2)
+    : 0
   state.builder = []
   state.turn += 1
   startPlayerTurn(state)
