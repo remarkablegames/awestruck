@@ -629,7 +629,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'wide',
     },
-    sprite: 'wide' as Sprite,
+    sprite: 'wide',
     tags: [],
     type: 'modifier',
     upgrade: 'wide2',
@@ -647,7 +647,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'wide',
     },
-    sprite: 'wide' as Sprite,
+    sprite: 'wide',
     tags: [],
     type: 'modifier',
   },
