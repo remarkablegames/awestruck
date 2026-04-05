@@ -380,9 +380,9 @@ scene(SCENE.GAME, () => {
       previousPlayerHealth = state.player.health
 
       if (playerDamageTaken > 0) {
-        play(SOUND.PUNCH)
+        play(SOUND.PUNCH, { speed: playerDamageTaken > 1 ? 1 : 2 })
         flashDamage.play()
-        shake(10)
+        shake(Math.min(playerDamageTaken, 15))
       }
 
       if (playerBlockedDamage > 0) {
