@@ -30,7 +30,8 @@ export function chooseHpReward(
     case REWARDS.FULL_HEAL:
       state.player.health = state.player.maxHealth
       break
-    case 'maxHp':
+
+    case REWARDS.MAX_HP:
       state.player.maxHealth += REWARDS.MAX_HP_INCREASE
       state.player.health = Math.min(
         state.player.maxHealth,
@@ -204,7 +205,7 @@ function createHpRewardOptions(): HpRewardOption[] {
       label: 'Full Heal',
     },
     {
-      type: 'maxHp',
+      type: REWARDS.MAX_HP,
       label: `+${String(REWARDS.MAX_HP_INCREASE)} Max HP`,
     },
   ]

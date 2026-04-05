@@ -1,4 +1,12 @@
-import type { Card, CardDefinition, CardEffect, CardInstance, Sprite } from '.'
+import type {
+  Card,
+  CardDefinition,
+  CardEffect,
+  CardInstance,
+  HpRewardOption,
+  RewardPhase,
+  Sprite,
+} from '.'
 
 export type ModifierKind =
   | 'double'
@@ -43,13 +51,6 @@ export interface PlayerState {
   maxHealth: number
 }
 
-export type HpRewardType = 'fullHeal' | 'maxHp'
-
-export interface HpRewardOption {
-  type: HpRewardType
-  label: string
-}
-
 export type RelicId = 'aegis' | 'guardian' | 'overdrive'
 
 export interface RelicDefinition {
@@ -57,8 +58,6 @@ export interface RelicDefinition {
   id: RelicId
   label: string
 }
-
-export type RewardPhase = 'card' | 'hp' | 'relic' | 'upgrade'
 
 export type ChainPreview =
   | {
