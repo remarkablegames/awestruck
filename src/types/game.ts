@@ -19,6 +19,7 @@ export type ModifierKind =
   | 'quick'
   | 'risky'
   | 'safe'
+  | 'stun'
   | 'wide'
 
 export interface ModifierDefinition {
@@ -42,6 +43,7 @@ export interface EnemyState {
   label: string
   maxHealth: number
   sprite: Sprite
+  stunned: number
 }
 
 export interface PlayerState {

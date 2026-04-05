@@ -99,15 +99,21 @@ scene(SCENE.GAME, () => {
       ]),
     )
 
+    const statusParts = [
+      `Block ${String(state.enemy.block)}`,
+      `Burn ${String(state.enemy.burn)}`,
+    ]
+
+    if (state.enemy.stunned) {
+      statusParts.push(`Stun ${String(state.enemy.stunned)}`)
+    }
+
     track(
       add([
-        text(
-          `Block ${String(state.enemy.block)}, Burn ${String(state.enemy.burn)}`,
-          {
-            size: 18,
-            width: textWidth,
-          },
-        ),
+        text(statusParts.join(', '), {
+          size: 18,
+          width: textWidth,
+        }),
         color(255, 183, 120),
         pos(panelX + 20, panelY + 66),
       ]),
@@ -122,7 +128,7 @@ scene(SCENE.GAME, () => {
           width: textWidth,
         }),
         color(214, 224, 250),
-        pos(panelX + 20, panelY + 96),
+        pos(panelX + 20, panelY + 106),
       ]),
     )
   }

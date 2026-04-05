@@ -195,6 +195,7 @@ function createEnemyState(floor: number): EnemyState {
     label: floorDefinition.enemyName,
     maxHealth: floorDefinition.enemyMaxHealth,
     sprite: floorDefinition.enemySprite,
+    stunned: 0,
   }
 }
 

@@ -54,7 +54,7 @@ export function addEnemy(enemy: EnemyState) {
 
   const intentPill = addPill({
     height: INTENT_PILL_HEIGHT,
-    label: getIntentLabel(enemy.intents[enemy.intentCursor]),
+    label: getIntentLabel(enemy),
     parent: root,
     width: INTENT_PILL_WIDTH,
     x: BOX_WIDTH / 2,
@@ -197,9 +197,7 @@ export function addEnemy(enemy: EnemyState) {
 
     sync(nextEnemy: EnemyState) {
       healthBar.sync(nextEnemy.health, nextEnemy.maxHealth)
-      intentPill.labelText.text = getIntentLabel(
-        nextEnemy.intents[nextEnemy.intentCursor],
-      )
+      intentPill.labelText.text = getIntentLabel(nextEnemy)
       shield.root.hidden = nextEnemy.block <= 0
       shield.valueText.text = String(nextEnemy.block)
 
@@ -219,7 +217,15 @@ function getHealthTextLabel(health: number, maxHealth: number): string {
   return [health, maxHealth].join('/')
 }
 
-function getIntentLabel(intent: EnemyIntent): string {
+function getIntentLabel(enemy: EnemyState): string {
+  if (enemy.stunned) {
+    return 'Stunned'
+  }
+
+  return getIntentText(enemy.intents[enemy.intentCursor])
+}
+
+function getIntentText(intent: EnemyIntent): string {
   const labels: string[] = []
 
   if (intent.attack) {

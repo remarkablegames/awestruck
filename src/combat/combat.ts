@@ -262,6 +262,10 @@ function applyCardEffect(state: CombatState, effect: CardEffect): boolean {
     state.player.energy += effect.energy
   }
 
+  if (effect.stun) {
+    state.enemy.stunned += effect.stun
+  }
+
   if (effect.selfDamage) {
     dealDamageToPlayer(state, effect.selfDamage, effect.selfDamageIgnoresBlock)
   }
@@ -338,6 +342,10 @@ function applyModifier(
       return mergeEffects(effect, {
         block: 3,
       })
+    case 'stun':
+      return mergeEffects(effect, {
+        stun: 1,
+      })
     case 'wide':
       return mergeEffects(effect, {
         block: hasDefense(effect) ? 3 : undefined,
@@ -356,6 +364,7 @@ function cloneEffect(effect: CardEffect): CardEffect {
     energy: effect.energy,
     heal: effect.heal,
     ignoreBlock: effect.ignoreBlock,
+    stun: effect.stun,
     selfDamageIgnoresBlock: effect.selfDamageIgnoresBlock,
     selfDamage: effect.selfDamage,
   }
@@ -403,6 +412,10 @@ function formatEffect(effect: CardEffect): string {
 
   if (effect.energy) {
     parts.push(`gain ${String(effect.energy)} energy`)
+  }
+
+  if (effect.stun) {
+    parts.push(`stun ${String(effect.stun)} turn`)
   }
 
   if (effect.ignoreBlock) {
@@ -463,6 +476,7 @@ function isSameEffect(left: CardEffect, right: CardEffect): boolean {
     left.energy === right.energy &&
     left.heal === right.heal &&
     left.ignoreBlock === right.ignoreBlock &&
+    left.stun === right.stun &&
     left.selfDamageIgnoresBlock === right.selfDamageIgnoresBlock &&
     left.selfDamage === right.selfDamage
   )
@@ -480,6 +494,7 @@ function mapEffect(
     energy: effect.energy ? mapper(effect.energy) : undefined,
     heal: effect.heal ? mapper(effect.heal) : undefined,
     ignoreBlock: effect.ignoreBlock,
+    stun: effect.stun ? mapper(effect.stun) : undefined,
     selfDamageIgnoresBlock: effect.selfDamageIgnoresBlock,
     selfDamage: effect.selfDamage,
   }
@@ -497,6 +512,7 @@ function mergeEffects(base: CardEffect, extra: CardEffect): CardEffect {
       base.ignoreBlock === true || extra.ignoreBlock === true
         ? true
         : undefined,
+    stun: (base.stun ?? 0) + (extra.stun ?? 0) || undefined,
     selfDamageIgnoresBlock:
       base.selfDamageIgnoresBlock === true ||
       extra.selfDamageIgnoresBlock === true
@@ -520,13 +536,18 @@ function runEnemyTurn(state: CombatState): void {
   }
 
   const intent = state.enemy.intents[state.enemy.intentCursor]
+  const enemyWasStunned = Boolean(state.enemy.stunned)
 
-  if (intent.attack) {
-    dealDamageToPlayer(state, intent.attack)
-  }
+  if (enemyWasStunned) {
+    state.enemy.stunned -= 1
+  } else {
+    if (intent.attack) {
+      dealDamageToPlayer(state, intent.attack)
+    }
 
-  if (intent.block) {
-    state.enemy.block += intent.block
+    if (intent.block) {
+      state.enemy.block += intent.block
+    }
   }
 
   if (state.player.health <= 0) {
@@ -547,5 +568,7 @@ function runEnemyTurn(state: CombatState): void {
     return
   }
 
-  state.message = `${state.enemy.label} acted. Assemble the next chain.`
+  state.message = enemyWasStunned
+    ? `${state.enemy.label} is stunned and loses its turn.`
+    : `${state.enemy.label} acted. Assemble the next chain.`
 }

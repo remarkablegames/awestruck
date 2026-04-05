@@ -11,6 +11,7 @@ export interface CardEffect {
   energy?: number
   heal?: number
   ignoreBlock?: boolean
+  stun?: number
   selfDamageIgnoresBlock?: boolean
   selfDamage?: number
 }
