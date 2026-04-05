@@ -570,6 +570,22 @@ export const CARD_DEFINITIONS = {
     sprite: 'stun' as Sprite,
     tags: [],
     type: 'modifier',
+    upgrade: 'stun2',
+  },
+
+  stun2: {
+    accent: [170, 188, 255],
+    cost: 1,
+    description: 'Payload stuns the enemy for 1 turn.',
+    effect: {},
+    id: 'stun2',
+    label: 'STUN+',
+    modifier: {
+      kind: 'stun',
+    },
+    sprite: 'stun' as Sprite,
+    tags: [],
+    type: 'modifier',
   },
 
   thorn1: {
