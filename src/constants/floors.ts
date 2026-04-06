@@ -21,8 +21,8 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
       },
       {
         block: 5,
-        description: 'Harden and gain 5 block.',
-        id: 'harden',
+        description: 'Coil and gain 5 block.',
+        id: 'coil',
         label: 'DEFEND',
       },
       {
@@ -54,26 +54,26 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
     enemyName: 'Soldier',
     enemyIntents: [
       {
-        attack: 7,
-        description: 'Bite for 7 damage.',
+        attack: 6,
+        description: 'Bite for 6 damage.',
         id: 'bite',
         label: 'ATTACK',
       },
       {
-        attack: 8,
-        description: 'Lunge for 8 damage.',
+        attack: 7,
+        description: 'Lunge for 7 damage.',
         id: 'lunge',
         label: 'ATTACK',
       },
       {
-        attack: 6,
-        description: 'Jab for 6 damage.',
+        attack: 5,
+        description: 'Jab for 5 damage.',
         id: 'jab',
         label: 'ATTACK',
       },
       {
-        attack: 9,
-        description: 'Crush for 9 damage.',
+        attack: 8,
+        description: 'Crush for 8 damage.',
         id: 'crush',
         label: 'ATTACK',
       },
@@ -168,12 +168,6 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
         label: 'DEFEND',
       },
       {
-        block: 11,
-        description: 'Brace and gain 11 block.',
-        id: 'brace',
-        label: 'DEFEND',
-      },
-      {
         attack: 5,
         block: 8,
         description: 'Ram through for 5 damage and 8 block.',
@@ -181,9 +175,9 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
         label: 'PRESSURE',
       },
       {
-        block: 7,
-        description: 'Coil up and gain 7 block.',
-        id: 'coil',
+        block: 11,
+        description: 'Brace and gain 11 block.',
+        id: 'brace',
         label: 'DEFEND',
       },
       {

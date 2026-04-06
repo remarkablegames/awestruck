@@ -7,7 +7,7 @@ export const RELIC_DEFINITIONS: Record<Relic, RelicDefinition> = {
     label: 'AEGIS',
   },
   guardian: {
-    description: 'Heal 3 and gain 3 block.',
+    description: 'Heal 1 and gain 3 block.',
     id: 'guardian',
     label: 'GUARDIAN',
   },

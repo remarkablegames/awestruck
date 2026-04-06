@@ -159,7 +159,7 @@ export function startPlayerTurn(state: CombatState): void {
   if (state.relics.includes('guardian')) {
     state.player.health = Math.min(
       state.player.maxHealth,
-      state.player.health + 3,
+      state.player.health + 1,
     )
     state.player.block += 3
   }
