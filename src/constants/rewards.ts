@@ -33,7 +33,7 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
 
   // floor 4
   {
-    cards: ['shield2', 'surge2', 'thorn2', 'safe1', 'focus2'],
+    cards: ['shield2', 'surge2', 'thorn2', 'safe2', 'focus2'],
     relics: ['aegis', 'guardian', 'overdrive'],
     stats: [FULL_HEAL, MAX_HP],
     upgrade: true,
