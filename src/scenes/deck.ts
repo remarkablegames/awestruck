@@ -3,11 +3,11 @@ import { addBackdrop, addDeck, getBackdropPalette } from '../gameobjects'
 import { getStateManager } from '../state'
 
 const SCROLL_SPEED = 72
-type DeckMode = 'remove' | 'view'
 
-scene(SCENE.DECK, (mode: DeckMode = 'view') => {
+scene(SCENE.DECK, (mode: 'view' | 'remove' = 'view') => {
   const stateManager = getStateManager()
   const state = stateManager.getState()
+  const isRewardPhase = state.status === 'reward'
   const isDeckModeRemove = mode === 'remove'
 
   let deckScrollOffset = 0
@@ -43,7 +43,7 @@ scene(SCENE.DECK, (mode: DeckMode = 'view') => {
     cards: state.deckList,
     onBack: () => {
       play(SOUND.BACK)
-      go(isDeckModeRemove ? SCENE.REWARD : SCENE.GAME)
+      go(isDeckModeRemove || isRewardPhase ? SCENE.REWARD : SCENE.GAME)
     },
   })
 
