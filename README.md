@@ -7,7 +7,7 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/awestruck)](https://github.com/remarkablegames/awestruck/releases)
 [![build](https://github.com/remarkablegames/awestruck/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/awestruck/actions/workflows/build.yml)
 
-✨ Awestruck is a deckbuilding card game where you chain words together to create combos.
+✨ Awestruck is a deckbuilding card game where you synergize words.
 
 Play the game on:
 
