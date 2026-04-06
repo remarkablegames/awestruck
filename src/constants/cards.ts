@@ -105,22 +105,6 @@ export const CARD_DEFINITIONS = {
     sprite: 'charge' as Sprite,
     tags: [],
     type: 'payload',
-    upgrade: 'charge2',
-  },
-
-  charge2: {
-    accent: [255, 238, 142],
-    cost: 0,
-    description: 'Gain 2 energy and draw 1.',
-    effect: {
-      draw: 1,
-      energy: 2,
-    },
-    id: 'charge2',
-    label: 'CHARGE+',
-    sprite: 'charge' as Sprite,
-    tags: [],
-    type: 'payload',
   },
 
   double1: {
@@ -320,22 +304,6 @@ export const CARD_DEFINITIONS = {
     sprite: 'pierce',
     tags: [],
     type: 'modifier',
-    upgrade: 'pierce2',
-  },
-
-  pierce2: {
-    accent: [198, 217, 255],
-    cost: 1,
-    description: 'Payload damage bypasses block.',
-    effect: {},
-    id: 'pierce2',
-    label: 'PIERCE+',
-    modifier: {
-      kind: 'pierce',
-    },
-    sprite: 'pierce',
-    tags: [],
-    type: 'modifier',
   },
 
   quick1: {
@@ -384,23 +352,6 @@ export const CARD_DEFINITIONS = {
     },
     id: 'rage1',
     label: 'RAGE',
-    sprite: 'rage',
-    tags: [],
-    type: 'payload',
-    upgrade: 'rage2',
-  },
-
-  rage2: {
-    accent: [255, 122, 122],
-    cost: 0,
-    description: 'Gain 2 energy. Lose 3 health.',
-    effect: {
-      energy: 2,
-      selfDamage: 3,
-      selfDamageIgnoresBlock: true,
-    },
-    id: 'rage2',
-    label: 'RAGE+',
     sprite: 'rage',
     tags: [],
     type: 'payload',
@@ -564,22 +515,6 @@ export const CARD_DEFINITIONS = {
     effect: {},
     id: 'stun1',
     label: 'STUN',
-    modifier: {
-      kind: 'stun',
-    },
-    sprite: 'stun' as Sprite,
-    tags: [],
-    type: 'modifier',
-    upgrade: 'stun2',
-  },
-
-  stun2: {
-    accent: [170, 188, 255],
-    cost: 1,
-    description: 'Payload stuns the enemy for 1 turn.',
-    effect: {},
-    id: 'stun2',
-    label: 'STUN+',
     modifier: {
       kind: 'stun',
     },

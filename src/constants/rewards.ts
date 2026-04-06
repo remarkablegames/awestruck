@@ -14,20 +14,20 @@ interface RewardDefinition {
 export const REWARD_DEFINITIONS: RewardDefinition[] = [
   // floor 1
   {
-    cards: ['sear1', 'ward1', 'wilt1', 'leech1', 'heat1', 'stun1'],
+    cards: ['sear1', 'ward1', 'wilt1', 'leech1', 'heat1'],
     stats: [FULL_HEAL, MAX_HP],
   },
 
   // floor 2
   {
-    cards: ['bastion1', 'heavy1', 'double1', 'pierce1', 'stun1'],
+    cards: ['bastion1', 'heavy1', 'double1', 'pierce1', 'echo1'],
     stats: [FULL_HEAL, MAX_HP],
     upgrade: true,
   },
 
   // floor 3
   {
-    cards: ['rage1', 'risky1', 'echo1', 'charge1', 'focus1'],
+    cards: ['rage1', 'risky1', 'stun1', 'charge1', 'focus1'],
     stats: [FULL_HEAL, MAX_HP],
   },
 
@@ -54,7 +54,7 @@ export const REWARD_DEFINITIONS: RewardDefinition[] = [
 
   // floor 7
   {
-    cards: ['charge2', 'echo2', 'rage2', 'risky2', 'surge2'],
+    cards: ['echo2', 'risky2', 'surge2', 'focus2', 'thorn2'],
     stats: [FULL_HEAL, MAX_HP],
   },
 ]
