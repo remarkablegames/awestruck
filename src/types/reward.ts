@@ -5,4 +5,4 @@ export interface HpRewardOption {
   label: string
 }
 
-export type RewardPhase = 'card' | 'hp' | 'relic' | 'upgrade'
+export type RewardPhase = 'card' | 'hp' | 'relic' | 'remove' | 'upgrade'

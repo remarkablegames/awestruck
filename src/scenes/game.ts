@@ -241,7 +241,7 @@ scene(SCENE.GAME, () => {
 
   const renderHand = (state: CombatState) => {
     const handObjects = addHand({
-      onCardClick: (selectedCard) => {
+      onClick: (selectedCard) => {
         stateManager.commitChainCard(selectedCard.instanceId)
       },
       scrollOffset: handScrollOffset,

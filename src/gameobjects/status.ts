@@ -132,7 +132,7 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
     label: 'Deck',
     onClick: () => {
       play(SOUND.CLICK)
-      go(SCENE.DECK)
+      go(SCENE.DECK, 'view')
     },
     parent: status,
     width: DECK_BUTTON_WIDTH,

@@ -3,9 +3,13 @@ import { addBackdrop, addDeck, getBackdropPalette } from '../gameobjects'
 import { getStateManager } from '../state'
 
 const SCROLL_SPEED = 72
+type DeckMode = 'remove' | 'view'
 
-scene(SCENE.DECK, () => {
-  const state = getStateManager().getState()
+scene(SCENE.DECK, (mode: DeckMode = 'view') => {
+  const stateManager = getStateManager()
+  const state = stateManager.getState()
+  const isDeckModeRemove = mode === 'remove'
+
   let deckScrollOffset = 0
   let deckContent: ReturnType<typeof addDeck>['content'] | null = null
   let maxScrollOffset = 0
@@ -25,10 +29,21 @@ scene(SCENE.DECK, () => {
   ])
 
   const deck = addDeck({
+    title: isDeckModeRemove ? 'REMOVE 1 CARD' : 'DECK',
+    helperText: isDeckModeRemove
+      ? 'Click a card to remove it permanently'
+      : undefined,
+    onClick: isDeckModeRemove
+      ? (card) => {
+          play(SOUND.DROP)
+          stateManager.chooseRemoveReward(card.instanceId)
+          go(stateManager.getSnapshot().scene)
+        }
+      : undefined,
     cards: state.deckList,
     onBack: () => {
       play(SOUND.BACK)
-      go(SCENE.GAME)
+      go(isDeckModeRemove ? SCENE.REWARD : SCENE.GAME)
     },
   })
 

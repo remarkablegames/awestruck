@@ -95,6 +95,7 @@ export interface CombatState {
   player: PlayerState
   relicRewardOptions: Relic[]
   relics: Relic[]
+  removeRewardOptions: CardInstance[]
   rewardPhase: RewardPhase
   upgradeRewardOptions: CardInstance[]
   status: 'lost' | 'playerTurn' | 'reward' | 'won'

@@ -3,6 +3,7 @@ import {
   chooseCardReward,
   chooseHpReward,
   chooseRelicReward,
+  chooseRemoveReward,
   chooseUpgradeReward,
   commitChainCard,
   confirmBuilder,
@@ -11,6 +12,7 @@ import {
   skipCardReward,
   skipHpReward,
   skipRelicReward,
+  skipRemoveReward,
   skipUpgradeReward,
 } from '../combat'
 import { getDefaultRunConfig, type RunConfig } from '../config'
@@ -209,6 +211,10 @@ export class StateManager {
     this.runAction(chooseRelicReward, relicId)
   }
 
+  chooseRemoveReward(instanceId: string): void {
+    this.runAction(chooseRemoveReward, instanceId)
+  }
+
   skipRelicReward(): void {
     this.runAction(skipRelicReward)
   }
@@ -219,6 +225,10 @@ export class StateManager {
 
   skipUpgradeReward(): void {
     this.runAction(skipUpgradeReward)
+  }
+
+  skipRemoveReward(): void {
+    this.runAction(skipRemoveReward)
   }
 
   private runAction<TArgs extends unknown[]>(

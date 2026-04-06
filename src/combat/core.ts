@@ -61,6 +61,7 @@ export function createFloorState({
     },
     relicRewardOptions: [],
     relics: [...relics],
+    removeRewardOptions: [],
     rewardPhase: 'card',
     status: 'playerTurn',
     turn: 1,
@@ -127,6 +128,7 @@ export function replaceState(target: CombatState, source: CombatState): void {
   target.player = source.player
   target.relicRewardOptions = source.relicRewardOptions
   target.relics = source.relics
+  target.removeRewardOptions = source.removeRewardOptions
   target.rewardPhase = source.rewardPhase
   target.status = source.status
   target.turn = source.turn

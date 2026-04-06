@@ -4,7 +4,7 @@ import {
   getRelicRewardDefinitions,
   getUpgradeRewardDefinitions,
 } from '../combat'
-import { CARD, COLOR, POSITION, REWARDS, SCENE, SOUND } from '../constants'
+import { COLOR, POSITION, REWARDS, SCENE, SOUND } from '../constants'
 import {
   addBackdrop,
   addButton,
@@ -27,13 +27,18 @@ const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
 const REWARD_CARD_GAP = 170
 
+const TEXT_WIDTH = 560
+
+const SKIP_BUTTON_WIDTH = 150
+const SKIP_BUTTON_HEIGHT = 50
+
 const REWARD_TITLE_Y_OFFSET = -225
 const REWARD_SUBTITLE_Y_OFFSET = -160
 const REWARD_CARD_Y_OFFSET = 25
 const REWARD_SKIP_BUTTON_Y_OFFSET = 210
 
-const HP_REWARD_BUTTON_WIDTH = CARD.WIDTH + 20
-const HP_REWARD_BUTTON_HEIGHT = CARD.HEIGHT - 80
+const HP_REWARD_BUTTON_WIDTH = 200
+const HP_REWARD_BUTTON_HEIGHT = 200
 
 const RELIC_BUTTON_WIDTH = 180
 const RELIC_BUTTON_HEIGHT = 180
@@ -89,6 +94,10 @@ scene(SCENE.REWARD, () => {
       renderRelicRewardStep(state)
       return
 
+    case 'remove':
+      renderRemoveRewardStep()
+      return
+
     case 'card':
       renderCardRewardStep(state)
       return
@@ -105,7 +114,7 @@ scene(SCENE.REWARD, () => {
       text('Improve Your Vitality', {
         align: 'center',
         size: 38,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(248, 232, 181),
       pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
@@ -116,7 +125,7 @@ scene(SCENE.REWARD, () => {
       text('Recover to full health or increase your maximum HP.', {
         align: 'center',
         size: 24,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(222, 229, 248),
       pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET + 10),
@@ -142,8 +151,7 @@ scene(SCENE.REWARD, () => {
       addButton({
         buttonComps: [outline(4, rgb(196, 216, 255))],
         fillColor:
-          reward.type === 'fullHeal' ? [110, 168, 101] : COLOR.BUTTON_PRIMARY,
-        height: HP_REWARD_BUTTON_HEIGHT,
+          reward.type === 'fullHeal' ? [110, 168, 101] : COLOR.BUTTON_SECONDARY,
         label: reward.label,
         labelSize: 26,
         onClick: () => {
@@ -152,21 +160,22 @@ scene(SCENE.REWARD, () => {
           navigateToCurrentScene()
         },
         width: HP_REWARD_BUTTON_WIDTH,
+        height: HP_REWARD_BUTTON_HEIGHT,
         x,
         y,
       })
     })
 
     addButton({
-      fillColor: COLOR.BUTTON_SECONDARY,
-      height: 50,
-      label: 'Skip Reward',
+      fillColor: COLOR.BUTTON_PRIMARY,
+      label: 'Skip',
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipHpReward()
         navigateToCurrentScene()
       },
-      width: 200,
+      width: SKIP_BUTTON_WIDTH,
+      height: SKIP_BUTTON_HEIGHT,
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })
@@ -177,7 +186,7 @@ scene(SCENE.REWARD, () => {
       text('Choose 1 Card', {
         align: 'center',
         size: 38,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(248, 232, 181),
       pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
@@ -188,7 +197,7 @@ scene(SCENE.REWARD, () => {
       text('Add a card to your deck before entering the next floor.', {
         align: 'center',
         size: 24,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(222, 229, 248),
       pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
@@ -213,14 +222,14 @@ scene(SCENE.REWARD, () => {
 
     addButton({
       fillColor: COLOR.BUTTON_PRIMARY,
-      height: 50,
-      label: 'Skip Reward',
+      label: 'Skip',
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipCardReward()
         navigateToCurrentScene()
       },
-      width: 200,
+      width: SKIP_BUTTON_WIDTH,
+      height: SKIP_BUTTON_HEIGHT,
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })
@@ -240,7 +249,7 @@ scene(SCENE.REWARD, () => {
       text('Claim 1 Relic', {
         align: 'center',
         size: 38,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(248, 232, 181),
       pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
@@ -251,7 +260,7 @@ scene(SCENE.REWARD, () => {
       text('Select a relic that triggers at the start of every turn.', {
         align: 'center',
         size: 24,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(222, 229, 248),
       pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
@@ -278,15 +287,15 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: COLOR.BUTTON_SECONDARY,
-      height: 50,
-      label: 'Skip Reward',
+      fillColor: COLOR.BUTTON_PRIMARY,
+      label: 'Skip',
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipRelicReward()
         navigateToCurrentScene()
       },
-      width: 200,
+      width: SKIP_BUTTON_WIDTH,
+      height: SKIP_BUTTON_HEIGHT,
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })
@@ -359,12 +368,64 @@ scene(SCENE.REWARD, () => {
     ])
   }
 
+  function renderRemoveRewardStep() {
+    add([
+      text('Remove 1 Card', {
+        align: 'center',
+        size: 38,
+        width: TEXT_WIDTH,
+      }),
+      color(248, 232, 181),
+      pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    add([
+      text('Choose a card from your deck to remove permanently.', {
+        align: 'center',
+        size: 24,
+        width: TEXT_WIDTH,
+      }),
+      color(222, 229, 248),
+      pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
+      anchor('center'),
+    ])
+
+    addButton({
+      fillColor: COLOR.BUTTON_SECONDARY,
+      label: 'Remove 1 Card',
+      labelSize: 26,
+      onClick: () => {
+        play(SOUND.CLICK)
+        go(SCENE.DECK, 'remove')
+      },
+      width: 250,
+      height: 200,
+      x: centerX,
+      y: centerY + 15,
+    })
+
+    addButton({
+      fillColor: COLOR.BUTTON_PRIMARY,
+      label: 'Skip',
+      onClick: () => {
+        play(SOUND.BACK)
+        stateManager.skipRemoveReward()
+        navigateToCurrentScene()
+      },
+      width: SKIP_BUTTON_WIDTH,
+      height: SKIP_BUTTON_HEIGHT,
+      x: centerX,
+      y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
+    })
+  }
+
   function renderUpgradeRewardStep(currentState: CombatState) {
     add([
       text('Upgrade 1 Card', {
         align: 'center',
         size: 38,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(248, 232, 181),
       pos(centerX, centerY + REWARD_TITLE_Y_OFFSET),
@@ -375,7 +436,7 @@ scene(SCENE.REWARD, () => {
       text('Improve a card from your deck before choosing a new reward card.', {
         align: 'center',
         size: 24,
-        width: 560,
+        width: TEXT_WIDTH,
       }),
       color(222, 229, 248),
       pos(centerX, centerY + REWARD_SUBTITLE_Y_OFFSET),
@@ -399,15 +460,15 @@ scene(SCENE.REWARD, () => {
     })
 
     addButton({
-      fillColor: COLOR.BUTTON_SECONDARY,
-      height: 50,
-      label: 'Skip Reward',
+      fillColor: COLOR.BUTTON_PRIMARY,
+      label: 'Skip',
       onClick: () => {
         play(SOUND.BACK)
         stateManager.skipUpgradeReward()
         navigateToCurrentScene()
       },
-      width: 200,
+      width: SKIP_BUTTON_WIDTH,
+      height: SKIP_BUTTON_HEIGHT,
       x: centerX,
       y: centerY + REWARD_SKIP_BUTTON_Y_OFFSET,
     })

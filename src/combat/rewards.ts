@@ -82,7 +82,7 @@ export function chooseUpgradeReward(
   }
 
   deckCard.cardId = upgradeCardId
-  advanceToCardReward(state)
+  advanceFromUpgradeReward(state)
 }
 
 export function skipUpgradeReward(state: CombatState): void {
@@ -90,7 +90,48 @@ export function skipUpgradeReward(state: CombatState): void {
     return
   }
 
+  advanceFromUpgradeReward(state)
+}
+
+export function chooseRemoveReward(
+  state: CombatState,
+  instanceId: string,
+): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'remove') {
+    return
+  }
+
+  const option = state.removeRewardOptions.find(
+    (card) => card.instanceId === instanceId,
+  )
+
+  if (!option) {
+    return
+  }
+
+  const cardIndex = state.deckList.findIndex(
+    (card) => card.instanceId === instanceId,
+  )
+
+  if (cardIndex < 0) {
+    advanceToCardReward(state)
+    return
+  }
+
+  const [removedCard] = state.deckList.splice(cardIndex, 1)
   advanceToCardReward(state)
+
+  state.message = `${CARDS.CARD_DEFINITIONS[removedCard.cardId].label} is removed from the deck.`
+}
+
+export function skipRemoveReward(state: CombatState): void {
+  if (state.status !== 'reward' || state.rewardPhase !== 'remove') {
+    return
+  }
+
+  advanceToCardReward(state)
+
+  state.message = 'You keep your deck unchanged.'
 }
 
 export function chooseRelicReward(state: CombatState, relicId: Relic): void {
@@ -156,6 +197,16 @@ export function getRelicRewardDefinitions(
   )
 }
 
+export function getRemoveRewardDefinitions(state: CombatState): {
+  definition: CardDefinition
+  instanceId: string
+}[] {
+  return state.removeRewardOptions.map((card) => ({
+    definition: getCardDefinition(card.cardId),
+    instanceId: card.instanceId,
+  }))
+}
+
 export function getUpgradeRewardDefinitions(state: CombatState): {
   definition: CardDefinition
   instanceId: string
@@ -183,6 +234,7 @@ export function initializeRewardState(state: CombatState): void {
   state.hpRewardOptions = createHpRewardOptions(state.floor)
   state.cardRewardOptions = []
   state.relicRewardOptions = []
+  state.removeRewardOptions = []
   state.upgradeRewardOptions = []
   state.message = 'Choose a vitality reward before improving a card.'
 }
@@ -233,12 +285,31 @@ function advanceFromHpReward(state: CombatState): void {
     return
   }
 
+  if (shouldOfferRemoveReward(state.floor)) {
+    advanceToRemoveReward(state)
+    return
+  }
+
   advanceToCardReward(state)
 }
 
 function advanceFromRelicReward(state: CombatState): void {
   if (shouldOfferUpgradeReward(state.floor)) {
     advanceToUpgradeReward(state)
+    return
+  }
+
+  if (shouldOfferRemoveReward(state.floor)) {
+    advanceToRemoveReward(state)
+    return
+  }
+
+  advanceToCardReward(state)
+}
+
+function advanceFromUpgradeReward(state: CombatState): void {
+  if (shouldOfferRemoveReward(state.floor)) {
+    advanceToRemoveReward(state)
     return
   }
 
@@ -251,6 +322,7 @@ function advanceToRelicReward(state: CombatState): void {
   state.relicRewardOptions = createRelicRewardOptions(state.floor).filter(
     (relicId) => !state.relics.includes(relicId),
   )
+  state.removeRewardOptions = []
   state.upgradeRewardOptions = []
 
   if (!state.relicRewardOptions.length) {
@@ -265,20 +337,37 @@ function advanceToUpgradeReward(state: CombatState): void {
   state.rewardPhase = 'upgrade'
   state.hpRewardOptions = []
   state.relicRewardOptions = []
+  state.removeRewardOptions = []
   state.upgradeRewardOptions = drawUpgradeRewardOptions(state.deckList)
 
   if (!state.upgradeRewardOptions.length) {
-    advanceToCardReward(state)
+    advanceFromUpgradeReward(state)
     return
   }
 
   state.message = 'Choose a card from your deck to upgrade.'
 }
 
+function advanceToRemoveReward(state: CombatState): void {
+  state.rewardPhase = 'remove'
+  state.hpRewardOptions = []
+  state.relicRewardOptions = []
+  state.removeRewardOptions = [...state.deckList]
+  state.upgradeRewardOptions = []
+
+  if (!state.removeRewardOptions.length) {
+    advanceToCardReward(state)
+    return
+  }
+
+  state.message = 'Browse your deck and remove a card.'
+}
+
 function advanceToCardReward(state: CombatState): void {
   state.rewardPhase = 'card'
   state.hpRewardOptions = []
   state.relicRewardOptions = []
+  state.removeRewardOptions = []
   state.upgradeRewardOptions = []
   state.cardRewardOptions = drawRewardOptions(state.floor)
   state.message = 'Choose a new card reward before entering the next floor.'
@@ -302,6 +391,10 @@ function advanceFromReward(state: CombatState): void {
 
 function shouldOfferUpgradeReward(floor: number): boolean {
   return REWARDS.REWARD_DEFINITIONS[floor - 1]?.upgrade === true
+}
+
+function shouldOfferRemoveReward(floor: number): boolean {
+  return floor % 3 === 0
 }
 
 function setCardRewardArrivalMessage(state: CombatState, cardId: Card): void {

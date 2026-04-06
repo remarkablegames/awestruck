@@ -5,35 +5,15 @@ import { CARD, HAND } from '../constants'
 import type { CardInstance, CombatState } from '../types'
 import { addCard } from './card'
 
-interface AddHandOptions {
-  onCardClick: (card: CardInstance) => void
-  scrollOffset?: number
-  state: CombatState
-}
-
-interface HandLayoutCard {
-  angle: number
-  cardIndex: number
-  interactiveLeft: number
-  interactiveWidth: number
-  scale: number
-  x: number
-  y: number
-  z: number
-}
-
-export interface HandRenderResult {
-  canScrollLeft: boolean
-  canScrollRight: boolean
-  maxScrollOffset: number
-  objects: GameObj[]
-}
-
 export function addHand({
-  onCardClick,
+  onClick,
   scrollOffset = 0,
   state,
-}: AddHandOptions): HandRenderResult {
+}: {
+  onClick: (card: CardInstance) => void
+  scrollOffset?: number
+  state: CombatState
+}) {
   const objects: GameObj[] = []
   const hand = add([])
   objects.push(hand)
@@ -51,7 +31,7 @@ export function addHand({
       interactiveLeft: cardLayout.interactiveLeft,
       interactiveWidth: cardLayout.interactiveWidth,
       onClick: () => {
-        onCardClick(card)
+        onClick(card)
       },
       parent: hand,
       scale: cardLayout.scale,
@@ -69,6 +49,17 @@ export function addHand({
     maxScrollOffset: layout.maxScrollOffset,
     objects,
   }
+}
+
+interface HandLayoutCard {
+  angle: number
+  cardIndex: number
+  interactiveLeft: number
+  interactiveWidth: number
+  scale: number
+  x: number
+  y: number
+  z: number
 }
 
 function getHandLayout(cardCount: number, scrollOffset: number) {
