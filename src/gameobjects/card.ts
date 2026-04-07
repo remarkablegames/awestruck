@@ -63,11 +63,11 @@ export function addCard({
   const roleLabel = toRoleLabel(definition.type)
 
   if (!disabled) {
-    const playTick = sound.createTickPlayer()
+    const playHover = sound.createHoverPlayer()
     const basePos = vec2(x, y)
 
     panel.onHover(() => {
-      playTick()
+      playHover()
       root.scaleTo(initialScale * HAND.HOVER_SCALE)
       root.pos = basePos.add(0, -HAND.HOVER_LIFT)
       root.z = LAYER.CARD + 1

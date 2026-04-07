@@ -1,18 +1,18 @@
 import { SOUND } from '../constants'
 
-const UI_TICK_COOLDOWN = 0.12 // seconds
+const HOVER_COOLDOWN = 0.12 // seconds
 
-export function createTickPlayer(cooldown = UI_TICK_COOLDOWN) {
-  let lastTickAt = -cooldown
+export function createHoverPlayer(cooldown = HOVER_COOLDOWN) {
+  let lastHoverAt = -cooldown
 
-  return function playTick() {
+  return function playHover() {
     const now = time()
 
-    if (now - lastTickAt < cooldown) {
+    if (now - lastHoverAt < cooldown) {
       return
     }
 
-    play(SOUND.TICK)
-    lastTickAt = now
+    play(SOUND.HOVER)
+    lastHoverAt = now
   }
 }

@@ -49,10 +49,10 @@ export function addButton({
   ]) as GameObj<AreaComp | ColorComp | PosComp | ZComp>
 
   if (!disabled) {
-    const playTick = sound.createTickPlayer()
+    const playHover = sound.createHoverPlayer()
 
     button.onHover(() => {
-      playTick()
+      playHover()
       setCursor('pointer')
       button.color = rgb(
         Math.min(fillColor[0] + 18, 255),

@@ -48,13 +48,13 @@ scene(SCENE.DECK, (mode: 'view' | 'remove' = 'view') => {
     },
   })
 
-  const playTick = sound.createTickPlayer()
+  const playHover = sound.createHoverPlayer()
   deckContent = deck.content
   maxScrollOffset = deck.maxScrollOffset
   syncDeckScroll()
 
   function syncDeckScroll() {
-    playTick()
+    playHover()
     deckScrollOffset = Math.max(0, Math.min(deckScrollOffset, maxScrollOffset))
 
     if (deckContent) {
