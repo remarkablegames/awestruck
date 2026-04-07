@@ -85,6 +85,7 @@ scene(SCENE.GAME, () => {
         color(38, 29, 44),
         outline(4, rgb(195, 141, 138)),
         pos(panelX, panelY),
+        opacity(0.5),
       ]),
     )
 
