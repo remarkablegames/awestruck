@@ -162,12 +162,6 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
     enemyName: 'Hatchling',
     enemyIntents: [
       {
-        block: 9,
-        description: 'Harden and gain 9 block.',
-        id: 'harden',
-        label: 'DEFEND',
-      },
-      {
         attack: 8,
         block: 8,
         description: 'Ram through for 8 damage and 8 block.',
@@ -185,6 +179,12 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
         description: 'Unleash a crushing slam for 18 damage.',
         id: 'crushing-slam',
         label: 'ATTACK',
+      },
+      {
+        block: 10,
+        description: 'Harden and gain 10 block.',
+        id: 'harden',
+        label: 'DEFEND',
       },
     ],
     enemyMaxHealth: 42,
