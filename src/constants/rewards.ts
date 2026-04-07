@@ -2,7 +2,7 @@ import type { Card, HpRewardType, Relic } from '../types'
 
 export const FULL_HEAL = 'fullHeal'
 export const MAX_HP = 'maxHp'
-export const MAX_HP_INCREASE = 5
+export const MAX_HP_INCREASE = 3
 
 interface RewardDefinition {
   cards: Card[]

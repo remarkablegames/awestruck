@@ -14,11 +14,6 @@ export const FLOOR_DEFINITIONS: FloorDefinition[] = [
     enemyName: 'Hatchling',
     enemyIntents: [
       {
-        description: 'The enemy is thinking...',
-        id: 'thinking',
-        label: 'THINK',
-      },
-      {
         attack: 5,
         description: 'Tackle for 5 damage.',
         id: 'tackle',
