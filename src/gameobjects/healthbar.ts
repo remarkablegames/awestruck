@@ -56,6 +56,10 @@ export function addHealthBar({
   ])
 
   const sync = (nextCurrent: number, nextMax: number) => {
+    // HACK: fix visual bug where health protrudes bar
+    if (nextCurrent === 1) {
+      nextCurrent = 1.5
+    }
     const safeMax = Math.max(1, nextMax)
     const clampedCurrent = Math.max(0, Math.min(nextCurrent, safeMax))
     const fillRatio = clampedCurrent / safeMax
