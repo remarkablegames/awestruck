@@ -1,6 +1,7 @@
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addDeck, getBackdropPalette } from '../gameobjects'
 import { getStateManager } from '../state'
+import { sound } from '../utils'
 
 const SCROLL_SPEED = 72
 
@@ -47,11 +48,13 @@ scene(SCENE.DECK, (mode: 'view' | 'remove' = 'view') => {
     },
   })
 
+  const playTick = sound.createTickPlayer()
   deckContent = deck.content
   maxScrollOffset = deck.maxScrollOffset
   syncDeckScroll()
 
   function syncDeckScroll() {
+    playTick()
     deckScrollOffset = Math.max(0, Math.min(deckScrollOffset, maxScrollOffset))
 
     if (deckContent) {
