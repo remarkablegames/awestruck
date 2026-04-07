@@ -30,6 +30,7 @@ export function addEnemy(enemy: EnemyState) {
     color(58, 42, 61),
     outline(2, rgb(221, 178, 160)),
     pos(-FRAME_PADDING),
+    opacity(0.5),
   ])
 
   const flash = addFlash({
