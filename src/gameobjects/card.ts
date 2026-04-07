@@ -11,9 +11,6 @@ const TITLE_Y = -CARD.HEIGHT / 2 + 30
 const IMAGE_FRAME_WIDTH = CARD.WIDTH - 14
 const IMAGE_FRAME_HEIGHT = 82
 const IMAGE_FRAME_Y = -CARD.HEIGHT / 2 + 88
-const ROLE_PILL_WIDTH = 88
-const ROLE_PILL_HEIGHT = 20
-const ROLE_PILL_Y = -CARD.HEIGHT / 2 + 129
 const DESCRIPTION_Y = -CARD.HEIGHT / 2 + 148
 
 interface CardOptions {
@@ -171,12 +168,9 @@ export function addCard({
   })
 
   addPill({
-    height: ROLE_PILL_HEIGHT,
     label: roleLabel,
     parent: root,
-    width: ROLE_PILL_WIDTH,
-    x: 0,
-    y: ROLE_PILL_Y,
+    y: 5,
   })
 
   root.add([

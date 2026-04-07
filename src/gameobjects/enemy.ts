@@ -4,8 +4,8 @@ import { LAYER, SOUND } from '../constants'
 import type { EnemyIntent, EnemyState } from '../types'
 import { addFlash, addHealthBar, addPill, addShield } from '.'
 
-const BOX_WIDTH = 300
-const BOX_HEIGHT = 240
+const BOX_WIDTH = 350
+const BOX_HEIGHT = 276
 const BOX_Y = 32
 const FRAME_PADDING = 10
 const HIT_SHAKE_DISTANCE = 16
@@ -14,8 +14,8 @@ const DAMAGE_DURATION = 0.5
 const HEALTH_BAR_WIDTH = BOX_WIDTH + FRAME_PADDING * 2
 const HEALTH_BAR_HEIGHT = 30
 const HEALTH_BAR_Y = BOX_HEIGHT + 24
-const INTENT_PILL_WIDTH = 200
-const INTENT_PILL_HEIGHT = 24
+const INTENT_PILL_WIDTH = 220
+const INTENT_PILL_HEIGHT = 26
 const INTENT_PILL_Y = HEALTH_BAR_Y - 18
 const SHIELD_X = BOX_WIDTH + FRAME_PADDING
 const SHIELD_Y = 6
@@ -53,12 +53,13 @@ export function addEnemy(enemy: EnemyState) {
   })
 
   const intentPill = addPill({
-    height: INTENT_PILL_HEIGHT,
     label: getIntentLabel(enemy),
-    parent: root,
+    size: 16,
     width: INTENT_PILL_WIDTH,
+    height: INTENT_PILL_HEIGHT,
     x: BOX_WIDTH / 2,
     y: INTENT_PILL_Y,
+    parent: root,
   })
 
   const shield = addShield({
@@ -197,7 +198,7 @@ export function addEnemy(enemy: EnemyState) {
 
     sync(nextEnemy: EnemyState) {
       healthBar.sync(nextEnemy.health, nextEnemy.maxHealth)
-      intentPill.labelText.text = getIntentLabel(nextEnemy)
+      intentPill.sync(getIntentLabel(nextEnemy))
       shield.root.hidden = nextEnemy.block <= 0
       shield.valueText.text = String(nextEnemy.block)
 
