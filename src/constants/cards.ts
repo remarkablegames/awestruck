@@ -541,9 +541,9 @@ export const CARD_DEFINITIONS = {
   thorn2: {
     accent: [255, 163, 102],
     cost: 1,
-    description: 'Deal 8 damage.',
+    description: 'Deal 9 damage.',
     effect: {
-      damage: 8,
+      damage: 9,
     },
     id: 'thorn2',
     label: 'THORN+',

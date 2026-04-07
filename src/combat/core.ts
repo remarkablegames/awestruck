@@ -161,7 +161,7 @@ export function startPlayerTurn(state: CombatState): void {
       state.player.maxHealth,
       state.player.health + 1,
     )
-    state.player.block += 3
+    state.player.block += 2
   }
 
   state.player.energy = state.player.maxEnergy + getTurnStartEnergyBonus(state)
