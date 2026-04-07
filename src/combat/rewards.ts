@@ -236,7 +236,7 @@ export function initializeRewardState(state: CombatState): void {
   state.relicRewardOptions = []
   state.removeRewardOptions = []
   state.upgradeRewardOptions = []
-  state.message = 'Choose a vitality reward before improving a card.'
+  state.message = 'Choose a vitality reward.'
 }
 
 function drawRewardOptions(floor: number): Card[] {
@@ -330,7 +330,7 @@ function advanceToRelicReward(state: CombatState): void {
     return
   }
 
-  state.message = 'Choose a relic before improving a card.'
+  state.message = 'Choose a relic reward.'
 }
 
 function advanceToUpgradeReward(state: CombatState): void {
@@ -370,7 +370,7 @@ function advanceToCardReward(state: CombatState): void {
   state.removeRewardOptions = []
   state.upgradeRewardOptions = []
   state.cardRewardOptions = drawRewardOptions(state.floor)
-  state.message = 'Choose a new card reward before entering the next floor.'
+  state.message = 'Choose a card to add to your deck.'
 }
 
 function advanceFromReward(state: CombatState): void {

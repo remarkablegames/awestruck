@@ -203,7 +203,8 @@ function createEnemyState(floor: number): EnemyState {
 
 function getTurnStartDrawCount(state: CombatState): number {
   const reduction = state.relics.includes('overdrive') ? 1 : 0
-  return Math.max(0, state.handSize - reduction)
+  const bonus = state.relics.includes('aegis') ? 1 : 0
+  return Math.max(0, state.handSize - reduction + bonus)
 }
 
 function getTurnStartEnergyBonus(state: CombatState): number {

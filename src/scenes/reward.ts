@@ -16,6 +16,7 @@ import {
 import { getStateManager } from '../state'
 import type {
   Card,
+  Color,
   CombatState,
   HpRewardOption,
   HpRewardType,
@@ -25,7 +26,7 @@ import type {
 
 const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
-const REWARD_CARD_GAP = 170
+const REWARD_CARD_GAP = 190
 
 const TEXT_WIDTH = 560
 
@@ -45,6 +46,12 @@ const RELIC_BUTTON_HEIGHT = 180
 const RELIC_BUTTON_SPACING = 16
 const RELIC_BUTTON_TITLE_OFFSET_Y = -50
 const RELIC_BUTTON_DESCRIPTION_OFFSET_Y = 24
+
+const REWARD_COLOR: Record<string, Color> = {
+  overdrive: [176, 93, 93],
+  aegis: [92, 124, 192],
+  guardian: [94, 146, 112],
+}
 
 scene(SCENE.REWARD, () => {
   const stateManager = getStateManager()
@@ -122,7 +129,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Recover to full health or increase your maximum HP.', {
+      text('Heal to full health or\nincrease your maximum HP.', {
         align: 'center',
         size: 24,
         width: TEXT_WIDTH,
@@ -194,7 +201,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Add a card to your deck before entering the next floor.', {
+      text('Add a card to your deck.', {
         align: 'center',
         size: 24,
         width: TEXT_WIDTH,
@@ -257,7 +264,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Select a relic that triggers at the start of every turn.', {
+      text('Select a relic that triggers\nat the start of each turn.', {
         align: 'center',
         size: 24,
         width: TEXT_WIDTH,
@@ -326,12 +333,7 @@ scene(SCENE.REWARD, () => {
   }) {
     addButton({
       buttonComps: [outline(4, rgb(255, 186, 159))],
-      fillColor:
-        relic.id === 'overdrive'
-          ? [176, 93, 93]
-          : relic.id === 'aegis'
-            ? [92, 124, 192]
-            : [94, 146, 112],
+      fillColor: REWARD_COLOR[relic.id],
       height: RELIC_BUTTON_HEIGHT,
       label: '',
       labelSize: 26,
@@ -433,7 +435,7 @@ scene(SCENE.REWARD, () => {
     ])
 
     add([
-      text('Improve a card from your deck before choosing a new reward card.', {
+      text('Enhance a card from your deck.', {
         align: 'center',
         size: 24,
         width: TEXT_WIDTH,
