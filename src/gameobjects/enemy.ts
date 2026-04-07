@@ -91,11 +91,13 @@ export function addEnemy(enemy: EnemyState) {
     spriteObject?.destroy()
 
     getSprite(nextSpriteName)?.then((data) => {
+      spriteName = nextSpriteName
       const spriteWidth = data.width
       const spriteHeight = data.height
       const scale = Math.min(BOX_WIDTH / spriteWidth, BOX_HEIGHT / spriteHeight)
       const displayWidth = spriteWidth * scale
       const displayHeight = spriteHeight * scale
+      const spriteObjectPosY = (BOX_HEIGHT - displayHeight) / 2
 
       spriteObject = root.add([
         sprite(nextSpriteName, {
@@ -103,10 +105,21 @@ export function addEnemy(enemy: EnemyState) {
           width: displayWidth,
         }),
         color(255, 255, 255),
-        pos((BOX_WIDTH - displayWidth) / 2, (BOX_HEIGHT - displayHeight) / 2),
+        pos((BOX_WIDTH - displayWidth) / 2, spriteObjectPosY),
       ])
 
-      spriteName = nextSpriteName
+      let time = 0
+      const hoverAmplitude = 8
+      const hoverSpeed = 2
+
+      // up-and-down floating effect
+      spriteObject.onUpdate(() => {
+        if (spriteObject) {
+          time += dt()
+          spriteObject.pos.y =
+            spriteObjectPosY + Math.sin(time * hoverSpeed) * hoverAmplitude
+        }
+      })
     })
   }
 
