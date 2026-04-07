@@ -7,11 +7,11 @@ import { addBadge } from './badge'
 import { addPill } from './pill'
 import { addTooltip } from './tooltip'
 
-const TITLE_Y = -CARD.HEIGHT / 2 + 30
-const IMAGE_FRAME_WIDTH = CARD.WIDTH - 14
-const IMAGE_FRAME_HEIGHT = 82
-const IMAGE_FRAME_Y = -CARD.HEIGHT / 2 + 88
-const DESCRIPTION_Y = -CARD.HEIGHT / 2 + 148
+const TITLE_Y = -CARD.HEIGHT / 2 + 32
+const IMAGE_FRAME_HEIGHT = 92
+const IMAGE_FRAME_Y = -CARD.HEIGHT / 2 + 92
+const PILL_Y = 1
+const DESCRIPTION_Y = -CARD.HEIGHT / 2 + 160
 
 interface CardOptions {
   angle?: number
@@ -152,10 +152,7 @@ export function addCard({
       return
     }
 
-    const scale = Math.min(
-      IMAGE_FRAME_WIDTH / data.width,
-      IMAGE_FRAME_HEIGHT / data.height,
-    )
+    const scale = IMAGE_FRAME_HEIGHT / data.height
 
     root.add([
       sprite(definition.sprite, {
@@ -170,7 +167,7 @@ export function addCard({
   addPill({
     label: roleLabel,
     parent: root,
-    y: 5,
+    y: PILL_Y,
   })
 
   root.add([

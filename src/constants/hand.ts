@@ -1,6 +1,6 @@
 export const BOTTOM_MARGIN = 84
 export const FAN_ARC_HEIGHT = 22
-export const FAN_MAX_CARDS = 12
+export const FAN_MAX_CARDS = 10
 export const HOVER_LIFT = 24
 export const HOVER_SCALE = 1.1
 export const MAX_ROTATION = 7
