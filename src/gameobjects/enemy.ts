@@ -45,12 +45,12 @@ export function addEnemy(enemy: EnemyState) {
 
   const healthBar = addHealthBar({
     current: enemy.health,
-    height: HEALTH_BAR_HEIGHT,
     max: enemy.maxHealth,
-    parent: root,
     width: HEALTH_BAR_WIDTH,
+    height: HEALTH_BAR_HEIGHT,
     x: -FRAME_PADDING,
     y: HEALTH_BAR_Y,
+    parent: root,
   })
 
   const intentPill = addPill({

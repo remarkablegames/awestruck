@@ -50,15 +50,15 @@ export function addStatus({ state, x, y }: StatusOptions): { root: GameObj } {
 
   addHealthBar({
     current: state.player.health,
-    fillColor: PLAYER_HP_BAR_FILL_COLOR,
-    height: PLAYER_HP_BAR_HEIGHT,
     max: state.player.maxHealth,
-    outlineColor: PLAYER_HP_BAR_OUTLINE_COLOR,
-    parent: status,
-    trackColor: PLAYER_HP_BAR_TRACK_COLOR,
     width: PLAYER_HP_BAR_WIDTH,
+    height: PLAYER_HP_BAR_HEIGHT,
     x: 0,
     y: PLAYER_HP_BAR_OFFSET_Y,
+    fillColor: PLAYER_HP_BAR_FILL_COLOR,
+    outlineColor: PLAYER_HP_BAR_OUTLINE_COLOR,
+    trackColor: PLAYER_HP_BAR_TRACK_COLOR,
+    parent: status,
   })
 
   addShield({
