@@ -11,6 +11,7 @@
 
 Play the game on:
 
+- [itch.io](https://remarkablegames.itch.io/awestruck)
 - [remarkablegames](https://remarkablegames.org/awestruck/)
 
 ## Credits
