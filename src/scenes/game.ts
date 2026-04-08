@@ -213,7 +213,7 @@ scene(SCENE.GAME, () => {
       height: 50,
       label: 'Cancel',
       onClick: () => {
-        play(SOUND.BACK)
+        play(SOUND.DESELECT)
         stateManager.cancelBuilder()
       },
       width: 150,

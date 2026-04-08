@@ -1,18 +1,19 @@
 import { SOUND } from '../constants'
+import type { Sound } from '../types'
 
-const HOVER_COOLDOWN = 0.12 // seconds
+export function createPlayer(sound: Sound, cooldown: number) {
+  let lastPlayedAt = 0
 
-export function createHoverPlayer(cooldown = HOVER_COOLDOWN) {
-  let lastHoverAt = -cooldown
-
-  return function playHover() {
+  return function playSound() {
     const now = time()
 
-    if (now - lastHoverAt < cooldown) {
+    if (now - lastPlayedAt < cooldown) {
       return
     }
 
-    play(SOUND.HOVER)
-    lastHoverAt = now
+    lastPlayedAt = now
+    play(sound)
   }
 }
+
+export const playHover = createPlayer(SOUND.HOVER, 0.12)

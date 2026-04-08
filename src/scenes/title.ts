@@ -1,4 +1,4 @@
-import { CARDS, COLOR, DATA, FLOORS, SCENE, SOUND, THEME } from '../constants'
+import { CARDS, COLOR, DATA, FLOORS, SCENE, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import { music } from '../utils'
@@ -18,9 +18,8 @@ scene(SCENE.TITLE, () => {
   const panelWidth = Math.min(width() - 80, 760)
   const panelHeight = 420
 
-  const startRun = () => {
+  function startRun() {
     music.startMusic()
-    play(SOUND.DROP)
     resetStateManager()
     go(SCENE.GAME)
   }
@@ -85,16 +84,16 @@ scene(SCENE.TITLE, () => {
   ])
 
   addButton({
-    buttonComps: [outline(4, rgb(196, 216, 255))],
-    fillColor: COLOR.BUTTON_PRIMARY,
-    height: 72,
     label: 'Start Run',
-    labelComps: [color(248, 250, 255)],
-    labelSize: 28,
     onClick: startRun,
+    labelSize: 28,
+    fillColor: COLOR.BUTTON_PRIMARY,
     width: 260,
+    height: 72,
     x: center().x,
     y: center().y + TITLE_START_BUTTON_Y_OFFSET,
+    buttonComps: [outline(4, rgb(196, 216, 255))],
+    labelComps: [color(248, 250, 255)],
   })
 
   add([
@@ -110,12 +109,4 @@ scene(SCENE.TITLE, () => {
     pos(center().x, center().y + TITLE_HELP_TEXT_Y_OFFSET),
     anchor('center'),
   ])
-
-  onKeyPress('space', () => {
-    startRun()
-  })
-
-  onKeyPress('enter', () => {
-    startRun()
-  })
 })
