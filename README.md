@@ -124,7 +124,3 @@ Notes:
 - Query overrides are applied only when creating a fresh run
 - Invalid values fall back to the default run setup
 - `deck` uses card IDs, not display labels
-
-## License
-
-[MIT](LICENSE)
