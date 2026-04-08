@@ -1,5 +1,5 @@
 import { getRunConfigFromQuery } from '../config'
-import { SCENE, SOUND, SPRITE } from '../constants'
+import { MUSIC, SCENE, SOUND, SPRITE } from '../constants'
 import { resetStateManager } from '../state'
 
 scene(SCENE.PRELOAD, () => {
@@ -9,6 +9,10 @@ scene(SCENE.PRELOAD, () => {
 
   Object.values(SOUND).forEach((sound) => {
     loadSound(sound, `sounds/${sound}.mp3`)
+  })
+
+  Object.values(MUSIC).forEach((music) => {
+    loadSound(music, `music/${music}.mp3`)
   })
 
   const runConfig = getRunConfigFromQuery()

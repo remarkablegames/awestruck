@@ -1,2 +1,2 @@
-export * as music from './music'
+export * from './music'
 export * as sound from './sound'

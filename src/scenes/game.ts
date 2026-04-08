@@ -14,6 +14,7 @@ import {
 } from '../gameobjects'
 import { getStateManager } from '../state'
 import type { CombatState } from '../types'
+import { music } from '../utils'
 
 const ACTION_AREA_TOP_RATIO = 0.42
 const ACTION_BUTTON_OFFSET_Y = 60
@@ -428,12 +429,14 @@ scene(SCENE.GAME, () => {
             })
 
             wait(DEFEAT_TRANSITION_DELAY, () => {
+              music.unertainty.play()
               go(SCENE.REWARD)
             })
             return
           }
 
           wait(0, () => {
+            music.unertainty.play()
             go(SCENE.REWARD)
           })
           return
@@ -451,12 +454,14 @@ scene(SCENE.GAME, () => {
               })
 
               wait(DEFEAT_TRANSITION_DELAY, () => {
+                music.unertainty.play()
                 go(SCENE.END, endStatus)
               })
               return
             }
 
             wait(0, () => {
+              music.unertainty.play()
               go(SCENE.END, endStatus)
             })
           }
@@ -474,13 +479,17 @@ scene(SCENE.GAME, () => {
 
   switch (snapshot.scene) {
     case SCENE.REWARD:
+      music.unertainty.play()
       go(SCENE.REWARD)
       return
+
     case SCENE.END:
       if (snapshot.endStatus) {
+        music.unertainty.play()
         go(SCENE.END, snapshot.endStatus)
       }
       return
+
     case SCENE.GAME:
       addBackdrop({
         actionAreaTop: height() * ACTION_AREA_TOP_RATIO,

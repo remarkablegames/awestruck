@@ -23,6 +23,7 @@ import type {
   Relic,
   RelicDefinition,
 } from '../types'
+import { music } from '../utils'
 
 const REWARD_CONTAINER_HEIGHT = 560
 const REWARD_CONTAINER_WIDTH = 680
@@ -111,7 +112,15 @@ scene(SCENE.REWARD, () => {
   }
 
   function navigateToCurrentScene() {
-    go(stateManager.getSnapshot().scene)
+    const snapshot = stateManager.getSnapshot()
+    if (snapshot.scene === 'game') {
+      if (state.floor > 3) {
+        music.airwindow2.play()
+      } else {
+        music.airwindow1.play()
+      }
+    }
+    go(snapshot.scene)
   }
 
   function renderHpRewardStep(currentState: CombatState) {

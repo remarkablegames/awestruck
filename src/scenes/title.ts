@@ -19,8 +19,8 @@ scene(SCENE.TITLE, () => {
   const panelHeight = 420
 
   function startRun() {
-    music.startMusic()
     resetStateManager()
+    music.airwindow1.play()
     go(SCENE.GAME)
   }
 

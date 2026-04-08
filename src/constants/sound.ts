@@ -11,6 +11,3 @@ export const BLOCK = 'block'
 export const HEAL = 'heal'
 export const HIT = 'hit'
 export const PUNCH = 'punch'
-
-// music
-export const MUSIC = 'music'
