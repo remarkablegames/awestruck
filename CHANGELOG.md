@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/remarkablegames/awestruck/compare/v1.0.0...v1.0.1) (2026-04-08)
+
+
+### Miscellaneous Chores
+
+* release 1.0.1 ([add6ae0](https://github.com/remarkablegames/awestruck/commit/add6ae0368e0ad0c4f3bf160152a8fade49f66ac))
+
 ## 1.0.0 (2026-04-08)
 
 
