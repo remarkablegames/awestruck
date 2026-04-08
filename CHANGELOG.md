@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/remarkablegames/awestruck/compare/v1.0.1...v1.0.2) (2026-04-08)
+
+
+### Continuous Integration
+
+* **github:** fix app name in release-please.yml ([9a5842d](https://github.com/remarkablegames/awestruck/commit/9a5842d6069b99f70a30321f7b3abef660d97be3))
+
 ## [1.0.1](https://github.com/remarkablegames/awestruck/compare/v1.0.0...v1.0.1) (2026-04-08)
 
 
