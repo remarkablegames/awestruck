@@ -2,6 +2,7 @@ import { COLOR, SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addButton } from '../gameobjects'
 import { resetStateManager } from '../state'
 import type { EndStatus } from '../types'
+import { music } from '../utils'
 
 scene(SCENE.END, (status: EndStatus) => {
   setBackground(...THEME.GAME_BACKGROUND_COLOR)
@@ -55,6 +56,7 @@ scene(SCENE.END, (status: EndStatus) => {
     label: 'Restart Run',
     onClick: () => {
       play(SOUND.CLICK)
+      music.airwindow1.play()
       resetStateManager()
       go(SCENE.GAME)
     },
