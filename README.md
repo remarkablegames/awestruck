@@ -14,6 +14,8 @@ Play the game on:
 - [itch.io](https://remarkablegames.itch.io/awestruck)
 - [remarkablegames](https://remarkablegames.org/awestruck/)
 
+Read the [blog post](https://remarkablegames.org/posts/awestruck/) or watch the [YouTube video](https://youtu.be/aT9wrRO0wV4).
+
 ## Credits
 
 - [AstreFone](https://soundcloud.com/astrefone) (Music)
