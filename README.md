@@ -16,6 +16,18 @@ Play the game on:
 
 Read the [blog post](https://remarkablegames.org/posts/awestruck/) or watch the [YouTube video](https://youtu.be/aT9wrRO0wV4).
 
+## How to Play
+
+- Cards
+  - The top-left number on the card is the cost, which decreases your energy
+  - A modifier card enhances the payload card (and modifiers can be stacked)
+  - The last card in the chain must be a payload for "Execute" to work
+- Stats
+  - Player stats can be found at the top-left of the screen
+  - Enemy stats can be found at the top-right of the screen
+- Defeat the enemy and don't let your health go below 0
+- Select rewards to upgrade your cards/stats
+
 ## Credits
 
 - [AstreFone](https://soundcloud.com/astrefone) (Music)
