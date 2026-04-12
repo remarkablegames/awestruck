@@ -182,10 +182,7 @@ export function cancelBuilder(state: CombatState): void {
 
   const refundedEnergy = getChainCost(state.builder)
 
-  state.player.energy = Math.min(
-    state.player.maxEnergy,
-    state.player.energy + refundedEnergy,
-  )
+  state.player.energy += refundedEnergy
   state.hand.push(...state.builder)
   state.builder = []
   state.message =
