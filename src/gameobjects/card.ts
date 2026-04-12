@@ -13,19 +13,8 @@ const IMAGE_FRAME_Y = -CARD.HEIGHT / 2 + 92
 const PILL_Y = 1
 const DESCRIPTION_Y = -CARD.HEIGHT / 2 + 160
 
-interface CardOptions {
-  angle?: number
-  definition: CardDefinition
-  disabled?: boolean
-  disabledReason?: string | null
-  interactiveLeft?: number
-  interactiveWidth?: number
-  onClick?: () => void
-  parent?: GameObj
-  scale?: number
-  x: number
-  y: number
-}
+const SELECTED_COLOR = rgb(229, 233, 246)
+const SELECTED_FRAME_INSET = 4
 
 export function addCard({
   angle = 0,
@@ -37,9 +26,23 @@ export function addCard({
   onClick,
   parent,
   scale: initialScale = 1,
+  selected = false,
   x,
   y,
-}: CardOptions) {
+}: {
+  angle?: number
+  definition: CardDefinition
+  disabled?: boolean
+  disabledReason?: string | null
+  interactiveLeft?: number
+  interactiveWidth?: number
+  onClick?: () => void
+  parent?: GameObj
+  scale?: number
+  selected?: boolean
+  x: number
+  y: number
+}) {
   const addFn = parent ? parent.add.bind(parent) : add
   let isDestroyed = false
 
@@ -50,13 +53,26 @@ export function addCard({
     z(LAYER.CARD),
   ])
 
+  const selectedFrame = root.add([
+    rect(
+      CARD.WIDTH + SELECTED_FRAME_INSET * 2,
+      CARD.HEIGHT + SELECTED_FRAME_INSET * 2,
+      { radius: 22 },
+    ),
+    color(SELECTED_COLOR),
+    opacity(selected ? 1 : 0),
+    pos(
+      -CARD.WIDTH / 2 - SELECTED_FRAME_INSET,
+      -CARD.HEIGHT / 2 - SELECTED_FRAME_INSET,
+    ),
+  ])
+
   const panel = root.add([
     rect(CARD.WIDTH, CARD.HEIGHT, { radius: 18 }),
     area({
       shape: new Rect(vec2(interactiveLeft, 0), interactiveWidth, CARD.HEIGHT),
     }),
     color(disabled ? [75, 81, 98] : definition.accent),
-    outline(3, rgb(229, 233, 246)),
     pos(-CARD.WIDTH / 2, -CARD.HEIGHT / 2),
   ])
 
@@ -178,9 +194,14 @@ export function addCard({
     pos(-CARD.WIDTH / 2 + 14, DESCRIPTION_Y),
   ])
 
+  function setSelected(isSelected: boolean) {
+    selectedFrame.opacity = isSelected ? 1 : 0
+  }
+
   return {
     panel,
     root,
+    setSelected,
   }
 }
 

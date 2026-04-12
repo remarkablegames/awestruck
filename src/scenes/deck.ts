@@ -1,3 +1,4 @@
+import { getCardDefinition } from '../combat'
 import { SCENE, SOUND, THEME } from '../constants'
 import { addBackdrop, addDeck, getBackdropPalette } from '../gameobjects'
 import { getStateManager } from '../state'
@@ -10,6 +11,7 @@ scene(SCENE.DECK, (mode: 'view' | 'remove' = 'view') => {
   const state = stateManager.getState()
   const isRewardPhase = state.status === 'reward'
   const isDeckModeRemove = mode === 'remove'
+  let selectedRemoveCardInstanceId: string | null = null
 
   let deckScrollOffset = 0
   let deckContent: ReturnType<typeof addDeck>['content'] | null = null
@@ -30,27 +32,54 @@ scene(SCENE.DECK, (mode: 'view' | 'remove' = 'view') => {
   ])
 
   const deck = addDeck({
-    title: isDeckModeRemove ? 'REMOVE 1 CARD' : 'DECK',
-    helperText: isDeckModeRemove
-      ? 'Click a card to remove it permanently'
-      : undefined,
-    onClick: isDeckModeRemove
-      ? (card) => {
-          play(SOUND.DROP)
-          stateManager.chooseRemoveReward(card.instanceId)
-          go(stateManager.getSnapshot().scene)
-        }
-      : undefined,
     cards: state.deckList,
+    confirmLabel: isDeckModeRemove ? 'Confirm Remove' : undefined,
+    helperText: isDeckModeRemove
+      ? 'Scroll, select card, & confirm removal'
+      : undefined,
+    hideScrollHint: isDeckModeRemove,
     onBack: () => {
       play(SOUND.DROP)
       go(isDeckModeRemove || isRewardPhase ? SCENE.REWARD : SCENE.GAME)
     },
+    onClick: isDeckModeRemove
+      ? (card) => {
+          selectedRemoveCardInstanceId = card.instanceId
+          deck.setSelectedCard(
+            selectedRemoveCardInstanceId,
+            getCardDefinition(card.cardId).label,
+          )
+        }
+      : undefined,
+    onConfirm: isDeckModeRemove
+      ? (instanceId) => {
+          play(SOUND.DROP)
+          stateManager.chooseRemoveReward(instanceId)
+          go(stateManager.getSnapshot().scene)
+        }
+      : undefined,
+    selectedCardInstanceId: selectedRemoveCardInstanceId,
+    selectedCardLabel: getSelectedCardLabel(),
+    title: isDeckModeRemove ? 'REMOVE 1 CARD' : 'DECK',
   })
 
   deckContent = deck.content
   maxScrollOffset = deck.maxScrollOffset
   syncDeckScroll()
+
+  function getSelectedCardLabel() {
+    if (!selectedRemoveCardInstanceId) {
+      return undefined
+    }
+
+    const selectedCard = state.deckList.find(
+      (card) => card.instanceId === selectedRemoveCardInstanceId,
+    )
+
+    return selectedCard
+      ? getCardDefinition(selectedCard.cardId).label
+      : undefined
+  }
 
   function syncDeckScroll() {
     deckScrollOffset = Math.max(0, Math.min(deckScrollOffset, maxScrollOffset))
