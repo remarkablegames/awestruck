@@ -217,10 +217,10 @@ function addCards({
   const addFn = parent ? parent.add.bind(parent) : add
   const grid = addFn([pos(x, y)])
   const content = grid.add([pos()])
-  const cardObjects: Array<{
+  const cardObjects: {
     instanceId: string
     setSelected: (isSelected: boolean) => void
-  }> = []
+  }[] = []
 
   const scaledCardWidth = CARD.WIDTH * gridScale
   const scaledCardHeight = CARD.HEIGHT * gridScale
