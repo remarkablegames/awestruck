@@ -391,15 +391,15 @@ scene(SCENE.GAME, () => {
       }
 
       if (playerBlockedDamage > 0) {
-        play(SOUND.BLOCK, { detune: -100 })
+        play(SOUND.BLOCK, { detune: -100, volume: 0.5 })
       }
 
       if (playerBlockGained > 0) {
-        play(SOUND.BLOCK)
+        play(SOUND.BLOCK, { volume: 0.5 })
       }
 
       if (playerHealGained > 0) {
-        play(SOUND.HEAL)
+        play(SOUND.HEAL, { volume: 0.5 })
         flashHeal.play()
       }
 

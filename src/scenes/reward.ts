@@ -171,7 +171,9 @@ scene(SCENE.REWARD, () => {
         label: reward.label,
         labelSize: 26,
         onClick: () => {
-          play(reward.type === 'fullHeal' ? SOUND.HEAL : SOUND.BLOCK)
+          play(reward.type === 'fullHeal' ? SOUND.HEAL : SOUND.BLOCK, {
+            volume: 0.5,
+          })
           stateManager.chooseHpReward(reward.type)
           navigateToCurrentScene()
         },
