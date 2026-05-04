@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.3](https://github.com/remarkablegames/awestruck/compare/v1.0.2...v1.0.3) (2026-05-04)
+
+
+### Bug Fixes
+
+* **audio:** reduce block and heal sound volumes ([c475bd7](https://github.com/remarkablegames/awestruck/commit/c475bd7553e672052e1bf37f5f6138d2c4a594a9))
+* **combat:** remove energy cap check on builder cancel ([caa2649](https://github.com/remarkablegames/awestruck/commit/caa2649aa062c26050640548eedb449cd6db44df))
+* **deck:** add confirmation flow for card removal ([1a225b7](https://github.com/remarkablegames/awestruck/commit/1a225b7b034ac6cb2e8ad675b7ce67f914b647df))
+* **scenes:** play music when restarting run in end ([a4b0cad](https://github.com/remarkablegames/awestruck/commit/a4b0cad6ad8c8eca14d8f7985db0c0ff80789f0a))
+
 ## [1.0.2](https://github.com/remarkablegames/awestruck/compare/v1.0.1...v1.0.2) (2026-04-08)
 
 
