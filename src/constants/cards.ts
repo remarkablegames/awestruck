@@ -1,4 +1,4 @@
-import type { Card, CardDefinition, Sprite } from '../types'
+import type { Card, CardDefinition } from '../types'
 
 export const CARD_DEFINITIONS = {
   bastion1: {
@@ -518,7 +518,7 @@ export const CARD_DEFINITIONS = {
     modifier: {
       kind: 'stun',
     },
-    sprite: 'stun' as Sprite,
+    sprite: 'stun',
     tags: [],
     type: 'modifier',
   },
