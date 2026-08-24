@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.4](https://github.com/remarkablegames/awestruck/compare/v1.0.3...v1.0.4) (2026-08-24)
+
+
+### Bug Fixes
+
+* **card:** restore white outline border on card panel ([69d02e5](https://github.com/remarkablegames/awestruck/commit/69d02e51c107b9ea4f0584de66beeb18f2f8421c))
+* **main:** increase kaplay scale to 2 so it's sharper and less pixelated ([568a526](https://github.com/remarkablegames/awestruck/commit/568a526a217931315dc1cb4fb0ab7b78a9d019cf))
+
 ## [1.0.3](https://github.com/remarkablegames/awestruck/compare/v1.0.2...v1.0.3) (2026-08-24)
 
 
