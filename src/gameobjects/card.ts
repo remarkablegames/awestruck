@@ -73,6 +73,7 @@ export function addCard({
       shape: new Rect(vec2(interactiveLeft, 0), interactiveWidth, CARD.HEIGHT),
     }),
     color(disabled ? [75, 81, 98] : definition.accent),
+    outline(3, SELECTED_COLOR),
     pos(-CARD.WIDTH / 2, -CARD.HEIGHT / 2),
   ])
 
