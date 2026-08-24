@@ -11,6 +11,7 @@
 
 Play the game on:
 
+- [Wavedash](https://wavedash.com/games/awestruck)
 - [itch.io](https://remarkablegames.itch.io/awestruck)
 - [remarkablegames](https://remarkablegames.org/awestruck/)
 
