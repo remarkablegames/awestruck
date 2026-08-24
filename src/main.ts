@@ -8,6 +8,7 @@ kaplay({
   letterbox: true,
   width: 1440,
   height: 900,
+  scale: 2,
 })
 
 const { start } = await import('./scenes')
